@@ -63,7 +63,7 @@ tasks.withType(Pmd) {
 
 tasks.withType(Checkstyle) {
 	ignoreFailures = true
-	configProperties = ['config_loc':'config/checkstyle']
+	configProperties = ['config_loc':"${projectDir}/config/checkstyle"]
 }
 
 /* Jacoco */
