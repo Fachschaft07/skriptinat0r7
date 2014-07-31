@@ -1,0 +1,89 @@
+apply plugin: 'war'
+apply plugin: 'jetty'
+apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'pmd'
+apply plugin: 'checkstyle'
+apply plugin: 'jacoco'
+apply plugin: 'findbugs'
+apply from: 'gradle/integration-test.gradle'
+
+repositories {
+   mavenCentral()
+}
+
+dependencies {
+   providedCompile 'javax.servlet:servlet-api:2.5'
+   providedCompile 'javax.servlet:jsp-api:2.0'
+   compile 'org.springframework:spring-webmvc:3.2.10.RELEASE'
+   compile 'org.springframework:spring-context:3.2.10.RELEASE'
+   compile 'org.springframework:spring-orm:3.2.10.RELEASE'
+   compile 'com.google.code.findbugs:jsr305:2.0.2'
+   compile 'findbugs:annotations:1.0.0'
+   compile 'javax.validation:validation-api:1.0.0.GA'
+   compile 'org.hibernate:hibernate-validator:4.2.0.Final'
+   compile 'org.apache.tiles:tiles-extras:3.0.4'
+   compile 'org.springframework.data:spring-data-jpa:1.6.2.RELEASE'
+   compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
+   compile 'org.hibernate:hibernate-core:4.3.5.Final'
+   compile 'org.hibernate:hibernate-entitymanager:4.3.5.Final'
+   compile 'org.apache.derby:derby:10.10.2.0'
+   compile 'javax.mail:javax.mail-api:1.5.2'
+   compile 'com.sun.mail:javax.mail:1.5.2'
+   runtime 'javax.servlet:jstl:1.1.2'
+   testCompile 'junit:junit:4.+'
+   testCompile 'org.mockito:mockito-all:1.9.5'
+}
+
+/* Changes the source encoding to UTF-8 */
+eclipseJdt << {
+    File f = file('.settings/org.eclipse.core.resources.prefs')
+    f.write('eclipse.preferences.version=1\n')
+    f.append('encoding/<project>=UTF-8')
+}
+
+/* Specifies the stop port for the jetty plugin */
+stopPort = 8080
+stopKey = ''
+
+/* Configures the PMD-Plugin globally. */
+pmd {
+	toolVersion  = '5.0.5'
+}
+
+/* Configures the PMD-Plugin for main and test */
+tasks.withType(Pmd) {
+	ruleSetFiles = files('config/pmd/rules-hafner.xml')
+	ignoreFailures = true
+	reports {
+		xml.enabled true
+		html.enabled false
+	}
+}
+
+tasks.withType(Checkstyle) {
+	ignoreFailures = true
+	configProperties = ['config_loc':'config/checkstyle']
+}
+
+/* Jacoco */
+jacocoTestReport {
+    group = 'Reporting'
+    description = 'Generate Jacoco coverage reports after running tests.'
+	reports {
+        xml.enabled true
+        html.enabled false
+        csv.enabled false
+    }
+	executionData tasks.withType(Test)
+}
+check.dependsOn jacocoTestReport
+
+tasks.withType(FindBugs) {
+	reports {
+		xml.enabled true
+		html.enabled false
+	}
+	ignoreFailures = true
+	excludeFilter = file('config/findbugs/findbugs-exclusion-filter.xml')
+}

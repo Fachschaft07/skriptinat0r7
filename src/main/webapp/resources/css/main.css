@@ -1,0 +1,17 @@
+body {
+	padding-top: 50px;
+}
+
+.createView {
+	padding: 40px 15px;
+	border-width: 1px;
+	border-color: gray;
+	border-style: solid;
+	border-radius: 10px;
+	margin-top: 20px
+}
+
+.error {
+	text-align: left;
+	color: red;
+}
