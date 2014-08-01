@@ -87,3 +87,7 @@ tasks.withType(FindBugs) {
 	ignoreFailures = true
 	excludeFilter = file('config/findbugs/findbugs-exclusion-filter.xml')
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}
