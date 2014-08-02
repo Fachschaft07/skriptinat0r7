@@ -30,7 +30,7 @@ dependencies {
    compile 'org.apache.derby:derby:10.10.2.0'
    compile 'javax.mail:javax.mail-api:1.5.2'
    compile 'com.sun.mail:javax.mail:1.5.2'
-   runtime 'javax.servlet:jstl:1.1.2'
+   compile 'jstl:jstl:1.2'
    testCompile 'junit:junit:4.+'
    testCompile 'org.mockito:mockito-all:1.9.5'
 }
