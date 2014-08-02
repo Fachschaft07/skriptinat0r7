@@ -23,10 +23,11 @@ import javax.persistence.Table;
  * @author usn1982e
  */
 @Entity
-@Table(name="skriptorScriptDocument")
+@Table(name = "skriptorScriptDocument")
 public class ScriptDocment implements Serializable {
-    public static enum ReviewState{LOCKED, FACHSCHAFTLERAPPROVED, PROFESSORAPPROVED, DELETED}
-
+    public static enum ReviewState {
+        LOCKED, FACHSCHAFTLERAPPROVED, PROFESSORAPPROVED, DELETED
+    }
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,9 +54,9 @@ public class ScriptDocment implements Serializable {
     public void setIsPartOfScript(final Script isPartOfScript) {
         this.isPartOfScript = isPartOfScript;
     }
+
     @OneToOne
     Script isPartOfScript;
-
 
     public Integer getHashvalue() {
         return hashvalue;
@@ -65,14 +66,12 @@ public class ScriptDocment implements Serializable {
         this.hashvalue = hashvalue;
     }
 
-
     @ManyToOne
     private Script script;
 
-    int fileSize(){
+    int fileSize() {
         return file.length;
     }
-
 
     public byte[] getFile() {
         return file;
@@ -179,7 +178,5 @@ public class ScriptDocment implements Serializable {
         }
         return true;
     }
-
-
 
 }

@@ -32,8 +32,6 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-
-
     @Column(nullable = false)
     private Role role;
     @Column(columnDefinition = "varchar(254)")

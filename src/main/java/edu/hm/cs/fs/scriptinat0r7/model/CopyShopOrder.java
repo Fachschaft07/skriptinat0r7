@@ -14,13 +14,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- *
- * @author usn1982e
+ * Represents an order to the copy shop.
  */
 @Entity
-@Table(name="skriptorCopyShopOrder")
+@Table(name = "skriptorCopyShopOrder")
 public class CopyShopOrder implements Serializable {
+
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -29,7 +30,7 @@ public class CopyShopOrder implements Serializable {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(final Integer id) {
         this.id = id;
     }
 
@@ -41,13 +42,13 @@ public class CopyShopOrder implements Serializable {
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof CopyShopOrder)) {
             return false;
         }
         CopyShopOrder other = (CopyShopOrder) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (((this.id == null) && (other.id != null)) || ((this.id != null) && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -57,5 +58,5 @@ public class CopyShopOrder implements Serializable {
     public String toString() {
         return "edu.hm.cs.fs.entityBeans.CopyShopOrder[ id=" + id + " ]";
     }
-    
+
 }

@@ -19,6 +19,7 @@ public class Professor extends User implements Serializable {
         super();
     }
 
+    @Override
     public final String getFullName() {
         StringBuilder sb = new StringBuilder();
         if (title.length() > 0) {

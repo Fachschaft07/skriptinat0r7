@@ -37,20 +37,21 @@ public class Script implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    
-    @Column(unique=true) private String name;
-    
+
+    @Column(unique = true)
+    private String name;
+
     private String category;
-   @Transient
+    @Transient
     private HashSet<User> authors;
-   
-   	public String getName() {
-   		return name;
-   	}
-   	
-   	public void setName(String name) {
-   		this.name = name;
-   	}
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
 
     public String getCategory() {
         return category;
@@ -74,7 +75,8 @@ public class Script implements Serializable {
     public void removeAuthor(final User name) {
         if ((authors.size() == 1) && authors.contains(name)) {
             authors = null;
-        } else {
+        }
+        else {
             authors.remove(name);
         }
     }
@@ -114,7 +116,6 @@ public class Script implements Serializable {
         }
         return true;
     }
-
 
     @Override
     public String toString() {

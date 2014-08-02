@@ -11,12 +11,12 @@ import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
 @RequestMapping("/scripts")
 public class ScriptController {
 
-	@Autowired
-	ScriptRepository scripts;
-	
-	@RequestMapping
-	public String example(ModelMap model) {
-		
-		return "example";
-	}
+    @Autowired
+    ScriptRepository scripts;
+
+    @RequestMapping
+    public String example(final ModelMap model) {
+
+        return "example";
+    }
 }

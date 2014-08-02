@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class HomeController {
 
-	@RequestMapping("about")
-	public String about(ModelMap model) {
-		List<String> contributors = new ArrayList<String>();
-		contributors.add("Melanie Reiter");
-		contributors.add("Fabian Trampusch");
-		contributors.add("Maximilian Götz");
-		
-		model.addAttribute("contributors", contributors);
-		model.addAttribute("year", Calendar.getInstance().get(Calendar.YEAR));
-		return "about";
-	}
+    @RequestMapping("about")
+    public String about(final ModelMap model) {
+        List<String> contributors = new ArrayList<String>();
+        contributors.add("Melanie Reiter");
+        contributors.add("Fabian Trampusch");
+        contributors.add("Maximilian Götz");
+
+        model.addAttribute("contributors", contributors);
+        model.addAttribute("year", Calendar.getInstance().get(Calendar.YEAR));
+        return "about";
+    }
 }

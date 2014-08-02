@@ -18,9 +18,8 @@ import javax.persistence.OneToMany;
 @Entity
 public class Student extends User implements Serializable {
 
-
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
     @OneToMany
@@ -30,19 +29,19 @@ public class Student extends User implements Serializable {
         return studentsOrders;
     }
 
-    public void setStudentsOrders(Set<StudentOrder> studentsOrders) {
+    public void setStudentsOrders(final Set<StudentOrder> studentsOrders) {
         this.studentsOrders = studentsOrders;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 53 * hash + Objects.hashCode(this.studentsOrders);
+        hash = (53 * hash) + Objects.hashCode(this.studentsOrders);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         }

@@ -26,17 +26,18 @@ import javax.persistence.Temporal;
  * @author usn1982e
  */
 @Entity
-@Table(name="skriptorOrder")
+@Table(name = "skriptorOrder")
 public class StudentOrder implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "StudentOrderId", nullable = false)
-    @Id private Integer studentOrderid;
-    
+    @Id
+    private Integer studentOrderid;
+
     @ManyToOne
     private CopyShopOrder copyShopOrder;
-    
+
     @OneToMany
     Set<ScriptDocment> containsScriptDocuments;
 
@@ -44,13 +45,10 @@ public class StudentOrder implements Serializable {
         return containsScriptDocuments;
     }
 
-    public void setContainsScriptDocuments(Set<ScriptDocment> containsScriptDocuments) {
+    public void setContainsScriptDocuments(final Set<ScriptDocment> containsScriptDocuments) {
         this.containsScriptDocuments = containsScriptDocuments;
     }
-      
-   
-    
-    
+
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date studentCustomerOrderIssueDate;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -59,7 +57,7 @@ public class StudentOrder implements Serializable {
     private Date copyShopOrderisDeliveredToFachschaftDate;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date studentCustomerPickupDate;
-    
+
     @Lob
     private String notes;
 
@@ -67,7 +65,7 @@ public class StudentOrder implements Serializable {
         return studentOrderid;
     }
 
-    public void setStudentOrderid(Integer studentOrderid) {
+    public void setStudentOrderid(final Integer studentOrderid) {
         this.studentOrderid = studentOrderid;
     }
 
@@ -75,7 +73,7 @@ public class StudentOrder implements Serializable {
         return copyShopOrder;
     }
 
-    public void setCopyShopOrder(CopyShopOrder copyShopOrder) {
+    public void setCopyShopOrder(final CopyShopOrder copyShopOrder) {
         this.copyShopOrder = copyShopOrder;
     }
 
@@ -83,7 +81,7 @@ public class StudentOrder implements Serializable {
         return studentCustomerOrderIssueDate;
     }
 
-    public void setStudentCustomerOrderIssueDate(Date studentCustomerOrderIssueDate) {
+    public void setStudentCustomerOrderIssueDate(final Date studentCustomerOrderIssueDate) {
         this.studentCustomerOrderIssueDate = studentCustomerOrderIssueDate;
     }
 
@@ -91,7 +89,7 @@ public class StudentOrder implements Serializable {
         return copyShopOrderDate;
     }
 
-    public void setCopyShopOrderDate(Date copyShopOrderDate) {
+    public void setCopyShopOrderDate(final Date copyShopOrderDate) {
         this.copyShopOrderDate = copyShopOrderDate;
     }
 
@@ -99,7 +97,7 @@ public class StudentOrder implements Serializable {
         return copyShopOrderisDeliveredToFachschaftDate;
     }
 
-    public void setCopyShopOrderisDeliveredToFachschaftDate(Date copyShopOrderisDeliveredToFachschaftDate) {
+    public void setCopyShopOrderisDeliveredToFachschaftDate(final Date copyShopOrderisDeliveredToFachschaftDate) {
         this.copyShopOrderisDeliveredToFachschaftDate = copyShopOrderisDeliveredToFachschaftDate;
     }
 
@@ -107,7 +105,7 @@ public class StudentOrder implements Serializable {
         return studentCustomerPickupDate;
     }
 
-    public void setStudentCustomerPickupDate(Date studentCustomerPickupDate) {
+    public void setStudentCustomerPickupDate(final Date studentCustomerPickupDate) {
         this.studentCustomerPickupDate = studentCustomerPickupDate;
     }
 
@@ -115,26 +113,26 @@ public class StudentOrder implements Serializable {
         return notes;
     }
 
-    public void setNotes(String notes) {
+    public void setNotes(final String notes) {
         this.notes = notes;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 79 * hash + Objects.hashCode(this.studentOrderid);
-        hash = 79 * hash + Objects.hashCode(this.copyShopOrder);
-        hash = 79 * hash + Objects.hashCode(this.containsScriptDocuments);
-        hash = 79 * hash + Objects.hashCode(this.studentCustomerOrderIssueDate);
-        hash = 79 * hash + Objects.hashCode(this.copyShopOrderDate);
-        hash = 79 * hash + Objects.hashCode(this.copyShopOrderisDeliveredToFachschaftDate);
-        hash = 79 * hash + Objects.hashCode(this.studentCustomerPickupDate);
-        hash = 79 * hash + Objects.hashCode(this.notes);
+        hash = (79 * hash) + Objects.hashCode(this.studentOrderid);
+        hash = (79 * hash) + Objects.hashCode(this.copyShopOrder);
+        hash = (79 * hash) + Objects.hashCode(this.containsScriptDocuments);
+        hash = (79 * hash) + Objects.hashCode(this.studentCustomerOrderIssueDate);
+        hash = (79 * hash) + Objects.hashCode(this.copyShopOrderDate);
+        hash = (79 * hash) + Objects.hashCode(this.copyShopOrderisDeliveredToFachschaftDate);
+        hash = (79 * hash) + Objects.hashCode(this.studentCustomerPickupDate);
+        hash = (79 * hash) + Objects.hashCode(this.notes);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         }
@@ -157,7 +155,8 @@ public class StudentOrder implements Serializable {
         if (!Objects.equals(this.copyShopOrderDate, other.copyShopOrderDate)) {
             return false;
         }
-        if (!Objects.equals(this.copyShopOrderisDeliveredToFachschaftDate, other.copyShopOrderisDeliveredToFachschaftDate)) {
+        if (!Objects.equals(this.copyShopOrderisDeliveredToFachschaftDate,
+                other.copyShopOrderisDeliveredToFachschaftDate)) {
             return false;
         }
         if (!Objects.equals(this.studentCustomerPickupDate, other.studentCustomerPickupDate)) {
@@ -168,6 +167,5 @@ public class StudentOrder implements Serializable {
         }
         return true;
     }
-    
 
 }

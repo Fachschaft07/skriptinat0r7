@@ -24,18 +24,17 @@ import javax.persistence.Table;
  * @author usn1982e
  */
 @Entity
-@Table(name="skriptorLecture")
+@Table(name = "skriptorLecture")
 public class Lecture implements Serializable {
     public enum StudyProgram {
 
-	MASTER,
-	INFORMATIK,
-	WIRTSCHAFTSINFORMATIK,
-	GEOTELEMATIK,
-	SCIENTIFIC_COMPUTING
+        MASTER, INFORMATIK, WIRTSCHAFTSINFORMATIK, GEOTELEMATIK, SCIENTIFIC_COMPUTING
     }
 
-    public enum SemesterType{WS,SS; }
+    public enum SemesterType {
+        WS, SS;
+    }
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -80,7 +79,6 @@ public class Lecture implements Serializable {
     public void setStudyprogram(final StudyProgram studyprogram) {
         this.studyprogram = studyprogram;
     }
-
 
     public SemesterType getSemesterType() {
         return semesterType;
@@ -151,11 +149,5 @@ public class Lecture implements Serializable {
         }
         return true;
     }
-
-
-
-
-
-
 
 }
