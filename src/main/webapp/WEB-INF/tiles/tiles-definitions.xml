@@ -9,5 +9,10 @@
         <put-attribute name="menu" value="/WEB-INF/template/default/menu.jsp" />
         <put-attribute name="footer" value="/WEB-INF/template/default/footer.jsp" />
     </definition>
+    
+    <definition name="withoutMenu" template="/WEB-INF/template/withoutMenu/withoutMenu.jsp">
+    	<put-attribute name="header" value="/WEB-INF/template/default/header.jsp" />
+    	<put-attribute name="footer" value="/WEB-INF/template/default/footer.jsp" />
+    </definition>
   
 </tiles-definitions>

@@ -1,17 +1,76 @@
 body {
 	padding-top: 50px;
+	background-color: #DEDEDE;
+	height: 100%;
 }
 
-.createView {
-	padding: 40px 15px;
-	border-width: 1px;
-	border-color: gray;
-	border-style: solid;
-	border-radius: 10px;
-	margin-top: 20px
+html {
+	height: 100%;
+}
+
+.page {
+	margin-left: 5px;
+	margin-right: 5px;
+	height: 100%;
+}
+
+.body {
+	height: 100%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.box {
+	padding: 6px;
+	height: 100%;
+}
+
+@media(max-width: 768px) {
+	.box {
+		height: auto;
+	}
+}
+
+.menu {
+	background-color: #55CDD4;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-left: 5%;
+	padding-right: 5%;
+	height: 100%;
+}
+
+.content {
+	background-color: white;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-left: 5%;
+	padding-right: 5%;
+	height: 100%;
+}
+
+.box-shadow {
+	border-radius: 5px;
+	-webkit-box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.25);
+	-moz-box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.25);
+	box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.25);
 }
 
 .error {
 	text-align: left;
 	color: red;
+}
+
+.cool-number {
+	color: #efcbcb;
+}
+
+.navbar-brand {
+	font-family: Consolas,Menlo,Monaco,Lucida Console,
+	Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,
+	Courier New,monospace,serif;
+}
+
+.navbar-brand:hover .cool-number {
+	color: #da6363;
 }
