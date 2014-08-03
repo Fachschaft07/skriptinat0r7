@@ -16,6 +16,11 @@ import javax.persistence.Id;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import edu.hm.cs.fs.scriptinat0r7.model.enums.Role;
+
+/**
+ * Represents a user of the system.
+ */
 @Entity
 @Table(name = "skriptorUser")
 @javax.persistence.Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -23,29 +28,27 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static enum Role {
-
-        Regular, Fachschaftler, Professor, Gesperrt, Author;
-    };
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(nullable = false)
     private Role role;
+
     @Column(columnDefinition = "varchar(254)")
     private InternetAddress email;
+
     private String firstName;
     private String lastName;
     private String facultyID;
 
+    /**
+     * Returns the full name (firstname and lastname) of the {@code User}.
+     * 
+     * @return the full name.
+     */
     public String getFullName() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(firstName);
-        sb.append(" ");
-        sb.append(lastName);
-        return sb.toString();
+        return firstName + " " + lastName;
     }
 
     public Integer getId() {

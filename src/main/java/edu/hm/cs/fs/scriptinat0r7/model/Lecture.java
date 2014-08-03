@@ -19,32 +19,31 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import edu.hm.cs.fs.scriptinat0r7.model.enums.SemesterType;
+import edu.hm.cs.fs.scriptinat0r7.model.enums.StudyProgram;
+
 /**
- *
- * @author usn1982e
+ * Represents a lecture of a professor in a specific semester.
  */
 @Entity
 @Table(name = "skriptorLecture")
 public class Lecture implements Serializable {
-    public enum StudyProgram {
-
-        MASTER, INFORMATIK, WIRTSCHAFTSINFORMATIK, GEOTELEMATIK, SCIENTIFIC_COMPUTING
-    }
-
-    public enum SemesterType {
-        WS, SS;
-    }
-
+    
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    
     private String name;
     private Professor readingProfessor;
+    
     @Enumerated(EnumType.STRING)
     private StudyProgram studyprogram;
+    
     private SemesterType semesterType;
     private Integer semesterYear;
+    
     @OneToMany
     private Set<Script> usedScripts;
 

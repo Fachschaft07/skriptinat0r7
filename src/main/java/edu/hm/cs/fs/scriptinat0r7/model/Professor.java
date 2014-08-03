@@ -4,8 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- * Entity implementation class for Entity: person
- *
+ * Represents a professor.
  */
 @Entity
 public class Professor extends User implements Serializable {
@@ -15,19 +14,14 @@ public class Professor extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Professor() {
-        super();
-    }
-
+    /**
+     * Returns the full name (with title if exists) of the professor.
+     * 
+     * @return the full name.
+     */
     @Override
     public final String getFullName() {
-        StringBuilder sb = new StringBuilder();
-        if (title.length() > 0) {
-            sb.append(title);
-            sb.append(" ");
-        }
-        sb.append(super.getFullName());
-        return sb.toString();
+        return (title == null || title.length() == 0) ? super.getFullName() : title + " " + super.getFullName();
     }
 
 }

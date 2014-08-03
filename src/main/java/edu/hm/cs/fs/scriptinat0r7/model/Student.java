@@ -12,18 +12,15 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 /**
- *
- * @author usn1982e
+ * Represents a student.
  */
 @Entity
 public class Student extends User implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
+    
     @OneToMany
-    Set<StudentOrder> studentsOrders;
+    private Set<StudentOrder> studentsOrders;
 
     public Set<StudentOrder> getStudentsOrders() {
         return studentsOrders;

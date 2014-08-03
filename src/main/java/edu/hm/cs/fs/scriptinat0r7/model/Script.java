@@ -19,21 +19,18 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 /**
- *
- * @author usn1982e
+ * Represents a script.
  */
 @Entity
 @Table(name = "skriptorScript")
 @NamedQuery(name = Script.QUERY_FIND_ALL, query = "SELECT e FROM Script e")
 public class Script implements Serializable {
 
+    /** Query to find all. */ //TODO: Prüfen, ob das weg kann.
     public static final String QUERY_FIND_ALL = "findAll";
 
-    public void setAuthors(final HashSet<User> authors) {
-        this.authors = authors;
-    }
-
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -42,6 +39,7 @@ public class Script implements Serializable {
     private String name;
 
     private String category;
+
     @Transient
     private HashSet<User> authors;
 
@@ -65,19 +63,35 @@ public class Script implements Serializable {
         return authors;
     }
 
-    public void addAuthor(final User name) {
+    public void setAuthors(final HashSet<User> authors) {
+        this.authors = authors;
+    }
+
+    /**
+     * Adds an author to this {@code Script}.
+     * 
+     * @param author
+     *            the author to add.
+     */
+    public void addAuthor(final User author) {
         if (authors == null) {
             authors = new HashSet<>();
         }
-        authors.add(name);
+        authors.add(author);
     }
 
-    public void removeAuthor(final User name) {
-        if ((authors.size() == 1) && authors.contains(name)) {
+    /**
+     * Removes an author from this {@code Script}.
+     * 
+     * @param author
+     *            the author to remove.
+     */
+    public void removeAuthor(final User author) {
+        if ((authors.size() == 1) && authors.contains(author)) {
             authors = null;
         }
         else {
-            authors.remove(name);
+            authors.remove(author);
         }
     }
 
@@ -92,7 +106,7 @@ public class Script implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (id != null) ? id.hashCode() : 0;
         return hash;
     }
 
@@ -121,5 +135,4 @@ public class Script implements Serializable {
     public String toString() {
         return "edu.hm.cs.fs.entityBeans.Script[ id=" + id + " ]";
     }
-
 }

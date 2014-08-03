@@ -22,8 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 /**
- *
- * @author usn1982e
+ * Represents a student order.
  */
 @Entity
 @Table(name = "skriptorOrder")
@@ -33,40 +32,35 @@ public class StudentOrder implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "StudentOrderId", nullable = false)
     @Id
-    private Integer studentOrderid;
+    private Integer studentOrderId;
 
     @ManyToOne
     private CopyShopOrder copyShopOrder;
 
     @OneToMany
-    Set<ScriptDocment> containsScriptDocuments;
-
-    public Set<ScriptDocment> getContainsScriptDocuments() {
-        return containsScriptDocuments;
-    }
-
-    public void setContainsScriptDocuments(final Set<ScriptDocment> containsScriptDocuments) {
-        this.containsScriptDocuments = containsScriptDocuments;
-    }
+    private Set<ScriptDocment> containsScriptDocuments; //TODO: Warum ScriptDocument und nicht Script?
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date studentCustomerOrderIssueDate;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date copyShopOrderDate;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date copyShopOrderisDeliveredToFachschaftDate;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date studentCustomerPickupDate;
 
     @Lob
     private String notes;
 
-    public Integer getStudentOrderid() {
-        return studentOrderid;
+    public Integer getStudentOrderId() {
+        return studentOrderId;
     }
 
-    public void setStudentOrderid(final Integer studentOrderid) {
-        this.studentOrderid = studentOrderid;
+    public void setStudentOrderId(final Integer studentOrderid) {
+        this.studentOrderId = studentOrderid;
     }
 
     public CopyShopOrder getCopyShopOrder() {
@@ -77,20 +71,29 @@ public class StudentOrder implements Serializable {
         this.copyShopOrder = copyShopOrder;
     }
 
+    public Set<ScriptDocment> getContainsScriptDocuments() {
+        return containsScriptDocuments;
+    }
+
+    public void setContainsScriptDocuments(final Set<ScriptDocment> containsScriptDocuments) {
+        this.containsScriptDocuments = containsScriptDocuments;
+    }
+
     public Date getStudentCustomerOrderIssueDate() {
-        return studentCustomerOrderIssueDate;
+        return (Date) ((Date) studentCustomerOrderIssueDate == null ? null : studentCustomerOrderIssueDate.clone());
     }
 
     public void setStudentCustomerOrderIssueDate(final Date studentCustomerOrderIssueDate) {
-        this.studentCustomerOrderIssueDate = studentCustomerOrderIssueDate;
+        this.studentCustomerOrderIssueDate = (Date) (studentCustomerOrderIssueDate == null ? null
+                : studentCustomerOrderIssueDate.clone());
     }
 
     public Date getCopyShopOrderDate() {
-        return copyShopOrderDate;
+        return (Date) (copyShopOrderDate == null ? null : copyShopOrderDate.clone());
     }
 
     public void setCopyShopOrderDate(final Date copyShopOrderDate) {
-        this.copyShopOrderDate = copyShopOrderDate;
+        this.copyShopOrderDate = (Date) (copyShopOrderDate == null ? null : copyShopOrderDate.clone());
     }
 
     public Date getCopyShopOrderisDeliveredToFachschaftDate() {
@@ -120,7 +123,7 @@ public class StudentOrder implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = (79 * hash) + Objects.hashCode(this.studentOrderid);
+        hash = (79 * hash) + Objects.hashCode(this.studentOrderId);
         hash = (79 * hash) + Objects.hashCode(this.copyShopOrder);
         hash = (79 * hash) + Objects.hashCode(this.containsScriptDocuments);
         hash = (79 * hash) + Objects.hashCode(this.studentCustomerOrderIssueDate);
@@ -140,7 +143,7 @@ public class StudentOrder implements Serializable {
             return false;
         }
         final StudentOrder other = (StudentOrder) obj;
-        if (!Objects.equals(this.studentOrderid, other.studentOrderid)) {
+        if (!Objects.equals(this.studentOrderId, other.studentOrderId)) {
             return false;
         }
         if (!Objects.equals(this.copyShopOrder, other.copyShopOrder)) {

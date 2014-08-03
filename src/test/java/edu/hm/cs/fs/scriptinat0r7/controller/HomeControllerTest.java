@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.springframework.ui.ModelMap;
 
 /**
- * Test class for {@link edu.hm.cs.fs.scriptinat0r7.controller.HomeController}
+ * Test class for {@link edu.hm.cs.fs.scriptinat0r7.controller.HomeController}.
  *
  * @author Maximilian Götz
  *

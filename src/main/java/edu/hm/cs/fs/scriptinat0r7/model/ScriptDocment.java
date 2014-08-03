@@ -19,17 +19,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- *
- * @author usn1982e
+ * Represents the real script file.
  */
 @Entity
 @Table(name = "skriptorScriptDocument")
 public class ScriptDocment implements Serializable {
-    public static enum ReviewState {
-        LOCKED, FACHSCHAFTLERAPPROVED, PROFESSORAPPROVED, DELETED
-    }
-
     private static final long serialVersionUID = 1L;
+
     @Id
     @Column(nullable = false)
     private Integer hashvalue;
@@ -37,39 +33,32 @@ public class ScriptDocment implements Serializable {
     @Lob
     @Column(nullable = false)
     private byte[] file;
+
     private int sortnumber;
     private int reviewState;
+
     @Column(nullable = true)
     private String password;
+
     @Column(nullable = false)
     private String filename;
+
     @Lob
     @Column(nullable = true)
     private String note;
 
-    public Script getIsPartOfScript() {
-        return isPartOfScript;
-    }
-
-    public void setIsPartOfScript(final Script isPartOfScript) {
-        this.isPartOfScript = isPartOfScript;
-    }
-
     @OneToOne
-    Script isPartOfScript;
-
-    public Integer getHashvalue() {
-        return hashvalue;
-    }
-
-    public void setHashvalue(final Integer hashvalue) {
-        this.hashvalue = hashvalue;
-    }
+    private Script isPartOfScript;
 
     @ManyToOne
     private Script script;
 
-    int fileSize() {
+    /**
+     * Returns the size of the file.
+     * 
+     * @return the size of the file.
+     */
+    public int getfileSize() {
         return file.length;
     }
 
@@ -127,6 +116,22 @@ public class ScriptDocment implements Serializable {
 
     public void setScript(final Script script) {
         this.script = script;
+    }
+
+    public Script getIsPartOfScript() {
+        return isPartOfScript;
+    }
+
+    public void setIsPartOfScript(final Script isPartOfScript) {
+        this.isPartOfScript = isPartOfScript;
+    }
+
+    public Integer getHashvalue() {
+        return hashvalue;
+    }
+
+    public void setHashvalue(final Integer hashvalue) {
+        this.hashvalue = hashvalue;
     }
 
     @Override
