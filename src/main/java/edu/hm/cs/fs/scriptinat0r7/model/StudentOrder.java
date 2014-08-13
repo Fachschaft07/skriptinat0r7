@@ -22,7 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 /**
- * Represents a student order.
+ * Represents a student order. A {@code StudentOrder} is part of a {@code CopyShopOrder}.
  */
 @Entity
 @Table(name = "skriptorOrder")
@@ -38,19 +38,19 @@ public class StudentOrder implements Serializable {
     private CopyShopOrder copyShopOrder;
 
     @OneToMany
-    private Set<ScriptDocment> containsScriptDocuments; //TODO: Warum ScriptDocument und nicht Script?
+    private Set<ScriptDocument> scriptDocuments;
 
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date studentCustomerOrderIssueDate;
-    
+    private Date studentOrder;
+
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date copyShopOrderDate;
-    
+    private Date copyShopOrderDate; // TODO: Max: In CopyShopOrder verschieben
+
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date copyShopOrderisDeliveredToFachschaftDate;
-    
+    private Date documentsIngoing; // TODO: Max: In CopyShopOrder verschieben
+
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date studentCustomerPickupDate;
+    private Date studentPickup;
 
     @Lob
     private String notes;
@@ -71,21 +71,21 @@ public class StudentOrder implements Serializable {
         this.copyShopOrder = copyShopOrder;
     }
 
-    public Set<ScriptDocment> getContainsScriptDocuments() {
-        return containsScriptDocuments;
+    public Set<ScriptDocument> getContainsScriptDocuments() {
+        return scriptDocuments;
     }
 
-    public void setContainsScriptDocuments(final Set<ScriptDocment> containsScriptDocuments) {
-        this.containsScriptDocuments = containsScriptDocuments;
+    public void setContainsScriptDocuments(final Set<ScriptDocument> containsScriptDocuments) {
+        this.scriptDocuments = containsScriptDocuments;
     }
 
     public Date getStudentCustomerOrderIssueDate() {
-        return (Date) ((Date) studentCustomerOrderIssueDate == null ? null : studentCustomerOrderIssueDate.clone());
+        return (Date) ((Date) studentOrder == null ? null : studentOrder.clone());
     }
 
     public void setStudentCustomerOrderIssueDate(final Date studentCustomerOrderIssueDate) {
-        this.studentCustomerOrderIssueDate = (Date) (studentCustomerOrderIssueDate == null ? null
-                : studentCustomerOrderIssueDate.clone());
+        this.studentOrder = (Date) (studentCustomerOrderIssueDate == null ? null : studentCustomerOrderIssueDate
+                .clone());
     }
 
     public Date getCopyShopOrderDate() {
@@ -97,19 +97,21 @@ public class StudentOrder implements Serializable {
     }
 
     public Date getCopyShopOrderisDeliveredToFachschaftDate() {
-        return copyShopOrderisDeliveredToFachschaftDate;
+        return documentsIngoing;
     }
 
-    public void setCopyShopOrderisDeliveredToFachschaftDate(final Date copyShopOrderisDeliveredToFachschaftDate) {
-        this.copyShopOrderisDeliveredToFachschaftDate = copyShopOrderisDeliveredToFachschaftDate;
+    public void setDocumentsDeliveredToFachschaftDate(final Date documentsDeliveredToFachschaftDate) {
+        this.documentsIngoing = documentsDeliveredToFachschaftDate;
     }
+    
+    // TODO: Max: Getter und Setter überarbeiten und Namen ändern.
 
     public Date getStudentCustomerPickupDate() {
-        return studentCustomerPickupDate;
+        return studentPickup;
     }
 
     public void setStudentCustomerPickupDate(final Date studentCustomerPickupDate) {
-        this.studentCustomerPickupDate = studentCustomerPickupDate;
+        this.studentPickup = studentCustomerPickupDate;
     }
 
     public String getNotes() {
@@ -125,11 +127,11 @@ public class StudentOrder implements Serializable {
         int hash = 3;
         hash = (79 * hash) + Objects.hashCode(this.studentOrderId);
         hash = (79 * hash) + Objects.hashCode(this.copyShopOrder);
-        hash = (79 * hash) + Objects.hashCode(this.containsScriptDocuments);
-        hash = (79 * hash) + Objects.hashCode(this.studentCustomerOrderIssueDate);
+        hash = (79 * hash) + Objects.hashCode(this.scriptDocuments);
+        hash = (79 * hash) + Objects.hashCode(this.studentOrder);
         hash = (79 * hash) + Objects.hashCode(this.copyShopOrderDate);
-        hash = (79 * hash) + Objects.hashCode(this.copyShopOrderisDeliveredToFachschaftDate);
-        hash = (79 * hash) + Objects.hashCode(this.studentCustomerPickupDate);
+        hash = (79 * hash) + Objects.hashCode(this.documentsIngoing);
+        hash = (79 * hash) + Objects.hashCode(this.studentPickup);
         hash = (79 * hash) + Objects.hashCode(this.notes);
         return hash;
     }
@@ -149,20 +151,19 @@ public class StudentOrder implements Serializable {
         if (!Objects.equals(this.copyShopOrder, other.copyShopOrder)) {
             return false;
         }
-        if (!Objects.equals(this.containsScriptDocuments, other.containsScriptDocuments)) {
+        if (!Objects.equals(this.scriptDocuments, other.scriptDocuments)) {
             return false;
         }
-        if (!Objects.equals(this.studentCustomerOrderIssueDate, other.studentCustomerOrderIssueDate)) {
+        if (!Objects.equals(this.studentOrder, other.studentOrder)) {
             return false;
         }
         if (!Objects.equals(this.copyShopOrderDate, other.copyShopOrderDate)) {
             return false;
         }
-        if (!Objects.equals(this.copyShopOrderisDeliveredToFachschaftDate,
-                other.copyShopOrderisDeliveredToFachschaftDate)) {
+        if (!Objects.equals(this.documentsIngoing, other.documentsIngoing)) {
             return false;
         }
-        if (!Objects.equals(this.studentCustomerPickupDate, other.studentCustomerPickupDate)) {
+        if (!Objects.equals(this.studentPickup, other.studentPickup)) {
             return false;
         }
         if (!Objects.equals(this.notes, other.notes)) {

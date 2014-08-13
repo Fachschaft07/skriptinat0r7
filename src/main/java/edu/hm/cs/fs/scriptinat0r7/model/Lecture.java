@@ -41,7 +41,9 @@ public class Lecture implements Serializable {
     @Enumerated(EnumType.STRING)
     private StudyProgram studyprogram;
     
+    @Enumerated(EnumType.STRING)
     private SemesterType semesterType;
+    
     private Integer semesterYear;
     
     @OneToMany

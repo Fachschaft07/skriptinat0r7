@@ -15,15 +15,16 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 
 /**
  * Represents the real script file.
  */
 @Entity
 @Table(name = "skriptorScriptDocument")
-public class ScriptDocment implements Serializable {
+public class ScriptDocument implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -35,7 +36,7 @@ public class ScriptDocment implements Serializable {
     private byte[] file;
 
     private int sortnumber;
-    private int reviewState;
+    private ReviewState reviewState;
 
     @Column(nullable = true)
     private String password;
@@ -46,9 +47,6 @@ public class ScriptDocment implements Serializable {
     @Lob
     @Column(nullable = true)
     private String note;
-
-    @OneToOne
-    private Script isPartOfScript;
 
     @ManyToOne
     private Script script;
@@ -78,11 +76,11 @@ public class ScriptDocment implements Serializable {
         this.sortnumber = sortnumber;
     }
 
-    public int getReviewState() {
+    public ReviewState getReviewState() {
         return reviewState;
     }
 
-    public void setReviewState(final int reviewState) {
+    public void setReviewState(final ReviewState reviewState) {
         this.reviewState = reviewState;
     }
 
@@ -118,14 +116,6 @@ public class ScriptDocment implements Serializable {
         this.script = script;
     }
 
-    public Script getIsPartOfScript() {
-        return isPartOfScript;
-    }
-
-    public void setIsPartOfScript(final Script isPartOfScript) {
-        this.isPartOfScript = isPartOfScript;
-    }
-
     public Integer getHashvalue() {
         return hashvalue;
     }
@@ -140,7 +130,7 @@ public class ScriptDocment implements Serializable {
         hash = (97 * hash) + Objects.hashCode(hashvalue);
         hash = (97 * hash) + Arrays.hashCode(file);
         hash = (97 * hash) + sortnumber;
-        hash = (97 * hash) + reviewState;
+        hash = (97 * hash) + Objects.hashCode(reviewState);
         hash = (97 * hash) + Objects.hashCode(password);
         hash = (97 * hash) + Objects.hashCode(filename);
         hash = (97 * hash) + Objects.hashCode(note);
@@ -156,7 +146,7 @@ public class ScriptDocment implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ScriptDocment other = (ScriptDocment) obj;
+        final ScriptDocument other = (ScriptDocument) obj;
         if (!Objects.equals(hashvalue, other.hashvalue)) {
             return false;
         }

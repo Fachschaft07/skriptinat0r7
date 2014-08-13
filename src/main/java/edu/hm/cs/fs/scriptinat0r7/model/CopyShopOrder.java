@@ -7,14 +7,17 @@
 package edu.hm.cs.fs.scriptinat0r7.model;
 
 import java.io.Serializable;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * Represents an order to the copy shop.
+ * Represents an order to the copy shop. It goes out as a printed document to igeko.
  */
 @Entity
 @Table(name = "skriptorCopyShopOrder")
@@ -25,6 +28,11 @@ public class CopyShopOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    
+    // TODO: Eventuell Fertigstellung bis und Uhrzeit noch als Attribute aufnehmen
+
+    @OneToMany
+    private Set<StudentOrder> studentOrders;
 
     public Integer getId() {
         return id;
@@ -32,6 +40,14 @@ public class CopyShopOrder implements Serializable {
 
     public void setId(final Integer id) {
         this.id = id;
+    }
+
+    public Set<StudentOrder> getStudentOrders() {
+        return studentOrders;
+    }
+
+    public void setStudentOrders(Set<StudentOrder> studentOrders) {
+        this.studentOrders = studentOrders;
     }
 
     @Override

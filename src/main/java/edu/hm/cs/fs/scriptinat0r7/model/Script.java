@@ -8,26 +8,27 @@ package edu.hm.cs.fs.scriptinat0r7.model;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import edu.hm.cs.fs.scriptinat0r7.model.enums.ScriptCategory;
 
 /**
  * Represents a script.
  */
 @Entity
 @Table(name = "skriptorScript")
-@NamedQuery(name = Script.QUERY_FIND_ALL, query = "SELECT e FROM Script e")
 public class Script implements Serializable {
-
-    /** Query to find all. */ //TODO: Prüfen, ob das weg kann.
-    public static final String QUERY_FIND_ALL = "findAll";
 
     private static final long serialVersionUID = 1L;
 
@@ -38,10 +39,17 @@ public class Script implements Serializable {
     @Column(unique = true)
     private String name;
 
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private ScriptCategory category;
 
-    @Transient
-    private HashSet<User> authors;
+    @ManyToMany
+    private Set<User> authors;
+    
+    @ManyToMany
+    private Set<Lecture> lectures;
+    
+    @OneToMany
+    private Set<ScriptDocument> scriptDocuments;
 
     public String getName() {
         return name;
@@ -51,19 +59,19 @@ public class Script implements Serializable {
         this.name = name;
     }
 
-    public String getCategory() {
+    public ScriptCategory getCategory() {
         return category;
     }
 
-    public void setCategory(final String category) {
+    public void setCategory(final ScriptCategory category) {
         this.category = category;
     }
 
-    public HashSet<User> getAuthors() {
+    public Set<User> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(final HashSet<User> authors) {
+    public void setAuthors(final Set<User> authors) {
         this.authors = authors;
     }
 
@@ -102,6 +110,16 @@ public class Script implements Serializable {
     public void setId(final Integer id) {
         this.id = id;
     }
+
+    public Set<Lecture> getLectures() {
+        return lectures;
+    }
+
+    public Set<ScriptDocument> getScriptDocuments() {
+        return scriptDocuments;
+    }
+    
+    // TODO: Max: Add-Methoden für die Sets hinzufügen.
 
     @Override
     public int hashCode() {

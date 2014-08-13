@@ -6,6 +6,7 @@
 package edu.hm.cs.fs.scriptinat0r7.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.mail.internet.InternetAddress;
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import edu.hm.cs.fs.scriptinat0r7.model.enums.Role;
@@ -41,6 +43,9 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String facultyID;
+    
+    @OneToMany
+    private Set<StudentOrder> studentOrders;
 
     /**
      * Returns the full name (firstname and lastname) of the {@code User}.
@@ -98,5 +103,12 @@ public class User implements Serializable {
     public void setFacultyID(final String facultyID) {
         this.facultyID = facultyID;
     }
+    
+    public Set<StudentOrder> getStudentOrders() {
+        return studentOrders;
+    }
 
+    public void addStudentOrder(StudentOrder studentsOrder) {
+        this.studentOrders.add(studentsOrder);
+    }
 }
