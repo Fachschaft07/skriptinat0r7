@@ -53,7 +53,7 @@ public class ScriptDocument implements Serializable {
 
     /**
      * Returns the size of the file.
-     * 
+     *
      * @return the size of the file.
      */
     public int getfileSize() {
@@ -61,11 +61,11 @@ public class ScriptDocument implements Serializable {
     }
 
     public byte[] getFile() {
-        return file;
+        return Arrays.copyOf(this.file, this.file.length);
     }
 
     public void setFile(final byte[] file) {
-        this.file = file;
+        this.file = Arrays.copyOf(file, file.length);
     }
 
     public int getSortnumber() {
@@ -138,40 +138,24 @@ public class ScriptDocument implements Serializable {
         return hash;
     }
 
+    // CHECKSTYLE.OFF: NPath Complexity of generated equals
     @Override
     public boolean equals(final Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final ScriptDocument other = (ScriptDocument) obj;
-        if (!Objects.equals(hashvalue, other.hashvalue)) {
-            return false;
-        }
-        if (!Arrays.equals(file, other.file)) {
-            return false;
-        }
-        if (sortnumber != other.sortnumber) {
-            return false;
-        }
-        if (reviewState != other.reviewState) {
-            return false;
-        }
-        if (!Objects.equals(password, other.password)) {
-            return false;
-        }
-        if (!Objects.equals(filename, other.filename)) {
-            return false;
-        }
-        if (!Objects.equals(note, other.note)) {
-            return false;
-        }
-        if (!Objects.equals(script, other.script)) {
-            return false;
-        }
+        if (this == obj) { return true; }
+        if (obj == null) { return false; }
+        if (getClass() != obj.getClass()) { return false; }
+
+        ScriptDocument other = (ScriptDocument) obj;
+        if (!Objects.equals(this.hashvalue, other.hashvalue)) { return false; }
+        if (!Arrays.equals(this.file, other.file)) { return false; }
+        if (this.sortnumber != other.sortnumber) { return false; }
+        if (!Objects.equals(this.reviewState, other.reviewState)) { return false; }
+        if (!Objects.equals(this.password, other.password)) { return false; }
+        if (!Objects.equals(this.filename, other.filename)) { return false; }
+        if (!Objects.equals(this.note, other.note)) { return false; }
+        if (!Objects.equals(this.script, other.script)) { return false; }
+
         return true;
     }
-
+    // CHECKSTYLE.ON: NPath Complexity
 }

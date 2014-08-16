@@ -7,6 +7,7 @@
 package edu.hm.cs.fs.scriptinat0r7.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -28,24 +29,24 @@ import edu.hm.cs.fs.scriptinat0r7.model.enums.StudyProgram;
 @Entity
 @Table(name = "skriptorLecture")
 public class Lecture implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    
+
     private String name;
     private Professor readingProfessor;
-    
+
     @Enumerated(EnumType.STRING)
-    private StudyProgram studyprogram;
-    
+    private StudyProgram studyProgram;
+
     @Enumerated(EnumType.STRING)
     private SemesterType semesterType;
-    
+
     private Integer semesterYear;
-    
+
     @OneToMany
     private Set<Script> usedScripts;
 
@@ -73,12 +74,12 @@ public class Lecture implements Serializable {
         this.readingProfessor = readingProfessor;
     }
 
-    public StudyProgram getStudyprogram() {
-        return studyprogram;
+    public StudyProgram getStudyProgram() {
+        return studyProgram;
     }
 
-    public void setStudyprogram(final StudyProgram studyprogram) {
-        this.studyprogram = studyprogram;
+    public void setStudyProgram(final StudyProgram studyProgram) {
+        this.studyProgram = studyProgram;
     }
 
     public SemesterType getSemesterType() {
@@ -105,50 +106,59 @@ public class Lecture implements Serializable {
         this.usedScripts = usedScripts;
     }
 
+    /**
+     * Adds a {@code Script} to this {@code Lecture}.
+     *
+     * @param script
+     *            the script to add.
+     */
+    public void addScript(final Script script) {
+        if (usedScripts == null) {
+            usedScripts = new HashSet<>();
+        }
+        usedScripts.add(script);
+    }
+
+    /**
+     * Removes a {@code Script} from this {@code Lecture}.
+     *
+     * @param script
+     *            the script to remove.
+     */
+    public void removeScript(final Script script) {
+        usedScripts.remove(script);
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
         hash = (53 * hash) + Objects.hashCode(id);
         hash = (53 * hash) + Objects.hashCode(name);
         hash = (53 * hash) + Objects.hashCode(readingProfessor);
-        hash = (53 * hash) + Objects.hashCode(studyprogram);
+        hash = (53 * hash) + Objects.hashCode(studyProgram);
         hash = (53 * hash) + Objects.hashCode(semesterType);
         hash = (53 * hash) + Objects.hashCode(semesterYear);
         hash = (53 * hash) + Objects.hashCode(usedScripts);
         return hash;
     }
 
+    // CHECKSTYLE.OFF: NPath Complexity of generated equals
     @Override
     public boolean equals(final Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Lecture other = (Lecture) obj;
-        if (!Objects.equals(id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(readingProfessor, other.readingProfessor)) {
-            return false;
-        }
-        if (studyprogram != other.studyprogram) {
-            return false;
-        }
-        if (semesterType != other.semesterType) {
-            return false;
-        }
-        if (!Objects.equals(semesterYear, other.semesterYear)) {
-            return false;
-        }
-        if (!Objects.equals(usedScripts, other.usedScripts)) {
-            return false;
-        }
+        if (this == obj) { return true; }
+        if (obj == null) { return false; }
+        if (getClass() != obj.getClass()) { return false; }
+
+        Lecture other = (Lecture) obj;
+        if (!Objects.equals(this.id, other.id)) { return false; }
+        if (!Objects.equals(this.name, other.name)) { return false; }
+        if (!Objects.equals(this.readingProfessor, other.readingProfessor)) { return false; }
+        if (!Objects.equals(this.studyProgram, other.studyProgram)) { return false; }
+        if (!Objects.equals(this.semesterType, other.semesterType)) { return false; }
+        if (!Objects.equals(this.semesterYear, other.semesterYear)) { return false; }
+        if (!Objects.equals(this.usedScripts, other.usedScripts)) { return false; }
+
         return true;
     }
-
+    // CHECKSTYLE.ON: NPath Complexity
 }

@@ -6,6 +6,8 @@
 package edu.hm.cs.fs.scriptinat0r7.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.mail.internet.InternetAddress;
@@ -43,13 +45,13 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String facultyID;
-    
+
     @OneToMany
     private Set<StudentOrder> studentOrders;
 
     /**
      * Returns the full name (firstname and lastname) of the {@code User}.
-     * 
+     *
      * @return the full name.
      */
     public String getFullName() {
@@ -103,12 +105,76 @@ public class User implements Serializable {
     public void setFacultyID(final String facultyID) {
         this.facultyID = facultyID;
     }
-    
+
     public Set<StudentOrder> getStudentOrders() {
         return studentOrders;
     }
 
-    public void addStudentOrder(StudentOrder studentsOrder) {
-        this.studentOrders.add(studentsOrder);
+    public void setStudentOrders(final Set<StudentOrder> studentOrders) {
+        this.studentOrders = studentOrders;
     }
+
+    /**
+     * Adds a {@code StudentOrder} to this {@code User}.
+     *
+     * @param studentOrder
+     *            the studentOrder to add.
+     */
+    public void addStudentOrder(final StudentOrder studentOrder) {
+        if (studentOrders == null) {
+            studentOrders = new HashSet<>();
+        }
+        studentOrders.add(studentOrder);
+    }
+
+    /**
+     * Removes a {@code StudentOrder} from this {@code User}.
+     *
+     * @param studentOrder
+     *            the studentOrder to remove.
+     */
+    public void removeStudentOrder(final StudentOrder studentOrder) {
+        studentOrders.remove(studentOrder);
+    }
+
+    @Override
+    public int hashCode() {
+        int prime = 31;
+        int result = 1;
+        result = (prime * result) + ((email == null) ? 0 : email.hashCode());
+        result = (prime * result) + ((facultyID == null) ? 0 : facultyID.hashCode());
+        result = (prime * result) + ((firstName == null) ? 0 : firstName.hashCode());
+        result = (prime * result) + ((id == null) ? 0 : id.hashCode());
+        result = (prime * result) + ((lastName == null) ? 0 : lastName.hashCode());
+        result = (prime * result) + ((role == null) ? 0 : role.hashCode());
+        result = (prime * result) + ((studentOrders == null) ? 0 : studentOrders.hashCode());
+        return result;
+    }
+
+    // CHECKSTYLE.OFF: NPath Complexity of generated equals
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) { return true; }
+        if (obj == null) { return false; }
+        if (getClass() != obj.getClass()) { return false; }
+
+        User other = (User) obj;
+        if (!Objects.equals(this.id, other.id)) { return false; }
+        if (!Objects.equals(this.role, other.role)) { return false; }
+        if (!Objects.equals(this.email, other.email)) { return false; }
+        if (!Objects.equals(this.firstName, other.firstName)) { return false; }
+        if (!Objects.equals(this.lastName, other.lastName)) { return false; }
+        if (!Objects.equals(this.facultyID, other.facultyID)) { return false; }
+        if (!Objects.equals(this.studentOrders, other.studentOrders)) { return false; }
+
+        return true;
+    }
+    // CHECKSTYLE.ON: NPath Complexity
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", role=" + role + ", email=" + email + ", firstName=" + firstName + ", lastName="
+                + lastName + "]";
+    }
+
 }

@@ -8,8 +8,10 @@ package edu.hm.cs.fs.scriptinat0r7.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,14 +27,14 @@ import javax.persistence.Temporal;
  * Represents a student order. A {@code StudentOrder} is part of a {@code CopyShopOrder}.
  */
 @Entity
-@Table(name = "skriptorOrder")
+@Table(name = "skriptorStudentOrder")
 public class StudentOrder implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "StudentOrderId", nullable = false)
     @Id
-    private Integer studentOrderId;
+    private Integer id;
 
     @ManyToOne
     private CopyShopOrder copyShopOrder;
@@ -41,13 +43,7 @@ public class StudentOrder implements Serializable {
     private Set<ScriptDocument> scriptDocuments;
 
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date studentOrder;
-
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date copyShopOrderDate; // TODO: Max: In CopyShopOrder verschieben
-
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date documentsIngoing; // TODO: Max: In CopyShopOrder verschieben
+    private Date orderDate;
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date studentPickup;
@@ -55,12 +51,12 @@ public class StudentOrder implements Serializable {
     @Lob
     private String notes;
 
-    public Integer getStudentOrderId() {
-        return studentOrderId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setStudentOrderId(final Integer studentOrderid) {
-        this.studentOrderId = studentOrderid;
+    public void setId(final Integer id) {
+        this.id = id;
     }
 
     public CopyShopOrder getCopyShopOrder() {
@@ -71,47 +67,51 @@ public class StudentOrder implements Serializable {
         this.copyShopOrder = copyShopOrder;
     }
 
-    public Set<ScriptDocument> getContainsScriptDocuments() {
+    public Set<ScriptDocument> getScriptDocuments() {
         return scriptDocuments;
     }
 
-    public void setContainsScriptDocuments(final Set<ScriptDocument> containsScriptDocuments) {
-        this.scriptDocuments = containsScriptDocuments;
+    public void setScriptDocuments(final Set<ScriptDocument> scriptDocuments) {
+        this.scriptDocuments = scriptDocuments;
     }
 
-    public Date getStudentCustomerOrderIssueDate() {
-        return (Date) ((Date) studentOrder == null ? null : studentOrder.clone());
+    /**
+     * Adds a {@code ScriptDocument} to this {@code StudentOrder}.
+     *
+     * @param scriptDocument
+     *            the scriptDocument to add.
+     */
+    public void addScriptDocument(final ScriptDocument scriptDocument) {
+        if (scriptDocuments == null) {
+            scriptDocuments = new HashSet<>();
+        }
+        scriptDocuments.add(scriptDocument);
     }
 
-    public void setStudentCustomerOrderIssueDate(final Date studentCustomerOrderIssueDate) {
-        this.studentOrder = (Date) (studentCustomerOrderIssueDate == null ? null : studentCustomerOrderIssueDate
-                .clone());
+    /**
+     * Removes a {@code ScriptDocument} from this {@code StudentOrder}.
+     *
+     * @param scriptDocument
+     *            the scriptDocument to remove.
+     */
+    public void removeScriptDocument(final ScriptDocument scriptDocument) {
+        scriptDocuments.remove(scriptDocument);
     }
 
-    public Date getCopyShopOrderDate() {
-        return (Date) (copyShopOrderDate == null ? null : copyShopOrderDate.clone());
+    public Date getOrderDate() {
+        return (Date) (orderDate == null ? null : orderDate.clone());
     }
 
-    public void setCopyShopOrderDate(final Date copyShopOrderDate) {
-        this.copyShopOrderDate = (Date) (copyShopOrderDate == null ? null : copyShopOrderDate.clone());
+    public void setOrderDate(final Date orderDate) {
+        this.orderDate = (Date) (orderDate == null ? null : orderDate.clone());
     }
 
-    public Date getCopyShopOrderisDeliveredToFachschaftDate() {
-        return documentsIngoing;
+    public Date getStudentPickup() {
+        return (Date) (studentPickup == null ? null : studentPickup.clone());
     }
 
-    public void setDocumentsDeliveredToFachschaftDate(final Date documentsDeliveredToFachschaftDate) {
-        this.documentsIngoing = documentsDeliveredToFachschaftDate;
-    }
-    
-    // TODO: Max: Getter und Setter überarbeiten und Namen ändern.
-
-    public Date getStudentCustomerPickupDate() {
-        return studentPickup;
-    }
-
-    public void setStudentCustomerPickupDate(final Date studentCustomerPickupDate) {
-        this.studentPickup = studentCustomerPickupDate;
+    public void setStudentPickup(final Date studentPickup) {
+        this.studentPickup = (Date) (studentPickup == null ? null : studentPickup.clone());
     }
 
     public String getNotes() {
@@ -125,51 +125,36 @@ public class StudentOrder implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = (79 * hash) + Objects.hashCode(this.studentOrderId);
+        hash = (79 * hash) + Objects.hashCode(this.id);
         hash = (79 * hash) + Objects.hashCode(this.copyShopOrder);
         hash = (79 * hash) + Objects.hashCode(this.scriptDocuments);
-        hash = (79 * hash) + Objects.hashCode(this.studentOrder);
-        hash = (79 * hash) + Objects.hashCode(this.copyShopOrderDate);
-        hash = (79 * hash) + Objects.hashCode(this.documentsIngoing);
+        hash = (79 * hash) + Objects.hashCode(this.orderDate);
         hash = (79 * hash) + Objects.hashCode(this.studentPickup);
         hash = (79 * hash) + Objects.hashCode(this.notes);
         return hash;
     }
 
+    // CHECKSTYLE.OFF: NPath Complexity of generated equals
     @Override
     public boolean equals(final Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final StudentOrder other = (StudentOrder) obj;
-        if (!Objects.equals(this.studentOrderId, other.studentOrderId)) {
-            return false;
-        }
-        if (!Objects.equals(this.copyShopOrder, other.copyShopOrder)) {
-            return false;
-        }
-        if (!Objects.equals(this.scriptDocuments, other.scriptDocuments)) {
-            return false;
-        }
-        if (!Objects.equals(this.studentOrder, other.studentOrder)) {
-            return false;
-        }
-        if (!Objects.equals(this.copyShopOrderDate, other.copyShopOrderDate)) {
-            return false;
-        }
-        if (!Objects.equals(this.documentsIngoing, other.documentsIngoing)) {
-            return false;
-        }
-        if (!Objects.equals(this.studentPickup, other.studentPickup)) {
-            return false;
-        }
-        if (!Objects.equals(this.notes, other.notes)) {
-            return false;
-        }
+        if (this == obj) { return true; }
+        if (obj == null) { return false; }
+        if (getClass() != obj.getClass()) { return false; }
+
+        StudentOrder other = (StudentOrder) obj;
+        if (!Objects.equals(this.id, other.id)) { return false; }
+        if (!Objects.equals(this.copyShopOrder, other.copyShopOrder)) { return false; }
+        if (!Objects.equals(this.scriptDocuments, other.scriptDocuments)) { return false; }
+        if (!Objects.equals(this.orderDate, other.orderDate)) { return false; }
+        if (!Objects.equals(this.studentPickup, other.studentPickup)) { return false; }
+        if (!Objects.equals(this.notes, other.notes)) { return false; }
+
         return true;
     }
+    // CHECKSTYLE.ON: NPath Complexity
 
+    @Override
+    public String toString() {
+        return "StudentOrder [id=" + id + ", orderDate=" + orderDate + ", studentPickup=" + studentPickup + "]";
+    }
 }
