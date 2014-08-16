@@ -53,6 +53,7 @@ pmd {
 
 /* Configures the PMD-Plugin for main and test */
 tasks.withType(Pmd) {
+	ruleSets = []
 	ruleSetFiles = files('config/pmd/rules-hafner.xml')
 	ignoreFailures = true
 	reports {
