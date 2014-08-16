@@ -62,6 +62,11 @@
 		<exclude name="JUnitTestsShouldIncludeAssert" />
 		<exclude name="TestClassWithoutTestCases" />
 	</rule>
+	<rule ref="rulesets/java/junit.xml/JUnitTestContainsTooManyAsserts" >
+		<properties>
+			<property name="maximumAsserts" value="3" />
+		</properties>
+	</rule>
 	<rule ref="rulesets/java/naming.xml">
 		<exclude name="ShortVariable" />
 		<exclude name="LongVariable" />
