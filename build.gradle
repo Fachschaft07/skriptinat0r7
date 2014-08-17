@@ -32,6 +32,7 @@ dependencies {
    compile 'com.sun.mail:javax.mail:1.5.2'
    compile 'jstl:jstl:1.2'
    testCompile 'junit:junit:4.+'
+   testCompile 'nl.jqno.equalsverifier:equalsverifier:1.4.1'
    testCompile 'org.mockito:mockito-all:1.9.5'
 }
 

@@ -1,9 +1,13 @@
 package edu.hm.cs.fs.scriptinat0r7.model;
 
 import static org.junit.Assert.*;
+
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 import org.junit.Test;
 
@@ -11,22 +15,13 @@ import org.junit.Test;
  * Test class for the {@code CopyShopOrder}.
  */
 public class CopyShopOrderTest {
-
+    
     /**
-     * Tests the hashCode method.
+     * Tests the equals contract for equals() and hashCode().
      */
     @Test
-    public void testHashCode() {
-        CopyShopOrder firstOrder = new CopyShopOrder();
-        CopyShopOrder secondOrder = new CopyShopOrder();
-
-        firstOrder.setId(1);
-        secondOrder.setId(1);
-        Date date = new Date();
-        firstOrder.setOrderDate(date);
-        secondOrder.setOrderDate(date);
-
-        assertEquals("The hash codes are not equal.", firstOrder.hashCode(), secondOrder.hashCode());
+    public void equalsContract() {
+        EqualsVerifier.forClass(CopyShopOrder.class).verify();
     }
 
     /**
@@ -57,6 +52,19 @@ public class CopyShopOrderTest {
         assertEquals("The order date is not equal.", expected, actual);
         assertNotSame("The order date object is the same but should not.", expected, actual);
     }
+    
+    /**
+     * Tests the getter and setter of the orderDate when it is null.
+     */
+    @Test
+    public void testGetAndSetNullOrderDate() {
+        CopyShopOrder order = new CopyShopOrder();
+
+        order.setOrderDate(null);
+        Date actual = order.getOrderDate();
+
+        assertNull("The order date is not null.", actual);
+    }
 
     /**
      * Tests the getter and setter of the printoutDelivery.
@@ -71,6 +79,19 @@ public class CopyShopOrderTest {
 
         assertEquals("The printout delivery date is not equal.", expected, actual);
         assertNotSame("The printout delivery date object is the same but should not.", expected, actual);
+    }
+    
+    /**
+     * Tests the getter and setter of the orderDate when it is null.
+     */
+    @Test
+    public void testGetAndSetNullPrintoutDelivery() {
+        CopyShopOrder order = new CopyShopOrder();
+
+        order.setPrintoutDelivery(null);
+        Date actual = order.getPrintoutDelivery();
+
+        assertNull("The printout delivery date is not null.", actual);
     }
 
     /**
@@ -93,6 +114,21 @@ public class CopyShopOrderTest {
     @Test
     public void testAddStudentOrder() {
         CopyShopOrder order = new CopyShopOrder();
+        StudentOrder studentOrder = new StudentOrder();
+
+        order.addStudentOrder(studentOrder);
+
+        assertEquals("The set of student orders has not 1 element.", 1, order.getStudentOrders().size());
+    }
+    
+    /**
+     * Tests the add method of the studentOrders when there is already a set existing.
+     */
+    @Test
+    public void testAddStudentOrderExistingSet() {
+        CopyShopOrder order = new CopyShopOrder();
+        Set<StudentOrder> studentOrders = new HashSet<StudentOrder>();
+        order.setStudentOrders(studentOrders);
         StudentOrder studentOrder = new StudentOrder();
 
         order.addStudentOrder(studentOrder);

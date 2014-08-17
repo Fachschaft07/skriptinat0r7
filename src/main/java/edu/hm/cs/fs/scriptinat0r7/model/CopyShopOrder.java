@@ -98,21 +98,15 @@ public class CopyShopOrder implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int prime = 31;
-        int result = 1;
-        result = (prime * result) + ((id == null) ? 0 : id.hashCode());
-        result = (prime * result) + ((orderDate == null) ? 0 : orderDate.hashCode());
-        result = (prime * result) + ((printoutDelivery == null) ? 0 : printoutDelivery.hashCode());
-        result = (prime * result) + ((studentOrders == null) ? 0 : studentOrders.hashCode());
-        return result;
+    public final int hashCode() {
+        return Objects.hash(id, orderDate, printoutDelivery, studentOrders);
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) { return true; }
         if (obj == null) { return false; }
-        if (getClass() != obj.getClass()) { return false; }
+        if (!(obj instanceof CopyShopOrder)) { return false; }
 
         CopyShopOrder other = (CopyShopOrder) obj;
         if (!Objects.equals(this.id, other.id)) { return false; }
