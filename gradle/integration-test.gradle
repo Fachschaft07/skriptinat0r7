@@ -30,13 +30,5 @@ test {
 	reports.html.enabled = false
 }
 
-task testReport(type: TestReport) {
-    destinationDir = file("$buildDir/reports/allTests")
-    reportOn project.test, project.integrationTest
-}
-
-testReport.dependsOn check
-build.dependsOn testReport
-
 integrationTest.dependsOn test
 check.dependsOn integrationTest
