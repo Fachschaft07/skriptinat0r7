@@ -130,24 +130,16 @@ public class Lecture implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = (53 * hash) + Objects.hashCode(id);
-        hash = (53 * hash) + Objects.hashCode(name);
-        hash = (53 * hash) + Objects.hashCode(readingProfessor);
-        hash = (53 * hash) + Objects.hashCode(studyProgram);
-        hash = (53 * hash) + Objects.hashCode(semesterType);
-        hash = (53 * hash) + Objects.hashCode(semesterYear);
-        hash = (53 * hash) + Objects.hashCode(usedScripts);
-        return hash;
+    public final int hashCode() {
+        return Objects.hash(id, name, readingProfessor, studyProgram, semesterType, semesterYear, usedScripts);
     }
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) { return true; }
         if (obj == null) { return false; }
-        if (getClass() != obj.getClass()) { return false; }
+        if (!(obj instanceof Lecture)) { return false; }
 
         Lecture other = (Lecture) obj;
         if (!Objects.equals(this.id, other.id)) { return false; }
