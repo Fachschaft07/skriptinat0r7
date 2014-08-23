@@ -15,6 +15,15 @@ public class Professor extends User implements Serializable {
 
     @Column(nullable = true)
     private String title;
+    
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
 
     @Override
     public final String getFullName() {
@@ -22,23 +31,26 @@ public class Professor extends User implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int prime = 31;
-        int result = 1;
-        result = (prime * result) + ((title == null) ? 0 : title.hashCode());
-        return result;
+    public final int hashCode() {
+        return Objects.hash(title, super.hashCode());
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) { return true; }
         if (obj == null) { return false; }
-        if (getClass() != obj.getClass()) { return false; }
+        if (!(obj instanceof Professor)) { return false; }
 
         Professor other = (Professor) obj;
         if (!Objects.equals(this.title, other.title)) { return false; }
+        if (!super.equals(other)) { return false; }
 
         return true;
+    }
+    
+    @Override
+    public boolean canEqual(final Object obj) {
+        return (obj instanceof Professor);
     }
 
     @Override

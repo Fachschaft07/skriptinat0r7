@@ -139,16 +139,7 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        int prime = 31;
-        int result = 1;
-        result = (prime * result) + ((email == null) ? 0 : email.hashCode());
-        result = (prime * result) + ((facultyID == null) ? 0 : facultyID.hashCode());
-        result = (prime * result) + ((firstName == null) ? 0 : firstName.hashCode());
-        result = (prime * result) + ((id == null) ? 0 : id.hashCode());
-        result = (prime * result) + ((lastName == null) ? 0 : lastName.hashCode());
-        result = (prime * result) + ((role == null) ? 0 : role.hashCode());
-        result = (prime * result) + ((studentOrders == null) ? 0 : studentOrders.hashCode());
-        return result;
+        return Objects.hash(id, role, email, firstName, lastName, facultyID, studentOrders);
     }
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
@@ -156,9 +147,10 @@ public class User implements Serializable {
     public boolean equals(final Object obj) {
         if (this == obj) { return true; }
         if (obj == null) { return false; }
-        if (getClass() != obj.getClass()) { return false; }
+        if (!(obj instanceof User)) { return false; }
 
         User other = (User) obj;
+        if (!(other.canEqual(this))) { return false; }
         if (!Objects.equals(this.id, other.id)) { return false; }
         if (!Objects.equals(this.role, other.role)) { return false; }
         if (!Objects.equals(this.email, other.email)) { return false; }
@@ -170,6 +162,10 @@ public class User implements Serializable {
         return true;
     }
     // CHECKSTYLE.ON: NPath Complexity
+    
+    public boolean canEqual(final Object obj) {
+        return (obj instanceof User);
+    }
 
     @Override
     public String toString() {
