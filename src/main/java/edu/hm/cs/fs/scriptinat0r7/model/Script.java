@@ -141,8 +141,8 @@ public class Script implements Serializable {
         return scriptDocuments;
     }
 
-    public void setScriptDocumets(final Set<ScriptDocument> scriptDocumets) {
-        this.scriptDocuments = scriptDocumets;
+    public void setScriptDocumets(final Set<ScriptDocument> scriptDocuments) {
+        this.scriptDocuments = scriptDocuments;
     }
 
     /**
@@ -169,24 +169,16 @@ public class Script implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int prime = 31;
-        int result = 1;
-        result = (prime * result) + ((authors == null) ? 0 : authors.hashCode());
-        result = (prime * result) + ((category == null) ? 0 : category.hashCode());
-        result = (prime * result) + ((id == null) ? 0 : id.hashCode());
-        result = (prime * result) + ((lectures == null) ? 0 : lectures.hashCode());
-        result = (prime * result) + ((name == null) ? 0 : name.hashCode());
-        result = (prime * result) + ((scriptDocuments == null) ? 0 : scriptDocuments.hashCode());
-        return result;
+    public final int hashCode() {
+        return Objects.hash(id, name, category, authors, lectures, scriptDocuments);
     }
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) { return true; }
         if (obj == null) { return false; }
-        if (getClass() != obj.getClass()) { return false; }
+        if (!(obj instanceof Script)) { return false; }
 
         Script other = (Script) obj;
         if (!Objects.equals(this.id, other.id)) { return false; }

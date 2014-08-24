@@ -56,7 +56,7 @@ public class ScriptDocument implements Serializable {
      *
      * @return the size of the file.
      */
-    public int getfileSize() {
+    public int getFileSize() {
         return file.length;
     }
 
@@ -125,30 +125,22 @@ public class ScriptDocument implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = (97 * hash) + Objects.hashCode(hashvalue);
-        hash = (97 * hash) + Arrays.hashCode(file);
-        hash = (97 * hash) + sortnumber;
-        hash = (97 * hash) + Objects.hashCode(reviewState);
-        hash = (97 * hash) + Objects.hashCode(password);
-        hash = (97 * hash) + Objects.hashCode(filename);
-        hash = (97 * hash) + Objects.hashCode(note);
-        hash = (97 * hash) + Objects.hashCode(script);
-        return hash;
+    public final int hashCode() {
+        return Objects.hash(hashvalue, Arrays.hashCode(file), sortnumber, 
+                reviewState, password, filename, note, script);
     }
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) { return true; }
         if (obj == null) { return false; }
-        if (getClass() != obj.getClass()) { return false; }
+        if (!(obj instanceof ScriptDocument)) { return false; }
 
         ScriptDocument other = (ScriptDocument) obj;
         if (!Objects.equals(this.hashvalue, other.hashvalue)) { return false; }
         if (!Arrays.equals(this.file, other.file)) { return false; }
-        if (this.sortnumber != other.sortnumber) { return false; }
+        if (!Objects.equals(this.sortnumber, other.sortnumber)) { return false; }
         if (!Objects.equals(this.reviewState, other.reviewState)) { return false; }
         if (!Objects.equals(this.password, other.password)) { return false; }
         if (!Objects.equals(this.filename, other.filename)) { return false; }
