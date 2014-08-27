@@ -52,7 +52,7 @@ public class UserTest {
     @Test
     public void testGetAndSetRole() {
         User user = new User();
-        Role expected = Role.Regular;
+        Role expected = Role.REGULAR;
         
         user.setRole(expected);
         Role actual = user.getRole();
@@ -151,11 +151,11 @@ public class UserTest {
     public void testToString() throws AddressException {
         User user = new User();
         user.setId(3);
-        user.setRole(Role.Fachschaftler);
+        user.setRole(Role.FACHSCHAFTLER);
         user.setEmail(new InternetAddress("beispiel@fs.cs.hm.edu"));
         user.setFirstName("Hans");
         user.setLastName("Glück");
-        String expected = "User [id=3, role=Fachschaftler, email=beispiel@fs.cs.hm.edu, firstName=Hans, lastName=Glück]";
+        String expected = "User [id=3, role=FACHSCHAFTLER, email=beispiel@fs.cs.hm.edu, firstName=Hans, lastName=Glück]";
         
         String actual = user.toString();
         

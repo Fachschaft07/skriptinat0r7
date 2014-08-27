@@ -123,23 +123,16 @@ public class StudentOrder implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = (79 * hash) + Objects.hashCode(this.id);
-        hash = (79 * hash) + Objects.hashCode(this.copyShopOrder);
-        hash = (79 * hash) + Objects.hashCode(this.scriptDocuments);
-        hash = (79 * hash) + Objects.hashCode(this.orderDate);
-        hash = (79 * hash) + Objects.hashCode(this.studentPickup);
-        hash = (79 * hash) + Objects.hashCode(this.notes);
-        return hash;
+    public final int hashCode() {
+        return Objects.hash(id, copyShopOrder, scriptDocuments, orderDate, studentPickup, notes);
     }
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) { return true; }
         if (obj == null) { return false; }
-        if (getClass() != obj.getClass()) { return false; }
+        if (!(obj instanceof StudentOrder)) { return false; }
 
         StudentOrder other = (StudentOrder) obj;
         if (!Objects.equals(this.id, other.id)) { return false; }

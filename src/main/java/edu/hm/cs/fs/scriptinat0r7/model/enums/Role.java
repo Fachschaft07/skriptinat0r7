@@ -5,13 +5,13 @@ package edu.hm.cs.fs.scriptinat0r7.model.enums;
  */
 public enum Role {
     /** An ordinary, regular student. */
-    Regular,
+    REGULAR,
     /** An fs-student. */
-    Fachschaftler,
+    FACHSCHAFTLER,
     /** A professor. */
-    Professor,
+    PROFESSOR,
     /** A locked user. */
-    Gesperrt,
+    LOCKED,
     /** An author of a script. */
-    Author;
+    AUTHOR;
 }
