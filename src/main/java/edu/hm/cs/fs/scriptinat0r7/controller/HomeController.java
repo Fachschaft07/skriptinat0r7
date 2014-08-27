@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class HomeController {
 
+    @RequestMapping
+    public String index(final ModelMap model) {
+        return "index";
+    }
+
     /**
      * Request method for rendering the about page.
      * 
