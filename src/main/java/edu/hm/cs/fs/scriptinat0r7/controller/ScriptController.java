@@ -18,12 +18,19 @@ public class ScriptController {
 
     @Autowired
     private ScriptRepository scripts;
-    
+
+    /**
+     * Gets and displays all existing scripts.
+     * 
+     * @param model
+     *            the model used by the view.
+     * @return the logical view name.
+     */
     @RequestMapping(method = RequestMethod.GET)
-    public String getAllScripts(ModelMap model) {
+    public String getAllScripts(final ModelMap model) {
         Iterable<Script> allScripts = scripts.findAll();
         model.addAttribute("scripts", allScripts);
-        
+
         return "allScripts";
     }
 }

@@ -17,7 +17,7 @@ public class Professor extends User implements Serializable {
     private String title;
     
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
