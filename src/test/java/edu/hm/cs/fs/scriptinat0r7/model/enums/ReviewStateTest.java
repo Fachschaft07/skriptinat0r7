@@ -20,7 +20,6 @@ public class ReviewStateTest {
             .withEnumElement("PROFESSORAPPROVED")
             .withEnumElement("DELETED")
             .verify();
-        ReviewState.valueOf(ReviewState.LOCKED.toString());
     }
 
 }
