@@ -141,7 +141,7 @@ public class Script implements Serializable {
         return scriptDocuments;
     }
 
-    public void setScriptDocumets(final Set<ScriptDocument> scriptDocuments) {
+    public void setScriptDocuments(final Set<ScriptDocument> scriptDocuments) {
         this.scriptDocuments = scriptDocuments;
     }
 

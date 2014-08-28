@@ -163,8 +163,15 @@ public class User implements Serializable {
     }
     // CHECKSTYLE.ON: NPath Complexity
     
+    /**
+     * Checks if the specified Object is able to be equal to this {@code User}.
+     * 
+     * @param obj
+     *            the {@code Object} to check.
+     * @return {@code true} if the specified Object can equal {@code this}, otherwise {@code false}.
+     */
     public boolean canEqual(final Object obj) {
-        return (obj instanceof User);
+        return obj instanceof User;
     }
 
     @Override

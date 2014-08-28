@@ -50,7 +50,7 @@ public class Professor extends User implements Serializable {
     
     @Override
     public boolean canEqual(final Object obj) {
-        return (obj instanceof Professor);
+        return obj instanceof Professor;
     }
 
     @Override

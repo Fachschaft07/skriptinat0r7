@@ -11,6 +11,9 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 
 import org.junit.Test;
 
+/**
+ * Test class for the {@code StudentOrder}.
+ */
 public class StudentOrderTest {
     
     /**
@@ -21,6 +24,9 @@ public class StudentOrderTest {
         EqualsVerifier.forClass(StudentOrder.class).verify();
     }
 
+    /**
+     * Tests the getter and setter for the id.
+     */
     @Test
     public void testGetAndSetId() {
         StudentOrder order = new StudentOrder();
@@ -32,6 +38,9 @@ public class StudentOrderTest {
         assertEquals("The id of the student order is not equal.", expected, actual);
     }
 
+    /**
+     * Tests the getter and setter for the copy shop order.
+     */
     @Test
     public void testGetAndSetCopyShopOrder() {
         StudentOrder order = new StudentOrder();
@@ -43,6 +52,9 @@ public class StudentOrderTest {
         assertSame("The copy shop order to this student order is not the same.", expected, actual);
     }
 
+    /**
+     * Tests the getter and setter for the script documents.
+     */
     @Test
     public void testGetAndSetScriptDocuments() {
         StudentOrder order = new StudentOrder();
@@ -54,6 +66,9 @@ public class StudentOrderTest {
         assertSame("The script documents of the student order are not the same.", expected, actual);
     }
 
+    /**
+     * Tests the add method of the script documents.
+     */
     @Test
     public void testAddScriptDocument() {
         StudentOrder order = new StudentOrder();
@@ -64,6 +79,9 @@ public class StudentOrderTest {
         assertEquals("The set of script documents has not 1 element.", 1, order.getScriptDocuments().size());
     }
     
+    /**
+     * Tests the add method of the script documents when there is already an existing set.
+     */
     @Test
     public void testAddScriptDocumentExistingSet() {
         StudentOrder order = new StudentOrder();
@@ -76,6 +94,9 @@ public class StudentOrderTest {
         assertEquals("The set of script documents has not 1 element.", 1, order.getScriptDocuments().size());
     }
 
+    /**
+     * Tests the remove method of the script documents.
+     */
     @Test
     public void testRemoveScriptDocument() {
         StudentOrder order = new StudentOrder();
@@ -87,6 +108,9 @@ public class StudentOrderTest {
         assertEquals("The set of script documents has not 0 elements", 0, order.getScriptDocuments().size());
     }
 
+    /**
+     * Tests the getter and setter of the order date.
+     */
     @Test
     public void testGetAndSetOrderDate() {
         StudentOrder order = new StudentOrder();
@@ -99,6 +123,9 @@ public class StudentOrderTest {
         assertNotSame("The order date object is the same but should not.", expected, actual);
     }
     
+    /**
+     * Tests the getter and setter of the order date when it is null.
+     */
     @Test
     public void testGetAndSetNullOrderDate() {
         StudentOrder order = new StudentOrder();
@@ -109,6 +136,9 @@ public class StudentOrderTest {
         assertNull("The order date is not null.", actual);
     }
 
+    /**
+     * Tests the getter and setter of the student pickup date.
+     */
     @Test
     public void testGetAndSetStudentPickup() {
         StudentOrder order = new StudentOrder();
@@ -121,6 +151,9 @@ public class StudentOrderTest {
         assertNotSame("The student pickup date object is the same but should not.", expected, actual);        
     }
     
+    /**
+     * Tests the getter and setter of the student pickup date when it is null.
+     */
     @Test
     public void testGetAndSetNullStudentPickup() {
         StudentOrder order = new StudentOrder();
@@ -131,6 +164,9 @@ public class StudentOrderTest {
         assertNull("The student pickup date is not null.", actual);       
     }
 
+    /**
+     * Tests the getter and setter of the notes.
+     */
     @Test
     public void testGetAndSetNotes() {
         StudentOrder order = new StudentOrder();
@@ -142,6 +178,9 @@ public class StudentOrderTest {
         assertEquals("The notes of the student order are not equal.", expected, actual);
     }
 
+    /**
+     * Tests the toString method.
+     */
     @Test
     public void testToString() {
         StudentOrder order = new StudentOrder();

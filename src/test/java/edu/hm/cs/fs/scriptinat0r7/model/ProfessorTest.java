@@ -5,6 +5,9 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 
 import org.junit.Test;
 
+/**
+ * Test class for the {@code Professor}.
+ */
 public class ProfessorTest {
     
     /**
@@ -15,8 +18,11 @@ public class ProfessorTest {
         EqualsVerifier.forClass(Professor.class).withRedefinedSuperclass().verify();
     }
 
+    /**
+     * Tests the getter and setter for the title.
+     */
     @Test
-    public void testGetAndSetTitle() throws Exception {
+    public void testGetAndSetTitle() {
         Professor prof = new Professor();
         String expected = "Prof. Dr.";
         prof.setTitle(expected);
@@ -25,6 +31,10 @@ public class ProfessorTest {
         
         assertSame("The title of the professor is not the same.", expected, actual);
     }
+    
+    /**
+     * Tests the getter for the full name.
+     */
     @Test
     public void testGetFullName() {
         Professor prof = new Professor();
@@ -35,8 +45,11 @@ public class ProfessorTest {
         assertEquals("The full name of the professor is not equal.", expected, actual);
     }
     
+    /**
+     * Tests the getter for the full name when the title is null.
+     */
     @Test
-    public void testGetFullNameIsNull() throws Exception {
+    public void testGetFullNameTitleIsNull() {
         Professor prof = new Professor();
         prof.setFirstName("Jochen");
         prof.setLastName("Hertle");
@@ -47,8 +60,11 @@ public class ProfessorTest {
         assertEquals("The full name of the professor is not equal.", expected, actual);
     }
     
+    /**
+     * Tests the getter for the full name when the title is empty.
+     */
     @Test
-    public void testGetFullNameIsEmpty() throws Exception {
+    public void testGetFullNameIsEmpty() {
         Professor prof = new Professor();
         prof.setTitle("");
         prof.setFirstName("Jochen");
@@ -60,6 +76,9 @@ public class ProfessorTest {
         assertEquals("The full name of the professor is not equal.", expected, actual);
     }
 
+    /**
+     * Tests the toString method.
+     */
     @Test
     public void testToString() {
         Professor prof = new Professor();
@@ -72,7 +91,7 @@ public class ProfessorTest {
         assertEquals("The toString does not return expected String.", expected, actual);
     }
 
-    private String createFullProfessorName(Professor prof) {
+    private String createFullProfessorName(final Professor prof) {
         String title = "Prof. Dr.";
         String firstName = "Jochen";
         String lastName = "Hertle";

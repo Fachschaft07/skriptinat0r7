@@ -29,7 +29,7 @@ public class HomeControllerTest {
 
         String result = controller.about(model);
 
-        assertEquals("about", result);
+        assertEquals("The view name is not correct.", "about", result);
         verify(model).addAttribute(eq("contributors"), any(List.class));
         verify(model).addAttribute(eq("year"), any(Calendar.class));
     }

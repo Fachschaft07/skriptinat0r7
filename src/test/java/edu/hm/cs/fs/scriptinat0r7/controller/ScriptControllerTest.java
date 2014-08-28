@@ -17,14 +17,14 @@ import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
 
 /**
  * Test class for {@link edu.hm.cs.fs.scriptinat0r7.controller.ScriptController}.
- *
- * @author Maximilian Götz
- *
  */
 public class ScriptControllerTest {
     
+    /**
+     * Tests if all scripts are properly retrieved and displayed in the view.
+     */
     @Test
-    public void testGetAllScripts() throws Exception {
+    public void testGetAllScripts() {
         ScriptController controller = new ScriptController();
         ScriptRepository repo = mock(ScriptRepository.class);
         ModelMap model = mock(ModelMap.class);

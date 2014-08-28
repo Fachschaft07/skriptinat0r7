@@ -4,6 +4,9 @@ import org.junit.Test;
 
 import edu.hm.cs.fs.scriptinat0r7.testfixtures.EnumVerifier;
 
+/**
+ * Test class for the {@code ReviewState}.
+ */
 public class ReviewStateTest {
 
     /**

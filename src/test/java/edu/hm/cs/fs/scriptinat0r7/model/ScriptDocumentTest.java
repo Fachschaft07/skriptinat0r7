@@ -7,6 +7,9 @@ import org.junit.Test;
 
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 
+/**
+ * Test class for the {@code ScriptDocument}.
+ */
 public class ScriptDocumentTest {
     
     /**
@@ -18,7 +21,7 @@ public class ScriptDocumentTest {
     }
 
     /**
-     * 
+     * Tests the getter for the file size.
      */
     @Test
     public void testGetFileSize() {
@@ -32,7 +35,7 @@ public class ScriptDocumentTest {
     }
 
     /**
-     * 
+     * Tests the getter and setter for the file.
      */
     @Test
     public void testGetAndSetFile() {
@@ -46,7 +49,7 @@ public class ScriptDocumentTest {
     }
 
     /**
-     * 
+     * Tests the getter and setter for the sortnumber.
      */
     @Test
     public void testGetAndSetSortnumber() {
@@ -60,7 +63,7 @@ public class ScriptDocumentTest {
     }
     
     /**
-     * 
+     * Tests the getter and setter for the review state.
      */
     @Test
     public void testGetAndSetReviewState() {
@@ -74,7 +77,7 @@ public class ScriptDocumentTest {
     }
 
     /**
-     * 
+     * Tests the getter and setter for the password.
      */
     @Test
     public void testGetAndSetPassword() {
@@ -88,7 +91,7 @@ public class ScriptDocumentTest {
     }
 
     /**
-     * 
+     * Tests the getter and setter for the filename.
      */
     @Test
     public void testGetAndSetFilename() {
@@ -102,7 +105,7 @@ public class ScriptDocumentTest {
     }
 
     /**
-     * 
+     * Tests the getter and setter for the note.
      */
     @Test
     public void testGetAndSetNote() {
@@ -116,7 +119,7 @@ public class ScriptDocumentTest {
     }
 
     /**
-     * 
+     * Tests the getter and setter for the script.
      */
     @Test
     public void testGetAndSetScript() {
@@ -130,7 +133,7 @@ public class ScriptDocumentTest {
     }
 
     /**
-     * 
+     * Tests the getter and setter for the hash value.
      */
     @Test
     public void testGetAndSetHashvalue() {

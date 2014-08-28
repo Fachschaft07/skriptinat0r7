@@ -26,6 +26,9 @@ public class LectureTest {
         EqualsVerifier.forClass(Lecture.class).verify();
     }
 
+    /**
+     * Tests the getter and setter of the id.
+     */
     @Test
     public void testGetAndSetId() {
         Lecture lecture = new Lecture();
@@ -37,6 +40,9 @@ public class LectureTest {
         assertSame("The id is not the same.", expected, actual);
     }
 
+    /**
+     * Tests the getter and setter of the name.
+     */
     @Test
     public void testGetAndSetName() {
         Lecture lecture = new Lecture();
@@ -48,6 +54,9 @@ public class LectureTest {
         assertSame("The name is not the same.", expected, actual);
     }
 
+    /**
+     * Tests the getter and setter of the reading professor.
+     */
     @Test
     public void testGetAndSetReadingProfessor() {
         Lecture lecture = new Lecture();
@@ -59,6 +68,9 @@ public class LectureTest {
         assertSame("The professor is not the same.", expected, actual);
     }
 
+    /**
+     * Tests the getter and setter of the study program.
+     */
     @Test
     public void testGetAndSetStudyProgram() {
         Lecture lecture = new Lecture();
@@ -70,6 +82,9 @@ public class LectureTest {
         assertSame("The study program is not the same.", expected, actual);
     }
 
+    /**
+     * Tests the getter and setter of the semester type.
+     */
     @Test
     public void testGetAndSetSemesterType() {
         Lecture lecture = new Lecture();
@@ -81,6 +96,9 @@ public class LectureTest {
         assertSame("The semester type is not the same.", expected, actual);
     }
 
+    /**
+     * Tests the getter and setter of the semester year.
+     */
     @Test
     public void testGetAndSetSemesterYear() {
         Lecture lecture = new Lecture();
@@ -92,6 +110,9 @@ public class LectureTest {
         assertEquals("The semester year is not equal.", expected, actual);
     }
 
+    /**
+     * Tests the getter and setter of the used scripts.
+     */
     @Test
     public void testGetAndSetUsedScripts() {
         Lecture lecture = new Lecture();
@@ -103,6 +124,9 @@ public class LectureTest {
         assertSame("The used scripts are not the same.", expected, actual);
     }
 
+    /**
+     * Tests the add method of the scripts.
+     */
     @Test
     public void testAddScript() {
         Lecture lecture = new Lecture();
@@ -113,6 +137,9 @@ public class LectureTest {
         assertEquals("The set of used scripts has not 1 element.", 1, lecture.getUsedScripts().size());
     }
     
+    /**
+     * Tests the add method of the scripts when there is already an existing set.
+     */
     @Test
     public void testAddScriptExistingSet() {
         Lecture lecture = new Lecture();
@@ -124,8 +151,11 @@ public class LectureTest {
         assertEquals("The set of used scripts has not 1 element.", 1, lecture.getUsedScripts().size());
     }
     
+    /**
+     * Tests the remove method of the scripts.
+     */
     @Test
-    public void testRemoveScript() throws Exception {
+    public void testRemoveScript() {
         Lecture lecture = new Lecture();
         Script script = new Script();
         lecture.addScript(script);

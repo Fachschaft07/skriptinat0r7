@@ -13,6 +13,9 @@ import org.junit.Test;
 
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ScriptCategory;
 
+/**
+ * Test class for the {@code Script}.
+ */
 public class ScriptTest {
     
     /**
@@ -24,7 +27,7 @@ public class ScriptTest {
     }
 
     /**
-     * 
+     * Tests the getter and setter of the id.
      */
     @Test
     public void testGetAndSetId() {
@@ -38,7 +41,7 @@ public class ScriptTest {
     }
 
     /**
-     * 
+     * Tests the getter and setter of the name.
      */
     @Test
     public void testGetAndSetName() {
@@ -52,7 +55,7 @@ public class ScriptTest {
     }
 
     /**
-     * 
+     * Tests the getter and setter of the category.
      */
     @Test
     public void testGetAndSetCategory() {
@@ -66,7 +69,7 @@ public class ScriptTest {
     }
 
     /**
-     * 
+     * Tests the getter and setter of the authors.
      */
     @Test
     public void testGetAndSetAuthors() {
@@ -80,7 +83,7 @@ public class ScriptTest {
     }
 
     /**
-     * 
+     * Tests the add method of the authors.
      */
     @Test
     public void testAddAuthor() {
@@ -93,7 +96,7 @@ public class ScriptTest {
     }
     
     /**
-     * 
+     * Tests the add method of the authors when there is already an existing set.
      */
     @Test
     public void testAddAuthorExistingSet() {
@@ -108,7 +111,7 @@ public class ScriptTest {
     }
 
     /**
-     * 
+     * Tests the remove method of the authors.
      */
     @Test
     public void testRemoveAuthor() {
@@ -122,7 +125,7 @@ public class ScriptTest {
     }
 
     /**
-     * 
+     * Tests the getter and setter of the lectures.
      */
     @Test
     public void testGetAndSetLectures() {
@@ -136,7 +139,7 @@ public class ScriptTest {
     }
 
     /**
-     * 
+     * Tests the add method of the lectures.
      */
     @Test
     public void testAddLecture() {
@@ -149,7 +152,7 @@ public class ScriptTest {
     }
     
     /**
-     * 
+     * Tests the add method of the lectures when there is already an existing set.
      */
     @Test
     public void testAddLectureExistingSet() {
@@ -164,7 +167,7 @@ public class ScriptTest {
     }
 
     /**
-     * 
+     * Tests the remove method of the lectures.
      */
     @Test
     public void testRemoveLecture() {
@@ -178,21 +181,21 @@ public class ScriptTest {
     }
 
     /**
-     * 
+     * Tests the getter and setter of the script documents.
      */
     @Test
     public void testGetAndSetScriptDocuments() {
         Script script = new Script();
         Set<ScriptDocument> expected = Collections.emptySet();
         
-        script.setScriptDocumets(expected);
+        script.setScriptDocuments(expected);
         Set<ScriptDocument> actual = script.getScriptDocuments();
         
         assertSame("The script documents of the script are not the same.", expected, actual);
     }
 
     /**
-     * 
+     * Tests the add method of the script documents.
      */
     @Test
     public void testAddScriptDocument() {
@@ -205,14 +208,14 @@ public class ScriptTest {
     }
     
     /**
-     * 
+     * Tests the add method of the script documents when theres already an existing set.
      */
     @Test
     public void testAddScriptDocumentExistingSet() {
         Script script = new Script();
         ScriptDocument document = new ScriptDocument();
         Set<ScriptDocument> scriptDocuments = new HashSet<ScriptDocument>();
-        script.setScriptDocumets(scriptDocuments);
+        script.setScriptDocuments(scriptDocuments);
         
         script.addScriptDocument(document);
         
@@ -220,7 +223,7 @@ public class ScriptTest {
     }
 
     /**
-     * 
+     * Tests the remove method of the script documents.
      */
     @Test
     public void testRemoveScriptDocument() {
@@ -234,7 +237,7 @@ public class ScriptTest {
     }
 
     /**
-     * 
+     * Tests the toString method.
      */
     @Test
     public void testToString() {

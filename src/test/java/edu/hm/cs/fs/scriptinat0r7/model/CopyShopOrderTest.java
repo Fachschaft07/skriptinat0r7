@@ -122,7 +122,7 @@ public class CopyShopOrderTest {
     }
     
     /**
-     * Tests the add method of the studentOrders when there is already a set existing.
+     * Tests the add method of the studentOrders when there is already an existing set.
      */
     @Test
     public void testAddStudentOrderExistingSet() {

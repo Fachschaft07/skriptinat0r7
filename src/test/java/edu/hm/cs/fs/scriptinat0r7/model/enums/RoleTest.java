@@ -4,8 +4,14 @@ import org.junit.Test;
 
 import edu.hm.cs.fs.scriptinat0r7.testfixtures.EnumVerifier;
 
+/**
+ * Test class for the {@code Role}.
+ */
 public class RoleTest {
 
+    /**
+     * Tests if the enum elements are in correct order.
+     */
     @Test
     public void test() {
         EnumVerifier.forClass(Role.class)
