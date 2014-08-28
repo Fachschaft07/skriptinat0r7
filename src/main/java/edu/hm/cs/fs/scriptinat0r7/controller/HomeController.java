@@ -1,8 +1,13 @@
 package edu.hm.cs.fs.scriptinat0r7.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -37,5 +42,11 @@ public class HomeController {
         model.addAttribute("contributors", contributors);
         model.addAttribute("year", Calendar.getInstance().get(Calendar.YEAR));
         return "about";
+    }
+
+    @RequestMapping("logout")
+    public void logout(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+        request.logout();
+        response.sendRedirect("login");
     }
 }

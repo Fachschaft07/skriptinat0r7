@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-   providedCompile 'javax.servlet:servlet-api:2.5'
+   providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
    providedCompile 'javax.servlet:jsp-api:2.0'
    compile 'org.springframework:spring-webmvc:3.2.10.RELEASE'
    compile 'org.springframework:spring-context:3.2.10.RELEASE'
