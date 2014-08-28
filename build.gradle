@@ -24,6 +24,8 @@ dependencies {
    compile 'org.hibernate:hibernate-validator:4.2.0.Final'
    compile 'org.apache.tiles:tiles-extras:3.0.4'
    compile 'org.springframework.data:spring-data-jpa:1.6.2.RELEASE'
+   compile 'org.springframework.security:spring-security-web:3.2.5.RELEASE'
+   compile 'org.springframework.security:spring-security-config:3.2.5.RELEASE'
    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
    compile 'org.hibernate:hibernate-core:4.3.5.Final'
    compile 'org.hibernate:hibernate-entitymanager:4.3.5.Final'
