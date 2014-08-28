@@ -5,14 +5,14 @@
 <tiles-definitions>
   
     <definition name="defaultTemplate" template="/WEB-INF/template/default/template.jsp">
-        <put-attribute name="header" value="/WEB-INF/template/default/header.jsp" />
+    	<put-attribute name="header" value="/WEB-INF/template/header.jsp" />
         <put-attribute name="menu" value="/WEB-INF/template/default/menu.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/template/default/footer.jsp" />
+        <put-attribute name="header-nav" value="/WEB-INF/template/default/header-nav.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/template/footer.jsp" />
     </definition>
     
-    <definition name="withoutMenu" template="/WEB-INF/template/withoutMenu/withoutMenu.jsp">
-    	<put-attribute name="header" value="/WEB-INF/template/default/header.jsp" />
-    	<put-attribute name="footer" value="/WEB-INF/template/default/footer.jsp" />
+    <definition name="bare" template="/WEB-INF/template/bare/bare.jsp">
+        <put-attribute name="header" value="/WEB-INF/template/header.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/template/footer.jsp" />
     </definition>
-  
 </tiles-definitions>

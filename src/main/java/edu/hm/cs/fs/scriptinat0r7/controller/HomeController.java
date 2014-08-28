@@ -49,4 +49,9 @@ public class HomeController {
         request.logout();
         response.sendRedirect("login");
     }
+
+    @RequestMapping("login")
+    public String login() {
+        return "login";
+    }
 }
