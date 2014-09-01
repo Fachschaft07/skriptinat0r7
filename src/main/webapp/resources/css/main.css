@@ -1,30 +1,21 @@
+h1, h2 {
+	margin-top: 0;
+	margin-bottom: 0.5em;
+}
+
 body {
 	padding-top: 50px;
 	background-image: url("../imgs/background-pattern.png");
 }
 
 .body {
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-
-.box {
-	padding: 6px;
-	height: 100%;
-}
-
-@media(max-width: 768px) {
-	.box {
-		height: auto;
-	}
+	padding-top: 2em;
+	padding-bottom: 2em;
 }
 
 .content {
 	background-color: white;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	padding-left: 5%;
-	padding-right: 5%;
+	padding: 2em;
 	height: 100%;
 }
 
@@ -33,11 +24,6 @@ body {
 	-webkit-box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.25);
 	-moz-box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.25);
 	box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.25);
-}
-
-.error {
-	text-align: left;
-	color: red;
 }
 
 .cool-number {
@@ -52,6 +38,15 @@ body {
 
 .navbar-brand:hover .cool-number {
 	color: #da6363;
+}
+
+.twitter-typeahead {
+	width: 300px;
+}
+
+.navbar-form .input-group .tt-input,
+.navbar-form .input-group .tt-hint {
+	width: 100%;
 }
 
 .sidebar {
@@ -70,6 +65,6 @@ body {
 
 .sidebar .active > a,
 .sidebar .active > a:hover {
-    background-color: #428bca;
-    color: #fff;
+	background-color: #428bca;
+	color: #fff;
 }

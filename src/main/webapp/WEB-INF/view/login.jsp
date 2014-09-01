@@ -6,7 +6,7 @@
 	<tiles:putAttribute name="content">
 		<div class="container body col-sm-4 col-sm-offset-4">
 			<div class="box content box-shadow">
-			
+				<h1 class="no-margin-top">Skriptenbestellsystem</h1>
 				<c:if test="${param.error != null}">
 					<div class="alert alert-danger">
 						Ungültige Benutzerdaten. Haben Sie sich vertippt?

@@ -21,7 +21,7 @@
 			</ul>
 			<form class="navbar-form navbar-right" role="search">
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Suche">
+					<input type="text" class="form-control" id="search" placeholder="Suche">
 					<span class="input-group-btn">
 						<button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
 							<span class="caret"></span>

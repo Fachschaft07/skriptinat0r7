@@ -1,12 +1,12 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <tiles:insertAttribute name="header" />
 <tiles:insertAttribute name="header-nav" />
-<div class="container body">
+<div class="container-fluid body">
 	<div class="row" style="height: 100%">
-		<div class="col-sm-3 box">
+		<div class="col-xs-3">
 			<tiles:insertAttribute name="menu" />
 		</div>
-		<div class="col-sm-9 box">
+		<div class="col-xs-9">
 			<div class="content box-shadow">
 				<tiles:insertAttribute name="content" />
 			</div>

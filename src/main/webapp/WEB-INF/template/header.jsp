@@ -9,6 +9,7 @@
 		<meta name="author" content="">
 		<title>Starter Template for Bootstrap</title>
 		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+		<link href="${pageContext.request.contextPath}/resources/css/typeahead/typeaheadjs.css" rel="stylesheet">
 		<link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet">
 	</head>
 	<body>
