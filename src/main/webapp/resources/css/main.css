@@ -68,7 +68,8 @@ body {
 	z-index: 1000;
 }
 
-.sidebar .active > a {
+.sidebar .active > a,
+.sidebar .active > a:hover {
     background-color: #428bca;
     color: #fff;
 }
