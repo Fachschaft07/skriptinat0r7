@@ -36,18 +36,18 @@ public class SearchController {
      *            the model data.
      * @param searchQuery
      *            the search request.
-     * @return
+     * @return A collection of search results.
      */
     @RequestMapping
     @ResponseBody
-    public Collection<SearchResult> index(final ModelMap model, final @RequestParam("q") String searchQuery) {
-        List<SearchResult> result = new ArrayList<>();
+    public Collection<SearchResult> index(final ModelMap model, @RequestParam("q") final String searchQuery) {
+        final List<SearchResult> result = new ArrayList<>();
 
-        for (Script script : scripts.findByNameContaining(searchQuery)) {
+        for (final Script script : scripts.findByNameContaining(searchQuery)) {
             // TODO: provide real implementation
             result.add(new SearchResult(script.toString(), script.toString()));
         }
-        for (Professor professor : professors.findByFirstNameContainingOrLastNameContaining(searchQuery)) {
+        for (final Professor professor : professors.findByFirstNameContainingOrLastNameContaining(searchQuery)) {
             // TODO: provide real implementation
             result.add(new SearchResult(professor.toString(), professor.toString()));
         }
@@ -59,8 +59,8 @@ public class SearchController {
      * Class used for encapsulating and serializing search results.
      */
     public static class SearchResult {
-        final private String name;
-        final private String url;
+        private final String name;
+        private final String url;
 
         /**
          * Constructs a new search result.
