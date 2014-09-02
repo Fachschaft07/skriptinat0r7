@@ -16,45 +16,68 @@ import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.repositories.ProfessorRepository;
 import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
 
+/**
+ * Controller responsible for search queries, e.g. the quick ajax-search and an extended search.
+ */
 @Controller
 @RequestMapping("/search")
 public class SearchController {
 
     @Autowired
     private ScriptRepository scripts;
-    
+
     @Autowired
     private ProfessorRepository professors;
-    
+
+    /**
+     * Request method for serializing search results via json.
+     *
+     * @param model
+     *            the model data.
+     * @param searchQuery
+     *            the search request.
+     * @return
+     */
     @RequestMapping
-    public @ResponseBody Collection<SearchResult> index(final ModelMap model, @RequestParam("q") String searchQuery) {
+    @ResponseBody
+    public Collection<SearchResult> index(final ModelMap model, final @RequestParam("q") String searchQuery) {
         List<SearchResult> result = new ArrayList<>();
-        
-        for(Script script : scripts.findByNameContaining(searchQuery)) {
+
+        for (Script script : scripts.findByNameContaining(searchQuery)) {
+            // TODO: provide real implementation
             result.add(new SearchResult(script.toString(), script.toString()));
         }
-        for(Professor professor : professors.findByFirstNameContainingOrLastNameContaining(searchQuery)) {
+        for (Professor professor : professors.findByFirstNameContainingOrLastNameContaining(searchQuery)) {
+            // TODO: provide real implementation
             result.add(new SearchResult(professor.toString(), professor.toString()));
         }
-        
+
         return result;
     }
 
+    /**
+     * Class used for encapsulating and serializing search results.
+     */
     public static class SearchResult {
-        private String name;
-        private String url;
-        
-        public SearchResult(String name, String url) {
+        final private String name;
+        final private String url;
+
+        /**
+         * Constructs a new search result.
+         * @param name The name for the search result, probably displayed to the client.
+         * @param url The url wherre this search result is pointing to.
+         */
+        public SearchResult(final String name, final String url) {
             this.name = name;
             this.url = url;
         }
-        
+
         public String getName() {
             return name;
         }
         public String getUrl() {
             return url;
         }
-        
+
     }
 }

@@ -20,6 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class HomeController {
 
+    /**
+     * Request method for the index page.
+     *
+     * @param model
+     *            the model to render.
+     * @return the logical view name.
+     */
     @RequestMapping
     public String index(final ModelMap model) {
         return "index";
@@ -27,7 +34,7 @@ public class HomeController {
 
     /**
      * Request method for rendering the about page.
-     * 
+     *
      * @param model
      *            the model to render.
      * @return the logical view name.
@@ -44,12 +51,31 @@ public class HomeController {
         return "about";
     }
 
+    /**
+     * Request method for logging the user out.
+     *
+     * @param request
+     *            The request object.
+     * @param response
+     *            The response object.
+     * @throws ServletException
+     *             Contract from request.logout();
+     * @throws IOException
+     *             Contract from response.sendRedirect();
+     */
     @RequestMapping("logout")
     public void logout(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         request.logout();
         response.sendRedirect("login");
     }
 
+    /**
+     * Request method for displaying the user login page.
+     *
+     * @see edu.hm.cs.fs.scriptinat0r7.config.SecurityConfiguration
+     *
+     * @return The logical view name.
+     */
     @RequestMapping("login")
     public String login() {
         return "login";
