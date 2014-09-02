@@ -21,7 +21,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     public void configureGlobal(final AuthenticationManagerBuilder auth)
-            throws Exception {
+            throws Exception { // NOPMD
         auth.inMemoryAuthentication().withUser("user").password("password")
                 .roles("USER");
     }
@@ -32,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      * @throws Exception Contract from HttpSecurity.
      */
     @Override
-    protected void configure(final HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception { // NOPMD
         http
             .authorizeRequests()
                 .antMatchers("/resources/**").permitAll()

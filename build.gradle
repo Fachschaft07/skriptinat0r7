@@ -5,7 +5,7 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'pmd'
 apply plugin: 'checkstyle'
 apply plugin: 'jacoco'
-apply plugin: 'findbugs'
+//apply plugin: 'findbugs'
 apply from: 'gradle/integration-test.gradle'
 
 repositories {
@@ -83,6 +83,17 @@ tasks.withType(FindBugs) {
 	ignoreFailures = true
 	excludeFilter = file('config/findbugs/findbugs-exclusion-filter.xml')
 }
+
+// See http://www.practicalgradle.org/blog/2011/06/incremental-tests-with-jenkins/
+task supressNoTestsRun {
+    inputs.files test.outputs.files
+    doLast{
+        def timestamp = System.currentTimeMillis()
+        testResultsDir.eachFile { it.lastModified = timestamp }
+    }
+}
+
+build.dependsOn(supressNoTestsRun)
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.0'

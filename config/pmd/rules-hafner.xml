@@ -84,11 +84,6 @@
 	<rule ref="rulesets/java/strictexception.xml">
 		<exclude name="AvoidCatchingGenericException" />
 	</rule>
-	<rule ref="rulesets/java/strictexception.xml/SignatureDeclareThrowsException">
-		<properties>
-			<property name="violationSuppressRegex" value=".*(configureGlobal|configure).*" />
-		</properties>
-	</rule>
 	<rule ref="rulesets/java/strings.xml">
 		<exclude name="AvoidDuplicateLiterals" />
 	</rule>
