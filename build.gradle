@@ -43,6 +43,19 @@ dependencies {
    testCompile 'org.mockito:mockito-all:1.9.5'
 }
 
+eclipse {
+    jdt {
+        sourceCompatibility = 1.7
+        targetCompatibility = 1.7
+    }
+    wtp {
+        facet {
+            facet name: 'java', version: '1.7'
+			facet name: 'jst.web', version: '3.0'
+        }
+    }
+}
+
 /* Changes the source encoding to UTF-8 */
 eclipseJdt << {
     File f = file('.settings/org.eclipse.core.resources.prefs')
