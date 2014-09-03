@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="">
 		<meta name="author" content="">
-		<title>Starter Template for Bootstrap</title>
+		<title>Skriptensystem Fachschaft 07</title>
 		<link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 		<link href="${pageContext.request.contextPath}/resources/css/typeahead/typeaheadjs.css" rel="stylesheet">
 		<link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet">

@@ -14,7 +14,7 @@
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">trampusc@hm.edu <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">Einstellungen</a></li>
+						<li><a href="${pageContext.request.contextPath}/account/settings">Einstellungen</a></li>
 						<li><a href="${pageContext.request.contextPath}/logout">Abmelden</a></li>
 					</ul>
 				</li>

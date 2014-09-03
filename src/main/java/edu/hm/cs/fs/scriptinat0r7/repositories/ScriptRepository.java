@@ -1,5 +1,6 @@
 package edu.hm.cs.fs.scriptinat0r7.repositories;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -19,5 +20,13 @@ public interface ScriptRepository extends PagingAndSortingRepository<Script, Lon
      * @return a {@code List} of all scripts matching the given name.
      */
     List<Script> findByNameContaining(String name);
+
+    /**
+     * Finds all {@code Script}s.
+     *
+     * @return a {@code List} of all scripts.
+     */
+    @Override
+    Collection<Script> findAll();
 
 }

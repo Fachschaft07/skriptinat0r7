@@ -7,7 +7,7 @@ import edu.hm.cs.fs.scriptinat0r7.config.SecurityConfiguration;
 /**
  * Class responsible for initializing configuration for Spring.
  */
-public class WebApplicationInitializer  extends AbstractSecurityWebApplicationInitializer {
+public class WebApplicationInitializer extends AbstractSecurityWebApplicationInitializer {
 
     /**
      * Constructor which passes additional classes with configuration.
@@ -15,4 +15,5 @@ public class WebApplicationInitializer  extends AbstractSecurityWebApplicationIn
     public WebApplicationInitializer() {
         super(SecurityConfiguration.class);
     }
+
 }

@@ -1,5 +1,6 @@
 package edu.hm.cs.fs.scriptinat0r7.repositories;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +24,13 @@ public interface ProfessorRepository extends PagingAndSortingRepository<Professo
      */
     @Query("select u from #{#entityName} u where u.firstName like %:name% or u.lastName like %:name%")
     List<Professor> findByFirstNameContainingOrLastNameContaining(@Param("name") String name);
+
+    /**
+     * Finds all {@code Professor}s.
+     *
+     * @return a {@code List} of all professors.
+     */
+    @Override
+    Collection<Professor> findAll();
+
 }
