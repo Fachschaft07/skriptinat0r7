@@ -27,7 +27,7 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Erweiterte Suche</a></li>
+                            <li><a href="${pageContext.request.contextPath}/search/advanced">Erweiterte Suche</a></li>
                         </ul>
                     </span>
                 </div>
