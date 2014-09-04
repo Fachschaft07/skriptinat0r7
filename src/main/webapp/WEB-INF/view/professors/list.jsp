@@ -15,14 +15,16 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${professors}" var="professor">
-							<td>${professor.fullName}</td>
-							<td>Todo</td>
+							<tr>
+								<td>${professor.fullName}</td>
+								<td>Todo</td>
+							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
 			</c:when>
 			<c:otherwise>
-				<p>Ex existieren bisher keine Professoren.</p>
+				<p>Es existieren bisher keine Professoren.</p>
 			</c:otherwise>
 		</c:choose>
 	</tiles:putAttribute>

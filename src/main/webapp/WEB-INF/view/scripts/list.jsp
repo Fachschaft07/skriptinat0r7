@@ -15,14 +15,16 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${scripts}" var="script">
-							<td>${script.name}</td>
-							<td></td>
+							<tr>
+								<td>${script.name}</td>
+								<td>Todo</td>
+							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
 			</c:when>
 			<c:otherwise>
-				<p>Ex existieren bisher keine Skripte.</p>
+				<p>Es existieren bisher keine Skripte.</p>
 			</c:otherwise>
 		</c:choose>
 	</tiles:putAttribute>
