@@ -5,11 +5,20 @@ package edu.hm.cs.fs.scriptinat0r7.model.enums;
  */
 public enum ScriptCategory {
     /** Official script to a lecture. */
-    LECTURE_SCRIPT,
+    LECTURE_SCRIPT("Skript zur Vorlesung"),
     /** Exercises to a lecture. */
-    EXERCISE,
+    EXERCISE("Übung"),
     /** Student notes to a lecture. */
-    STUDENT_NOTE,
+    STUDENT_NOTE("Studentische Mitschrift"),
     /** Summary of the contents of a lecture. */
-    SUMMARY;
+    SUMMARY("Zusammenfassung");
+
+    private final String name;
+    private ScriptCategory(final String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

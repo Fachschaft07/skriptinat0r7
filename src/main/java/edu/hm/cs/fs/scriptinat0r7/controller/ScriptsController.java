@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
+import edu.hm.cs.fs.scriptinat0r7.repositories.LectureRepository;
 import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
 
 /**
@@ -22,6 +23,9 @@ public class ScriptsController {
     private static final String SCRIPTS_SUBMIT_VIEW = "scripts/submit";
     @Autowired
     private ScriptRepository scripts;
+
+    @Autowired
+    private LectureRepository lectures;
 
     /**
      * Gets and displays all existing scripts.
@@ -42,7 +46,9 @@ public class ScriptsController {
      */
     @RequestMapping(value = "/submit", method = RequestMethod.GET)
     public ModelAndView submitScriptForm() {
-        return new ModelAndView(SCRIPTS_SUBMIT_VIEW, "script", new Script());
+        final ModelAndView modelAndView = new ModelAndView(SCRIPTS_SUBMIT_VIEW, "script", new Script());
+        modelAndView.addObject("lectures", lectures.findAll());
+        return modelAndView;
     }
 
     /**
@@ -54,8 +60,9 @@ public class ScriptsController {
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     public String submitScript(final ModelMap model, @ModelAttribute("script") final Script script) {
         scripts.save(script);
-        model.put("submitted", true);
+        model.addAttribute("submitted", true);
         model.addAttribute("script", new Script());
+        model.addAttribute("lectures", lectures.findAll());
         return SCRIPTS_SUBMIT_VIEW;
     }
 
