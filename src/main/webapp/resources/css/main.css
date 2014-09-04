@@ -63,6 +63,10 @@ body {
 	z-index: 1000;
 }
 
+.sidebar .divider {
+	border-color: #ddd;
+}
+
 .sidebar .active > a,
 .sidebar .active > a:hover {
 	background-color: #428bca;

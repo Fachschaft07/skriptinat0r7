@@ -19,7 +19,7 @@ import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
 /**
  * Test class for {@link edu.hm.cs.fs.scriptinat0r7.controller.ScriptsController}.
  */
-public class ScriptControllerTest {
+public class ScriptsControllerTest {
 
     /**
      * Tests if all scripts are properly retrieved and displayed in the view.
