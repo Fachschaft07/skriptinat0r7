@@ -46,6 +46,16 @@ dependencies {
 }
 
 eclipse {
+    classpath {
+        file {
+            // Classpath entry for Eclipse which changes the order of classpathentries; otherwise no sources for 3rd party jars are shown
+            withXml { xml ->
+                def node = xml.asNode()
+                node.remove( node.find { it.@path == 'org.eclipse.jst.j2ee.internal.web.container' } )
+                node.appendNode( 'classpathentry', [ kind: 'con', path: 'org.eclipse.jst.j2ee.internal.web.container', exported: 'true'])
+            }
+        }
+    }
     jdt {
         sourceCompatibility = 1.7
         targetCompatibility = 1.7
@@ -53,7 +63,7 @@ eclipse {
     wtp {
         facet {
             facet name: 'java', version: '1.7'
-			facet name: 'jst.web', version: '3.0'
+            facet name: 'jst.web', version: '3.0'
         }
     }
 }
@@ -71,32 +81,32 @@ stopKey = ''
 
 /* Configures the PMD-Plugin globally. */
 pmd {
-	toolVersion  = '5.0.5'
+    toolVersion  = '5.0.5'
 }
 
 /* Configures the PMD-Plugin for main and test */
 tasks.withType(Pmd) {
-	ruleSets = []
-	ruleSetFiles = files('config/pmd/rules-hafner.xml')
-	ignoreFailures = true
-	reports {
-		xml.enabled true
-		html.enabled false
-	}
+    ruleSets = []
+    ruleSetFiles = files('config/pmd/rules-hafner.xml')
+    ignoreFailures = true
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
 }
 
 tasks.withType(Checkstyle) {
-	ignoreFailures = true
-	configProperties = ['config_loc':"${projectDir}/config/checkstyle"]
+    ignoreFailures = true
+    configProperties = ['config_loc':"${projectDir}/config/checkstyle"]
 }
 
 tasks.withType(FindBugs) {
-	reports {
-		xml.enabled true
-		html.enabled false
-	}
-	ignoreFailures = true
-	excludeFilter = file('config/findbugs/findbugs-exclusion-filter.xml')
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+    ignoreFailures = true
+    excludeFilter = file('config/findbugs/findbugs-exclusion-filter.xml')
 }
 
 // See http://www.practicalgradle.org/blog/2011/06/incremental-tests-with-jenkins/
