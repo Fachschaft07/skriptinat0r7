@@ -44,11 +44,11 @@ public class SearchController {
         final List<SearchResult> result = new ArrayList<>();
 
         for (final Script script : scripts.findByNameContaining(searchQuery)) {
-            // TODO: provide real implementation
+            // TODO: provide real names
             result.add(new SearchResult(script.toString(), script.toString()));
         }
         for (final Professor professor : professors.findByFirstNameContainingOrLastNameContaining(searchQuery)) {
-            // TODO: provide real implementation
+            // TODO: provide real names
             result.add(new SearchResult(professor.toString(), professor.toString()));
         }
 
