@@ -5,9 +5,6 @@
 <tiles:insertDefinition name="defaultTemplate">
     <tiles:putAttribute name="content">
         <h2>Skript einschicken</h2>
-        <c:if test="${submitted}">
-            <p>Ihr Skript wurde erfolgreich hochgeladen. Wir werden es reviewen und gegebenenfalls zum Druck bereit stellen.</p>
-        </c:if>
         <form:form action="" modelAttribute="script" method="POST" cssClass="form-horizontal">
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">Name des Skripts</label>

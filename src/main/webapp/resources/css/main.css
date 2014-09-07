@@ -72,3 +72,7 @@ body {
     background-color: #428bca;
     color: #fff;
 }
+
+.clickable {
+    cursor: pointer;
+}

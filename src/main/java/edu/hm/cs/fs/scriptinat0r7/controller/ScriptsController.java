@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.repositories.LectureRepository;
@@ -55,15 +56,15 @@ public class ScriptsController extends AbstractController {
      * Method responsible for persisting scripts in the database.
      * @param model the model used by the view.
      * @param script the user filled script instance.
+     * @param redirectAttributes Redirect attributes, e.g. flash messages.
      * @return the logical view name.
      */
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
-    public String submitScript(final ModelMap model, @ModelAttribute("script") final Script script) {
+    public String submitScript(final ModelMap model, @ModelAttribute("script") final Script script,
+            final RedirectAttributes redirectAttributes) {
         scripts.save(script);
-        model.addAttribute("submitted", true);
-        model.addAttribute("script", new Script());
-        model.addAttribute("lectures", lectures.findAll());
-        return SCRIPTS_SUBMIT_VIEW;
+        addSuccessFlash("Ihr Skript wurde erfolgreich hochgeladen. Wir werden es reviewen und gegebenenfalls zum Druck bereit stellen.", redirectAttributes);
+        return redirect(SCRIPTS_SUBMIT_VIEW);
     }
 
 }

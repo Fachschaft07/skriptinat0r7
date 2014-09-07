@@ -8,6 +8,7 @@
         </div>
         <div class="col-xs-9">
             <div class="content box-shadow">
+                <jsp:include page="flash-messages.jsp" />
                 <tiles:insertAttribute name="content" />
             </div>
         </div>

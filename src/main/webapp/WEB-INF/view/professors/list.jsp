@@ -11,7 +11,7 @@
         </div>
         <c:choose>
             <c:when test="${ ! professors.isEmpty()}">
-                <table class="table">
+                <table class="table table-hover clickable">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -20,7 +20,7 @@
                     </thead>
                     <tbody>
                         <c:forEach items="${professors}" var="professor">
-                            <tr>
+                            <tr data-href="${pageContext.request.contextPath}/professors/edit/${professor.id}">
                                 <td>${professor.fullName}</td>
                                 <td>Todo</td>
                             </tr>

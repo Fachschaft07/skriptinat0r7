@@ -1,3 +1,4 @@
+// ajax navigation bar search
 (function() {
     var suggestions = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
@@ -15,5 +16,12 @@
         templates: {
             empty: '<div class="tt-empty">Keine Ergebnisse gefunden</div>'
         }
+    });
+})();
+
+// clickable table rows
+(function() {
+    jQuery("[data-href]").on("click", function() {
+        window.location = $(this).data("href");
     });
 })();
