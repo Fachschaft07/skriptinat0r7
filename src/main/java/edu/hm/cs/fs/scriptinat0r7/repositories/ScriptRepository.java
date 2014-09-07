@@ -3,9 +3,12 @@ package edu.hm.cs.fs.scriptinat0r7.repositories;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
+import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 
 /**
  * Repository to execute CRUD operations on {@code Script}s.
@@ -28,5 +31,12 @@ public interface ScriptRepository extends PagingAndSortingRepository<Script, Int
      */
     @Override
     Collection<Script> findAll();
+
+    @Query("SELECT u FROM #{#entityName} u"
+            + " WHERE EXISTS (SELECT scriptDocument"
+            + "              FROM ScriptDocument scriptDocument"
+            + "              WHERE scriptDocument.reviewState in (:states)"
+            + "              AND scriptDocument.script = u)")
+    List<Script> findByReviewState(@Param("states") ReviewState... states);
 
 }

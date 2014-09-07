@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <tiles:insertDefinition name="defaultTemplate">
     <tiles:putAttribute name="content">
-        <h2>Professor bearbeiten</h2>
+        <h2>Vorlesung anlegen</h2>
         <jsp:include page="form.jsp" />
     </tiles:putAttribute>
 </tiles:insertDefinition>

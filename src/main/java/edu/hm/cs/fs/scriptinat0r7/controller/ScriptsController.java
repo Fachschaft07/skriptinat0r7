@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
+import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 import edu.hm.cs.fs.scriptinat0r7.repositories.LectureRepository;
 import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
 
@@ -37,7 +38,7 @@ public class ScriptsController extends AbstractController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String getAllScripts(final ModelMap model) {
-        model.addAttribute("scripts", scripts.findAll());
+        model.addAttribute("scripts", scripts.findByReviewState(ReviewState.FACHSCHAFTLERAPPROVED, ReviewState.PROFESSORAPPROVED));
         return SCRIPTS_LIST_VIEW;
     }
 
@@ -67,4 +68,15 @@ public class ScriptsController extends AbstractController {
         return redirect(SCRIPTS_SUBMIT_VIEW);
     }
 
+    @RequestMapping(value = "/show-submissions", method = RequestMethod.GET)
+    public String showScriptSubmissions(final ModelMap model) {
+        model.put("scripts", scripts.findByReviewState(ReviewState.LOCKED));
+        return "scripts/show-submissions";
+    }
+
+    @RequestMapping(value = "/show-all", method = RequestMethod.GET)
+    public String showAllScripts(final ModelMap model) {
+        model.put("scripts", scripts.findAll());
+        return "scripts/show-all";
+    }
 }

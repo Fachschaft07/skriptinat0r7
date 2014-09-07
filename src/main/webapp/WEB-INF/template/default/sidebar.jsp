@@ -12,7 +12,8 @@
         <ul class="nav nav-sidebar">
             <li class="${controller == 'LecturesController' ? 'active' : ''}"><a href="${pageContext.request.contextPath}/lectures">Vorlesungen verwalten</a></li>
             <li class="${controller == 'ProfessorsController' ? 'active' : ''}"><a href="${pageContext.request.contextPath}/professors">Lehrende verwalten</a></li>
-            <li><a href="">Skripten verwalten TODO</a></li>
+            <li class="${controller == 'ScriptsController' && method == 'showScriptSubmissions' ? 'active' : ''}"><a href="${pageContext.request.contextPath}/scripts/show-submissions">Skripteinsendungen verwalten</a></li>
+            <li class="${controller == 'ScriptsController' && method == 'showAllScripts' ? 'active' : ''}"><a href="${pageContext.request.contextPath}/scripts/show-all">Alle Skripte verwalten</a></li>
         </ul>
     </sec:authorize>
 </div>

@@ -5,13 +5,22 @@ package edu.hm.cs.fs.scriptinat0r7.model.enums;
  */
 public enum StudyProgram {
     /** All master programs. */
-    MASTER,
+    MASTER("Master"),
     /** Computer Science program. */
-    INFORMATIK,
+    INFORMATIK("Informatik"),
     /** Information Systems and Management program. */
-    WIRTSCHAFTSINFORMATIK,
+    WIRTSCHAFTSINFORMATIK("Wirtschaftsinformatik"),
     /** Geotelematics and Navigation program. */
-    GEOTELEMATIK,
+    GEOTELEMATIK("Geotelematik"),
     /** Scientific Computing program. */
-    SCIENTIFIC_COMPUTING
+    SCIENTIFIC_COMPUTING("Scientific Computing");
+
+    private final String name;
+    private StudyProgram(final String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
