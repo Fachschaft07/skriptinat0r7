@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -60,5 +61,11 @@ public class ProfessorsController extends AbstractController {
         professor.setRole(Role.PROFESSOR);
         professors.save(professor);
         return redirect("professors");
+    }
+
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String editProfessor(final ModelMap model, @PathVariable("id") final Integer id) {
+        model.put("professor", professors.findOne(id));
+        return "professors/edit";
     }
 }

@@ -10,7 +10,7 @@ import edu.hm.cs.fs.scriptinat0r7.model.Script;
 /**
  * Repository to execute CRUD operations on {@code Script}s.
  */
-public interface ScriptRepository extends PagingAndSortingRepository<Script, Long> {
+public interface ScriptRepository extends PagingAndSortingRepository<Script, Integer> {
 
     /**
      * Finds a {@code Script} by its name.

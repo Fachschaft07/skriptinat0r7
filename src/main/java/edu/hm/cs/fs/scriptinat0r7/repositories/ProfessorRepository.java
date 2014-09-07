@@ -12,7 +12,7 @@ import edu.hm.cs.fs.scriptinat0r7.model.Professor;
 /**
  * Repository to execute CRUD operations on {@code Professor}s.
  */
-public interface ProfessorRepository extends PagingAndSortingRepository<Professor, Long> {
+public interface ProfessorRepository extends PagingAndSortingRepository<Professor, Integer> {
 
     /**
      * Finds a {@code Professor} by its first or last-name. If first or last
