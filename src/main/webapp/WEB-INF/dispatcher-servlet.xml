@@ -13,7 +13,18 @@
     <mvc:interceptors>
         <bean class="edu.hm.cs.fs.scriptinat0r7.config.RequestInterceptor" />
     </mvc:interceptors>
-    <mvc:annotation-driven />
+
+
+    <mvc:annotation-driven conversion-service="conversionService" />
+
+    <bean
+        class="org.springframework.data.repository.support.DomainClassConverter">
+        <constructor-arg ref="conversionService" />
+    </bean>
+
+    <bean id="conversionService"
+        class="org.springframework.context.support.ConversionServiceFactoryBean">
+    </bean>
 
     <bean id="viewResolver"
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -31,5 +42,5 @@
     </bean>
 
     <mvc:resources mapping="/resources/**" location="/resources/" />
-    <import resource="classpath:/spring/beans.xml"/>
+    <import resource="classpath:/spring/beans.xml" />
 </beans>

@@ -3,8 +3,6 @@ package edu.hm.cs.fs.scriptinat0r7.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,16 +48,10 @@ public class LecturesController extends AbstractController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    @ExceptionHandler
-    public String addFormSubmit(final RedirectAttributes redirectAttributes, @ModelAttribute("lecture") final Lecture lecture, BindingResult errors) {
-        if ( ! errors.hasErrors()) {
-            lectures.save(lecture);
-            addSuccessFlash("Die Vorlesung wurde erfolgreich angelegt", redirectAttributes);
-            return redirect("lectures");
-        } else {
-            return redirect("lectures/add");
-        }
-
+    public String addFormSubmit(final RedirectAttributes redirectAttributes, @ModelAttribute("lecture") final Lecture lecture) {
+        lectures.save(lecture);
+        addSuccessFlash("Die Vorlesung wurde erfolgreich angelegt", redirectAttributes);
+        return redirect("lectures");
     }
 
 }
