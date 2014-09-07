@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.mail.internet.InternetAddress;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,7 +39,7 @@ public class User implements Serializable {
     private Role role;
 
     @Column(columnDefinition = "varchar(254)")
-    private InternetAddress email;
+    private String email;
 
     private String firstName;
     private String lastName;
@@ -74,11 +73,11 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public InternetAddress getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(final InternetAddress email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -149,23 +148,23 @@ public class User implements Serializable {
         if (obj == null) { return false; }
         if (!(obj instanceof User)) { return false; }
 
-        User other = (User) obj;
+        final User other = (User) obj;
         if (!(other.canEqual(this))) { return false; }
-        if (!Objects.equals(this.id, other.id)) { return false; }
-        if (!Objects.equals(this.role, other.role)) { return false; }
-        if (!Objects.equals(this.email, other.email)) { return false; }
-        if (!Objects.equals(this.firstName, other.firstName)) { return false; }
-        if (!Objects.equals(this.lastName, other.lastName)) { return false; }
-        if (!Objects.equals(this.facultyID, other.facultyID)) { return false; }
-        if (!Objects.equals(this.studentOrders, other.studentOrders)) { return false; }
+        if (!Objects.equals(id, other.id)) { return false; }
+        if (!Objects.equals(role, other.role)) { return false; }
+        if (!Objects.equals(email, other.email)) { return false; }
+        if (!Objects.equals(firstName, other.firstName)) { return false; }
+        if (!Objects.equals(lastName, other.lastName)) { return false; }
+        if (!Objects.equals(facultyID, other.facultyID)) { return false; }
+        if (!Objects.equals(studentOrders, other.studentOrders)) { return false; }
 
         return true;
     }
     // CHECKSTYLE.ON: NPath Complexity
-    
+
     /**
      * Checks if the specified Object is able to be equal to this {@code User}.
-     * 
+     *
      * @param obj
      *            the {@code Object} to check.
      * @return {@code true} if the specified Object can equal {@code this}, otherwise {@code false}.

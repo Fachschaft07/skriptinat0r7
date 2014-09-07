@@ -22,13 +22,17 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(final HttpServletRequest request, final HttpServletResponse response,
             final Object handler, final ModelAndView modelAndView) {
-        if (handler instanceof HandlerMethod && modelAndView != null) {
+        if (handler instanceof HandlerMethod && modelAndView != null && !isRedirect(modelAndView)) {
             final HandlerMethod handlerMethod = (HandlerMethod) handler;
             final String method = handlerMethod.getMethod().getName();
             modelAndView.getModelMap().put("method", method);
             final String controller = handlerMethod.getMethod().getDeclaringClass().getSimpleName();
             modelAndView.getModelMap().put("controller", controller);
         }
+    }
+
+    private boolean isRedirect(final ModelAndView modelAndView) {
+        return modelAndView.getViewName() != null && modelAndView.getViewName().startsWith("redirect:");
     }
 
 }

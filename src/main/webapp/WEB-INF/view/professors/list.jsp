@@ -3,7 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <tiles:insertDefinition name="defaultTemplate">
     <tiles:putAttribute name="content">
-        <h2>Professoren</h2>
+        <div class="clearfix">
+            <h2 class="pull-left">Professoren</h2>
+            <a href="${pageContext.request.contextPath}/professors/add" class="pull-right btn btn-default hidden-xs">
+                <span class="glyphicon glyphicon-plus"></span> Professor anlegen
+            </a>
+        </div>
         <c:choose>
             <c:when test="${ ! professors.isEmpty()}">
                 <table class="table">

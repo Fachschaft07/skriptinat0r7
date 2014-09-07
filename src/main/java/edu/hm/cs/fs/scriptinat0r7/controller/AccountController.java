@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/account")
-public class AccountController {
+public class AccountController extends AbstractController {
 
     /**
      * Request method for the index page.

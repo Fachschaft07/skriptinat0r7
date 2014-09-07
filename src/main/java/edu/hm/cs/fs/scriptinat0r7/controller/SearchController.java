@@ -22,7 +22,7 @@ import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
  */
 @Controller
 @RequestMapping("/search")
-public class SearchController {
+public class SearchController extends AbstractController {
 
     @Autowired
     private ScriptRepository scripts;
@@ -85,6 +85,7 @@ public class SearchController {
         public String getName() {
             return name;
         }
+
         public String getUrl() {
             return url;
         }

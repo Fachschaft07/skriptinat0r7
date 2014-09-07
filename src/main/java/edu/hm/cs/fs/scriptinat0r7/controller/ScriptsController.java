@@ -17,7 +17,7 @@ import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
  */
 @Controller
 @RequestMapping("/scripts")
-public class ScriptsController {
+public class ScriptsController extends AbstractController {
 
     private static final String SCRIPTS_LIST_VIEW = "scripts/list";
     private static final String SCRIPTS_SUBMIT_VIEW = "scripts/submit";

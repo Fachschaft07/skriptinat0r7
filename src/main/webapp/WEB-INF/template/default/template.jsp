@@ -4,7 +4,7 @@
 <div class="container-fluid body">
     <div class="row" style="height: 100%">
         <div class="col-xs-3">
-            <tiles:insertAttribute name="menu" />
+            <tiles:insertAttribute name="sidebar" />
         </div>
         <div class="col-xs-9">
             <div class="content box-shadow">

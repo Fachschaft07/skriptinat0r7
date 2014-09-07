@@ -141,7 +141,7 @@ public class Lecture implements Serializable {
         if (obj == null) { return false; }
         if (!(obj instanceof Lecture)) { return false; }
 
-        Lecture other = (Lecture) obj;
+        final Lecture other = (Lecture) obj;
         if (!Objects.equals(this.id, other.id)) { return false; }
         if (!Objects.equals(this.name, other.name)) { return false; }
         if (!Objects.equals(this.readingProfessor, other.readingProfessor)) { return false; }
