@@ -25,10 +25,10 @@
                         <c:forEach items="${lectures}" var="lecture">
                             <tr>
                                 <td>${lecture.name}</td>
-                                <td>${lecture.studyProgram}</td>
-                                <td>${lecture.readingProfessor}</td>
+                                <td>${lecture.studyProgram.name}</td>
+                                <td>${lecture.readingProfessor.fullName}</td>
                                 <td>${lecture.semesterType}${lecture.semesterYear}</td>
-                                <td>${lecture.usedScripts.size}</td>
+                                <td>todo</td>
                             </tr>
                         </c:forEach>
                     </tbody>
