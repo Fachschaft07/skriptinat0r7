@@ -25,4 +25,13 @@ public class AbstractController {
         redirectAttributes.addFlashAttribute("successMessage", message);
     }
 
+    /**
+     * Adds a new flash message, which provides the user with error feedback.
+     * @param message The message to display.
+     * @param redirectAttributes A RedirectAttributes instance, usually injected in to the controller.
+     */
+    protected void addErrorFlash(final String message, final RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("errorMessage", message);
+    }
+
 }
