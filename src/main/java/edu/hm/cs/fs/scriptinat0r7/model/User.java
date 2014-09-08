@@ -19,6 +19,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 import edu.hm.cs.fs.scriptinat0r7.model.enums.Role;
 
 /**
@@ -39,6 +42,8 @@ public class User implements Serializable {
     private Role role;
 
     @Column(columnDefinition = "varchar(254)")
+    @Email
+    @NotBlank
     private String email;
 
     private String firstName;
@@ -138,7 +143,7 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, role, email, firstName, lastName, facultyID, studentOrders);
+        return Objects.hash(role, email, firstName, lastName, facultyID);
     }
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
@@ -150,13 +155,11 @@ public class User implements Serializable {
 
         final User other = (User) obj;
         if (!(other.canEqual(this))) { return false; }
-        if (!Objects.equals(id, other.id)) { return false; }
         if (!Objects.equals(role, other.role)) { return false; }
         if (!Objects.equals(email, other.email)) { return false; }
         if (!Objects.equals(firstName, other.firstName)) { return false; }
         if (!Objects.equals(lastName, other.lastName)) { return false; }
         if (!Objects.equals(facultyID, other.facultyID)) { return false; }
-        if (!Objects.equals(studentOrders, other.studentOrders)) { return false; }
 
         return true;
     }
