@@ -25,3 +25,10 @@
         window.location = $(this).data("href");
     });
 })();
+
+// data-confirm tag
+(function() {
+    jQuery("[data-confirm]").on("click", function() {
+        return confirm("Sind Sie sicher?");
+    });
+})();
