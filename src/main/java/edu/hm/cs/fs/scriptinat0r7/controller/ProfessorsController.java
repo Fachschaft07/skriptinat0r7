@@ -1,8 +1,12 @@
 package edu.hm.cs.fs.scriptinat0r7.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,10 +60,23 @@ public class ProfessorsController extends AbstractController {
      * @return the logical view name.
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addProfessor(@ModelAttribute("professor") final Professor professor) {
-        professor.setRole(Role.PROFESSOR);
-        professors.save(professor);
-        return redirect("professors");
+    public String addProfessor(final ModelMap model,
+            @Valid @ModelAttribute("professor") final Professor professor,
+            final BindingResult result,
+            final RedirectAttributes redirectAttributes) {
+        if(result.hasErrors()) {
+            model.put("professor", professor);
+            return "professors/add";
+        } else {
+            try {
+                professor.setRole(Role.PROFESSOR);
+                professors.save(professor);
+                return redirect("professors");
+            } catch (DataAccessException e) {
+                addErrorFlash("Professor konnte nicht gespeichert werden: " + e.getLocalizedMessage(), redirectAttributes);
+                return redirect("professors/add");
+            }
+        }
     }
 
     /**
@@ -82,16 +99,40 @@ public class ProfessorsController extends AbstractController {
      * @return the logical view name.
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String editProfessor(@ModelAttribute("professor") final Professor professor,
-            @PathVariable("id") final Integer id,
+    public String editProfessor(final ModelMap model,
+            @Valid @ModelAttribute("professor") final Professor professor,
+            final BindingResult result,
+            @PathVariable("id") final Professor professorToSave,
             final RedirectAttributes redirectAttributes) {
-        Professor professorToSave = professors.findOne(id);
-        professorToSave.setEmail(professor.getEmail());
-        professorToSave.setFirstName(professor.getFirstName());
-        professorToSave.setLastName(professor.getLastName());
-        professorToSave.setTitle(professor.getTitle());
-        professors.save(professorToSave);
-        addSuccessFlash("Professor erfolgreich gespeichert", redirectAttributes);
-        return redirect("professors");
+        if(result.hasErrors()) {
+            model.put("professor", professor);
+            return "professors/edit";
+        } else {
+            try {
+                professorToSave.setEmail(professor.getEmail());
+                professorToSave.setFirstName(professor.getFirstName());
+                professorToSave.setLastName(professor.getLastName());
+                professorToSave.setTitle(professor.getTitle());
+                professors.save(professorToSave);
+                addSuccessFlash("Professor erfolgreich gespeichert", redirectAttributes);
+                return redirect("professors");
+            } catch (DataAccessException e) {
+                addErrorFlash("Professor konnte nicht gespeichert werden: " + e.getLocalizedMessage(), redirectAttributes);
+                return redirect("professors/edit/" + professor.getId());
+            }
+        }
+    }
+
+    @RequestMapping(value = "/delete/{id}")
+    public String deleteProfessor(@ModelAttribute("professor") final Professor professor,
+            final RedirectAttributes redirectAttributes) {
+        try {
+            professors.delete(professor);
+            addSuccessFlash("Professor erfolgreich gelöscht", redirectAttributes);
+            return redirect("professors");
+        } catch (DataAccessException e) {
+            addErrorFlash("Professor konnte nicht gelöscht werden: " + e.getLocalizedMessage(), redirectAttributes);
+            return redirect("professors/edit/" + professor.getId());
+        }
     }
 }
