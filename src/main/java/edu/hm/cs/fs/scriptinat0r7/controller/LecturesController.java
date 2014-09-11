@@ -3,17 +3,19 @@ package edu.hm.cs.fs.scriptinat0r7.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
-import edu.hm.cs.fs.scriptinat0r7.repositories.LectureRepository;
-import edu.hm.cs.fs.scriptinat0r7.repositories.ProfessorRepository;
+import edu.hm.cs.fs.scriptinat0r7.service.LectureService;
+import edu.hm.cs.fs.scriptinat0r7.service.ProfessorService;
 
 /**
  * Controller to render pages for dealing with {@code Lecture}s.
@@ -26,10 +28,10 @@ public class LecturesController extends AbstractController {
     private static final String LECTURES_LIST_VIEW = "lectures/list";
 
     @Autowired
-    private LectureRepository lectures;
+    private LectureService lectures;
 
     @Autowired
-    private ProfessorRepository professors;
+    private ProfessorService professors;
 
     /**
      * Gets and displays all existing lectures.
@@ -80,4 +82,47 @@ public class LecturesController extends AbstractController {
         }
     }
 
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String editLectureForm(final ModelMap model, final @PathVariable("id") Lecture lecture) {
+        model.addAttribute("lecture", lecture);
+        model.addAttribute("professors", professors.findAll());
+        return "lectures/edit";
+    }
+
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+    public String editLectureSubmit(final ModelMap model,
+            final @PathVariable("id") Lecture lectureToSave,
+            @Valid @ModelAttribute("lecture") final Lecture lectureSubmitted,
+            final BindingResult result,
+            final RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            return editLectureForm(model, lectureSubmitted);
+        } else {
+            try {
+                lectureToSave.setName(lectureSubmitted.getName());
+                lectureToSave.setReadingProfessor(lectureSubmitted.getReadingProfessor());
+                lectureToSave.setSemesterType(lectureSubmitted.getSemesterType());
+                lectureToSave.setSemesterYear(lectureSubmitted.getSemesterYear());
+                lectureToSave.setStudyProgram(lectureSubmitted.getStudyProgram());
+                lectures.save(lectureToSave);
+                addSuccessFlash("Vorlesung erfolgreich gespeichert.", redirectAttributes);
+                return redirect("lectures");
+            } catch (DataAccessException e) {
+                addErrorFlash("Vorlesung konnte nicht gespeichert werden: " + e.getLocalizedMessage(), redirectAttributes);
+                return redirect("lectures/edit/" + lectureSubmitted.getId());
+            }
+        }
+    }
+
+    @RequestMapping(value = "/delete/{id}") // TODO: Method = delete!
+    public String deleteLecture(final @PathVariable("id") Lecture lecture, RedirectAttributes redirectAttributes) {
+        try {
+            lectures.delete(lecture);
+            addSuccessFlash("Vorlesung erfolgreich gelöscht", redirectAttributes);
+            return redirect("lectures");
+        } catch (DataAccessException e) {
+            addErrorFlash("Vorlesung konnte nicht gelöscht werden: " + e.getLocalizedMessage(), redirectAttributes);
+            return redirect("lectures/edit/" + lecture.getId());
+        }
+    }
 }

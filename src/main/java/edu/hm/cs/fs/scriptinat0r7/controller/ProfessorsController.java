@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.hm.cs.fs.scriptinat0r7.model.Professor;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.Role;
-import edu.hm.cs.fs.scriptinat0r7.repositories.ProfessorRepository;
+import edu.hm.cs.fs.scriptinat0r7.service.ProfessorService;
 
 /**
  * Controller to render pages for dealing with {@code Professors}s.
@@ -28,7 +28,7 @@ public class ProfessorsController extends AbstractController {
     private static final String PROFESSORS_ADD_VIEW = "professors/add";
     private static final String PROFESSORS_EDIT_VIEW = "professors/edit";
     @Autowired
-    private ProfessorRepository professors;
+    private ProfessorService professors;
 
     /**
      * Gets and displays all existing professors.
@@ -137,7 +137,7 @@ public class ProfessorsController extends AbstractController {
      * @param redirectAttributes Redirect attributes, e.g. flash messages.
      * @return the logical view name.
      */
-    @RequestMapping(value = "/delete/{id}")
+    @RequestMapping(value = "/delete/{id}") // TODO: method = delete!
     public String deleteProfessor(@ModelAttribute("professor") final Professor professor,
             final RedirectAttributes redirectAttributes) {
         try {

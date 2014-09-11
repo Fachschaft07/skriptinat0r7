@@ -9,7 +9,7 @@ import org.junit.Test;
  * Test class for the {@code Professor}.
  */
 public class ProfessorTest {
-    
+
     /**
      * Tests the equals contract for equals() and hashCode().
      */
@@ -26,12 +26,12 @@ public class ProfessorTest {
         Professor prof = new Professor();
         String expected = "Prof. Dr.";
         prof.setTitle(expected);
-        
+
         String actual = prof.getTitle();
-        
+
         assertSame("The title of the professor is not the same.", expected, actual);
     }
-    
+
     /**
      * Tests the getter for the full name.
      */
@@ -39,12 +39,12 @@ public class ProfessorTest {
     public void testGetFullName() {
         Professor prof = new Professor();
         String expected = createFullProfessorName(prof);
-        
+
         String actual = prof.getFullName();
-        
+
         assertEquals("The full name of the professor is not equal.", expected, actual);
     }
-    
+
     /**
      * Tests the getter for the full name when the title is null.
      */
@@ -53,13 +53,13 @@ public class ProfessorTest {
         Professor prof = new Professor();
         prof.setFirstName("Jochen");
         prof.setLastName("Hertle");
-        String expected = "Jochen Hertle";
-        
+        String expected = "Hertle, Jochen";
+
         String actual = prof.getFullName();
-        
+
         assertEquals("The full name of the professor is not equal.", expected, actual);
     }
-    
+
     /**
      * Tests the getter for the full name when the title is empty.
      */
@@ -69,10 +69,10 @@ public class ProfessorTest {
         prof.setTitle("");
         prof.setFirstName("Jochen");
         prof.setLastName("Hertle");
-        String expected = "Jochen Hertle";
-        
+        String expected = "Hertle, Jochen";
+
         String actual = prof.getFullName();
-        
+
         assertEquals("The full name of the professor is not equal.", expected, actual);
     }
 
@@ -98,7 +98,7 @@ public class ProfessorTest {
         prof.setTitle(title);
         prof.setFirstName(firstName);
         prof.setLastName(lastName);
-        return title + " " + firstName + " " + lastName;
+        return title + " " + lastName + ", " + firstName;
     }
 
 }

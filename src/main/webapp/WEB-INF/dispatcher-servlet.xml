@@ -10,6 +10,7 @@
   http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
     <context:component-scan base-package="edu.hm.cs.fs.scriptinat0r7.controller" />
+    <context:component-scan base-package="edu.hm.cs.fs.scriptinat0r7.service" />
     <mvc:interceptors>
         <bean class="edu.hm.cs.fs.scriptinat0r7.config.RequestInterceptor" />
     </mvc:interceptors>

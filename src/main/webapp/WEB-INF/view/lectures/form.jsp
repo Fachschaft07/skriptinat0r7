@@ -48,6 +48,9 @@
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button class="btn btn-primary">Speichern</button>
+            <c:if test="${lecture.id != null}">
+                <a data-confirm href="${pageContext.request.contextPath}/lectures/delete/${lecture.id}" class="btn btn-danger">Löschen</a>
+            </c:if>
         </div>
     </div>
     

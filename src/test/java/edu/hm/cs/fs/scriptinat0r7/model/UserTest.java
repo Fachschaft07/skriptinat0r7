@@ -35,7 +35,7 @@ public class UserTest {
         User user = new User();
         user.setFirstName("Hans");
         user.setLastName("Glück");
-        String expected = "Hans Glück";
+        String expected = "Glück, Hans";
 
         String actual = user.getFullName();
 

@@ -11,7 +11,7 @@
         </div>
         <c:choose>
             <c:when test="${ ! lectures.isEmpty()}">
-                <table class="table">
+                <table class="table table-hover clickable">
                     <thead>
                         <tr>
                             <th>Name</th>

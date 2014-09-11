@@ -57,7 +57,7 @@ public class User implements Serializable {
      * @return the full name.
      */
     public String getFullName() {
-        return firstName + " " + lastName;
+        return lastName + ", " + firstName;
     }
 
     public Integer getId() {
