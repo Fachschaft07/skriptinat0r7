@@ -20,4 +20,11 @@ public interface LectureRepository extends PagingAndSortingRepository<Lecture, I
     @Override
     List<Lecture> findAll(Sort sort);
 
+    /**
+     * Find all lectures where the given query is in the name.
+     * @param searchQuery the query to search for.
+     * @return a list of matched lectures.
+     */
+    List<Lecture> findByNameContaining(String searchQuery);
+
 }

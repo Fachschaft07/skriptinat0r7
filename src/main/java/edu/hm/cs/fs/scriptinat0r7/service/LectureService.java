@@ -47,4 +47,8 @@ public class LectureService {
     public void delete(final Lecture lecture) {
         lectures.delete(lecture);
     }
+
+    public List<Lecture> findByNameContaining(String searchQuery) {
+        return lectures.findByNameContaining(searchQuery);
+    }
 }

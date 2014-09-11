@@ -9,6 +9,8 @@ import static org.mockito.Mockito.*;
 import java.util.Collection;
 import java.util.Collections;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.junit.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ModelMap;
@@ -30,11 +32,13 @@ public class ScriptsControllerTest {
         final ScriptsController controller = new ScriptsController();
         final ScriptRepository repo = mock(ScriptRepository.class);
         final ModelMap model = mock(ModelMap.class);
+        final HttpServletRequest request = mock(HttpServletRequest.class);
         ReflectionTestUtils.setField(controller, "scripts", repo);
         final Collection<Script> scripts = Collections.emptyList();
         when(repo.findAll()).thenReturn(scripts);
+        when(request.isUserInRole("ROLE_FACHSCHAFTLER")).thenReturn(false);
 
-        final String viewName = controller.showApprovedScripts(model);
+        final String viewName = controller.showScripts(model, request);
 
         verify(repo).findByReviewState(ReviewState.FACHSCHAFTLERAPPROVED, ReviewState.PROFESSORAPPROVED);
         verify(model).addAttribute("scripts", scripts);
