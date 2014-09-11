@@ -1,5 +1,7 @@
 package edu.hm.cs.fs.scriptinat0r7.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -12,9 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
+import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
+import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 import edu.hm.cs.fs.scriptinat0r7.repositories.LectureRepository;
 import edu.hm.cs.fs.scriptinat0r7.service.ScriptsService;
 
@@ -26,6 +32,7 @@ import edu.hm.cs.fs.scriptinat0r7.service.ScriptsService;
 public class ScriptsController extends AbstractController {
 
     private static final String SCRIPTS_LIST_VIEW = "scripts/list";
+    private static final String SCRIPTS_LIST_PATH = "scripts";
     private static final String SCRIPTS_SUBMIT_VIEW = "scripts/submit";
 
     @Autowired
@@ -93,13 +100,59 @@ public class ScriptsController extends AbstractController {
             return SCRIPTS_SUBMIT_VIEW;
         } else {
             try {
-                scripts.save(script);
-                addSuccessFlash("Ihr Skript wurde erfolgreich hochgeladen. Wir werden es reviewen und gegebenenfalls zum Druck bereit stellen.", redirectAttributes);
-                return redirect(SCRIPTS_SUBMIT_VIEW);
+                final Script savedScript = scripts.save(script);
+                addSuccessFlash("Skript erfolgreich erstellt. Bitte fahre mit den Dateien fort.", redirectAttributes);
+                return redirect("scripts/submit/files/" + savedScript.getId());
             } catch (DataAccessException e) {
                 addErrorFlash("Es trat ein Fehler auf: " + e.getLocalizedMessage(), redirectAttributes);
                 return redirect(SCRIPTS_SUBMIT_VIEW);
             }
+        }
+    }
+
+    @RequestMapping(value = "/submit/files/{id}", method = RequestMethod.GET)
+    public String addScriptFilesForm(final ModelMap map,
+            @PathVariable("id") final Script script,
+            final RedirectAttributes redirectAttributes,
+            final HttpServletRequest httpServletRequest) {
+        // TODO: REMOVE DEBUG CODE!
+        if (isScriptOwnedByUserAndNotYetFinished(script, httpServletRequest)) {
+            map.addAttribute("id", script.getId());
+            return "scripts/submit-files";
+        } else {
+            addErrorFlash("Das Skript wurde bereits vollständig abgeschickt.", redirectAttributes);
+            return redirect(SCRIPTS_LIST_PATH);
+        }
+    }
+
+    private boolean isScriptOwnedByUserAndNotYetFinished(final Script script,
+            final HttpServletRequest httpServletRequest) {
+        return true || (script.getSubmitter() == httpServletRequest.getUserPrincipal() && !script.isSubmittedCompletely());
+    }
+
+    @RequestMapping(value = "/submit/files/{id}", method = RequestMethod.POST)
+    public String addScriptFilesSubmit(final ModelMap map,
+            @PathVariable("id") int scriptId,
+            @RequestParam("files[]") final List<MultipartFile> files,
+            final RedirectAttributes redirectAttributes) {
+        final Script script = scripts.
+        try {
+            for(int i = 0; i < files.size(); i++) {
+                MultipartFile file = files.get(i);
+                ScriptDocument document = new ScriptDocument();
+                document.setFile(file.getBytes());
+                document.setFilename(file.getName());
+                document.setReviewState(ReviewState.LOCKED);
+                document.setScript(script);
+                document.setSortnumber(i);
+                script.addScriptDocument(document);
+            }
+
+            scripts.save(script);
+            return redirect("script/submit/password/" + script.getId());
+        } catch (Exception e) {
+            addErrorFlash("Fehler beim Upload der Datei.", redirectAttributes);
+            return redirect("script/submit/files/" + script.getId());
         }
     }
 

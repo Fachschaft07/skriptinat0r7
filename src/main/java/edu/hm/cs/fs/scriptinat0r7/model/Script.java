@@ -19,6 +19,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -56,6 +57,11 @@ public class Script implements Serializable {
 
     @OneToMany
     private Set<ScriptDocument> scriptDocuments;
+
+    @OneToOne
+    private User submitter;
+
+    private boolean isSubmittedCompletely;
 
     public Integer getId() {
         return id;
@@ -174,6 +180,22 @@ public class Script implements Serializable {
         scriptDocuments.remove(scriptDocument);
     }
 
+    public User getSubmitter() {
+        return submitter;
+    }
+
+    public void setSubmitter(User submitter) {
+        this.submitter = submitter;
+    }
+
+    public boolean isSubmittedCompletely() {
+        return isSubmittedCompletely;
+    }
+
+    public void setSubmittedCompletely(boolean isSubmittedCompletely) {
+        this.isSubmittedCompletely = isSubmittedCompletely;
+    }
+
     public boolean areAllScriptsApproved() {
         for (ScriptDocument document : getScriptDocuments()) {
             if(document.getReviewState() == ReviewState.DELETED || document.getReviewState() == ReviewState.LOCKED) {
@@ -185,7 +207,7 @@ public class Script implements Serializable {
 
     @Override
     public final int hashCode() {
-        return Objects.hash(id, name, category, authors, lectures, scriptDocuments);
+        return Objects.hash(id, name, category, authors, lectures, scriptDocuments, submitter, isSubmittedCompletely);
     }
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
@@ -202,6 +224,8 @@ public class Script implements Serializable {
         if (!Objects.equals(this.authors, other.authors)) { return false; }
         if (!Objects.equals(this.lectures, other.lectures)) { return false; }
         if (!Objects.equals(this.scriptDocuments, other.scriptDocuments)) { return false; }
+        if (!Objects.equals(this.submitter, other.submitter)) { return false; }
+        if (!Objects.equals(this.isSubmittedCompletely, other.isSubmittedCompletely)) { return false; }
 
         return true;
     }
