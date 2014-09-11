@@ -34,7 +34,7 @@
                 <label for="lectures" class="col-sm-2 control-label">Vorlesung(en)</label>
                 <div class="col-sm-6">
                     <form:select id="lectures" path="lectures" cssClass="form-control">
-                        <form:options itemValue="id" itemLabel="name" items="${lectures}" />
+                        <form:options itemValue="id" itemLabel="lectureAndProfessor" items="${lectures}" />
                     </form:select>
                 </div>
             </div>

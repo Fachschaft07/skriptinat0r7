@@ -15,19 +15,19 @@
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Studiengruppe</th>
                             <th>Professor</th>
                             <th>Semester</th>
+                            <th>Studiengruppe</th>
                             <th>Anzahl Skripten</th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach items="${lectures}" var="lecture">
-                            <tr>
+                            <tr data-href="${pageContext.request.contextPath}/lectures/edit/${lecture.id}">
                                 <td>${lecture.name}</td>
-                                <td>${lecture.studyProgram.name}</td>
                                 <td>${lecture.readingProfessor.fullName}</td>
                                 <td>${lecture.semesterType}${lecture.semesterYear}</td>
+                                <td>${lecture.studyProgram.name}</td>
                                 <td>todo</td>
                             </tr>
                         </c:forEach>

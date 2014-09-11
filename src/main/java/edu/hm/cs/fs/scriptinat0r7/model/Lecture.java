@@ -137,6 +137,10 @@ public class Lecture implements Serializable {
         usedScripts.remove(script);
     }
 
+    public String getLectureAndProfessor() {
+        return getName() + " / " + getReadingProfessor().getFullName();
+    }
+
     @Override
     public final int hashCode() {
         return Objects.hash(name, readingProfessor, studyProgram, semesterType, semesterYear);

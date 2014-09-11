@@ -20,7 +20,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 
 import edu.hm.cs.fs.scriptinat0r7.model.enums.Role;
 
@@ -43,7 +42,6 @@ public class User implements Serializable {
 
     @Column(columnDefinition = "varchar(254)")
     @Email
-    @NotBlank
     private String email;
 
     private String firstName;

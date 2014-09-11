@@ -5,7 +5,7 @@
 
 <form:form action="" modelAttribute="professor" method="POST" cssClass="form-horizontal">
 
-    <t:input path="email" label="eMail" required="true" />
+    <t:input path="email" label="eMail" />
     <t:input path="firstName" label="Vorname" />
     <t:input path="lastName" label="Nachname" />
     <t:input path="title" label="Titel" />
