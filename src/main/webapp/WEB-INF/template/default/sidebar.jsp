@@ -3,7 +3,7 @@
     <ul class="nav nav-sidebar">
         <li class="${controller == 'IndexController' ? 'active' : ''}"><a href="${pageContext.request.contextPath}">Home</a></li>
         <li class="${controller == 'ScriptsController' && method.startsWith('addScript') ? 'active' : ''}"><a href="${pageContext.request.contextPath}/scripts/submit">Skript einschicken</a></li>
-        <li class="${controller == 'ScriptsController' && method == 'showScripts' ? 'active' : ''}"><a href="${pageContext.request.contextPath}/scripts">Skripte</a></li>
+        <li class="${controller == 'ScriptsController' && (method == 'showScripts' || method == 'showScriptDetail') ? 'active' : ''}"><a href="${pageContext.request.contextPath}/scripts">Skripte</a></li>
         <li class="${controller == 'SearchController' ? 'active' : ''}"><a href="${pageContext.request.contextPath}/search/advanced">Erweiterte Suche</a></li>
         <li class="${controller == 'AboutController' ? 'active' : ''}"><a href="${pageContext.request.contextPath}/about">About</a></li>
     </ul>

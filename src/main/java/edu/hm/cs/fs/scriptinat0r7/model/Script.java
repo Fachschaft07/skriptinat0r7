@@ -21,6 +21,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ScriptCategory;
 
 /**
@@ -37,6 +41,7 @@ public class Script implements Serializable {
     private Integer id;
 
     @Column(unique = true)
+    @NotBlank
     private String name;
 
     @Enumerated(EnumType.STRING)
@@ -46,6 +51,7 @@ public class Script implements Serializable {
     private Set<User> authors;
 
     @ManyToMany
+    @NotEmpty
     private Set<Lecture> lectures;
 
     @OneToMany
@@ -166,6 +172,15 @@ public class Script implements Serializable {
      */
     public void removeScriptDocument(final ScriptDocument scriptDocument) {
         scriptDocuments.remove(scriptDocument);
+    }
+
+    public boolean areAllScriptsApproved() {
+        for (ScriptDocument document : getScriptDocuments()) {
+            if(document.getReviewState() == ReviewState.DELETED || document.getReviewState() == ReviewState.LOCKED) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
