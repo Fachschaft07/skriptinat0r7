@@ -82,7 +82,7 @@
 		<module name="LeftCurly" />
 		<module name="NeedBraces" />
 		<module name="RightCurly">
-			<property name="option" value="alone" />
+			<property name="option" value="same" />
 		</module>
 		<module name="CovariantEquals" />
 		<module name="DefaultComesLast" />
@@ -101,7 +101,7 @@
 		<module name="MissingSwitchDefault" />
 		<module name="ModifiedControlVariable" />
 		<module name="MultipleStringLiterals">
-			<property name="ignoreStringsRegexp" value="^&quot;[a-zA-Z().]*&quot;$" />
+			<property name="ignoreStringsRegexp" value="^&quot;[a-zA-Z()./]*&quot;$" />
 		</module>
 		<module name="MultipleVariableDeclarations" />
 		<module name="NestedTryDepth" />
