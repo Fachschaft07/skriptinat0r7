@@ -82,16 +82,31 @@ public class LecturesController extends AbstractController {
         }
     }
 
+    /**
+     * Displays an edit form for a given lecture instance.
+     * @param model the model map.
+     * @param lecture the lecture to edit.
+     * @return a logical view name.
+     */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String editLectureForm(final ModelMap model, final @PathVariable("id") Lecture lecture) {
+    public String editLectureForm(final ModelMap model, @PathVariable("id") final Lecture lecture) {
         model.addAttribute("lecture", lecture);
         model.addAttribute("professors", professors.findAll());
         return "lectures/edit";
     }
 
+    /**
+     * Handles a post request to edit a given lecture.
+     * @param model the model map.
+     * @param lectureToSave the lecture to save.
+     * @param lectureSubmitted the lecture submitted via POST.
+     * @param result the binding result, which gives informations about POST-errors
+     * @param redirectAttributes redirect attributes for e.g. flash messages
+     * @return a logical view name.
+     */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String editLectureSubmit(final ModelMap model,
-            final @PathVariable("id") Lecture lectureToSave,
+            @PathVariable("id") final Lecture lectureToSave,
             @Valid @ModelAttribute("lecture") final Lecture lectureSubmitted,
             final BindingResult result,
             final RedirectAttributes redirectAttributes) {
@@ -114,8 +129,14 @@ public class LecturesController extends AbstractController {
         }
     }
 
+    /**
+     * Delete a lecture via the id.
+     * @param lecture The lecture to delete.
+     * @param redirectAttributes redirect attributes for e.g. flash messages
+     * @return a logical view name
+     */
     @RequestMapping(value = "/delete/{id}") // TODO: Method = delete!
-    public String deleteLecture(final @PathVariable("id") Lecture lecture, RedirectAttributes redirectAttributes) {
+    public String deleteLecture(@PathVariable("id") final Lecture lecture, final RedirectAttributes redirectAttributes) {
         try {
             lectures.delete(lecture);
             addSuccessFlash("Vorlesung erfolgreich gelöscht", redirectAttributes);

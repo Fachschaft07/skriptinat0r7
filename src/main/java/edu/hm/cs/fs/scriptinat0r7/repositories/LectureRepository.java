@@ -14,7 +14,7 @@ public interface LectureRepository extends PagingAndSortingRepository<Lecture, I
 
     /**
      * Finds all {@code Lecture}s.
-     *
+     * @param sort Sort options
      * @return a {@code List} of all lectures.
      */
     @Override

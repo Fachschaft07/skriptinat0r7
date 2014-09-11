@@ -10,12 +10,19 @@ import org.springframework.stereotype.Service;
 import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
 import edu.hm.cs.fs.scriptinat0r7.repositories.LectureRepository;
 
+/**
+ * A service for business operations on lectures.
+ */
 @Service
 public class LectureService {
 
     @Autowired
     private LectureRepository lectures;
 
+    /**
+     * Return all lectures.
+     * @return a list of lectures.
+     */
     public List<Lecture> findAll() {
         return lectures.findAll(sortByLectureAndProfessorName());
     }
@@ -24,11 +31,20 @@ public class LectureService {
         return new Sort(new Order(Sort.Direction.ASC, "name"), new Order(Sort.Direction.ASC, "readingProfessor.lastName"));
     }
 
-    public Lecture save(Lecture lecture) {
+    /**
+     * save a given lecture instance.
+     * @param lecture the lecture to save.
+     * @return the saved lecture instance, could have an updated id for example.
+     */
+    public Lecture save(final Lecture lecture) {
         return lectures.save(lecture);
     }
 
-    public void delete(Lecture lecture) {
+    /**
+     * Deletes the given lecture.
+     * @param lecture the lecture to delete.
+     */
+    public void delete(final Lecture lecture) {
         lectures.delete(lecture);
     }
 }
