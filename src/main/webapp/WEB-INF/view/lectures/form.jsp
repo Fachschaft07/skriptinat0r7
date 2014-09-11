@@ -1,18 +1,11 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <form:form action="" modelAttribute="lecture" method="POST" cssClass="form-horizontal">
 
-    <div class="form-group">
-        <label for="name" class="col-sm-2 control-label">Name</label>
-        <div class="col-sm-3">
-            <form:input id="name" path="name" cssClass="form-control" />
-        </div>
-        <div class="col-sm-7">
-            <p class="text-danger"><form:errors path="name" /></p>
-        </div>
-    </div>
+    <t:input path="name" required="true" label="Name"></t:input>
     
     <div class="form-group">
         <label for="readingProfessor" class="col-sm-2 control-label">Professor</label>
@@ -38,15 +31,7 @@
         </div>
     </div>
     
-    <div class="form-group">
-        <label for="semesterYear" class="col-sm-2 control-label">Jahr</label>
-        <div class="col-sm-3">
-            <form:input id="semesterYear" path="semesterYear" cssClass="form-control" />
-        </div>
-        <div class="col-sm-7">
-            <p class="text-danger"><form:errors path="semesterYear" /></p>
-        </div>
-    </div>
+    <t:input path="semesterYear" label="Jahr" required="true"></t:input>
     
     <div class="form-group">
         <label for="studyProgram" class="col-sm-2 control-label">Studiengang</label>
