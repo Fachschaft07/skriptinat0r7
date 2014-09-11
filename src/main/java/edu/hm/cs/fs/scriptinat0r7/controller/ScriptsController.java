@@ -1,5 +1,7 @@
 package edu.hm.cs.fs.scriptinat0r7.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,6 +25,7 @@ public class ScriptsController extends AbstractController {
 
     private static final String SCRIPTS_LIST_VIEW = "scripts/list";
     private static final String SCRIPTS_SUBMIT_VIEW = "scripts/submit";
+
     @Autowired
     private ScriptRepository scripts;
 
@@ -37,8 +40,12 @@ public class ScriptsController extends AbstractController {
      * @return the logical view name.
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String showApprovedScripts(final ModelMap model) {
-        model.addAttribute("scripts", scripts.findByReviewState(ReviewState.FACHSCHAFTLERAPPROVED, ReviewState.PROFESSORAPPROVED));
+    public String showScripts(final ModelMap model, final HttpServletRequest request) {
+        if (request.isUserInRole("ROLE_FACHSCHAFTLER")) {
+            model.addAttribute("scripts", scripts.findAll());
+        } else {
+            model.addAttribute("scripts", scripts.findByReviewState(ReviewState.FACHSCHAFTLERAPPROVED, ReviewState.PROFESSORAPPROVED));
+        }
         return SCRIPTS_LIST_VIEW;
     }
 
@@ -77,16 +84,5 @@ public class ScriptsController extends AbstractController {
     public String showScriptSubmissions(final ModelMap model) {
         model.addAttribute("scripts", scripts.findByReviewState(ReviewState.LOCKED));
         return "scripts/show-submissions";
-    }
-
-    /**
-     * Show all scripts.
-     * @param model the model used by the view.
-     * @return the logical view name.
-     */
-    @RequestMapping(value = "/show-all", method = RequestMethod.GET)
-    public String showAllScripts(final ModelMap model) {
-        model.addAttribute("scripts", scripts.findAll());
-        return "scripts/show-all";
     }
 }
