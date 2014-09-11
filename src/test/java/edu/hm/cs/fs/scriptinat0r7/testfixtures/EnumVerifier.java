@@ -54,8 +54,7 @@ public final class EnumVerifier<T extends Enum<T>> {
     private T getValueOf(final String enumString) {
         try {
             return (T) type.getMethod("valueOf", String.class).invoke(null, enumString);
-        }
-        catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException |
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException |
                 NoSuchMethodException | SecurityException e) {
             throw new AssertionError("No such Enum element with name " + enumString + " in Enum type "
                     + type.getSimpleName() + ".", e);

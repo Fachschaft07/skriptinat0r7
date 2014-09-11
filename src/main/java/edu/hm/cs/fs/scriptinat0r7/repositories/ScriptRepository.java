@@ -32,6 +32,11 @@ public interface ScriptRepository extends PagingAndSortingRepository<Script, Int
     @Override
     Collection<Script> findAll();
 
+    /**
+     * Returns all sripts, which have script documents with the given state.
+     * @param states The states that filter the scripts.
+     * @return a {@code List} of all matching scripts.
+     */
     @Query("SELECT u FROM #{#entityName} u"
             + " WHERE EXISTS (SELECT scriptDocument"
             + "              FROM ScriptDocument scriptDocument"

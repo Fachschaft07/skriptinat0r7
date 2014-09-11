@@ -37,7 +37,7 @@ public class ScriptsController extends AbstractController {
      * @return the logical view name.
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String getAllScripts(final ModelMap model) {
+    public String showApprovedScripts(final ModelMap model) {
         model.addAttribute("scripts", scripts.findByReviewState(ReviewState.FACHSCHAFTLERAPPROVED, ReviewState.PROFESSORAPPROVED));
         return SCRIPTS_LIST_VIEW;
     }
@@ -47,7 +47,7 @@ public class ScriptsController extends AbstractController {
      * @return A model and a view for spring.
      */
     @RequestMapping(value = "/submit", method = RequestMethod.GET)
-    public ModelAndView submitScriptForm() {
+    public ModelAndView addScriptForm() {
         final ModelAndView modelAndView = new ModelAndView(SCRIPTS_SUBMIT_VIEW, "script", new Script());
         modelAndView.addObject("lectures", lectures.findAll());
         return modelAndView;
@@ -61,22 +61,32 @@ public class ScriptsController extends AbstractController {
      * @return the logical view name.
      */
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
-    public String submitScript(final ModelMap model, @ModelAttribute("script") final Script script,
+    public String addScriptSubmit(final ModelMap model, @ModelAttribute("script") final Script script,
             final RedirectAttributes redirectAttributes) {
         scripts.save(script);
         addSuccessFlash("Ihr Skript wurde erfolgreich hochgeladen. Wir werden es reviewen und gegebenenfalls zum Druck bereit stellen.", redirectAttributes);
         return redirect(SCRIPTS_SUBMIT_VIEW);
     }
 
+    /**
+     * Show all submissions.
+     * @param model the model used by the view.
+     * @return the logical view name.
+     */
     @RequestMapping(value = "/show-submissions", method = RequestMethod.GET)
     public String showScriptSubmissions(final ModelMap model) {
-        model.put("scripts", scripts.findByReviewState(ReviewState.LOCKED));
+        model.addAttribute("scripts", scripts.findByReviewState(ReviewState.LOCKED));
         return "scripts/show-submissions";
     }
 
+    /**
+     * Show all scripts.
+     * @param model the model used by the view.
+     * @return the logical view name.
+     */
     @RequestMapping(value = "/show-all", method = RequestMethod.GET)
     public String showAllScripts(final ModelMap model) {
-        model.put("scripts", scripts.findAll());
+        model.addAttribute("scripts", scripts.findAll());
         return "scripts/show-all";
     }
 }

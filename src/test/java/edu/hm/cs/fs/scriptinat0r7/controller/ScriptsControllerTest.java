@@ -14,6 +14,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ModelMap;
 
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
+import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
 
 /**
@@ -33,9 +34,9 @@ public class ScriptsControllerTest {
         final Collection<Script> scripts = Collections.emptyList();
         when(repo.findAll()).thenReturn(scripts);
 
-        final String viewName = controller.getAllScripts(model);
+        final String viewName = controller.showApprovedScripts(model);
 
-        verify(repo).findAll();
+        verify(repo).findByReviewState(ReviewState.FACHSCHAFTLERAPPROVED, ReviewState.PROFESSORAPPROVED);
         verify(model).addAttribute("scripts", scripts);
         assertEquals("The returned view name is not correct", "scripts/list", viewName);
     }

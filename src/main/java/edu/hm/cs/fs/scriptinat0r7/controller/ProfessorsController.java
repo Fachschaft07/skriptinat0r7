@@ -24,6 +24,9 @@ import edu.hm.cs.fs.scriptinat0r7.repositories.ProfessorRepository;
 @RequestMapping("/professors")
 public class ProfessorsController extends AbstractController {
 
+    private static final String PROFESSOR_COULD_NOT_BE_SAVED_MESSAGE = "Professor konnte nicht gespeichert werden: ";
+    private static final String PROFESSORS_ADD_VIEW = "professors/add";
+    private static final String PROFESSORS_EDIT_VIEW = "professors/edit";
     @Autowired
     private ProfessorRepository professors;
 
@@ -48,33 +51,34 @@ public class ProfessorsController extends AbstractController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String addProfessorForm(final ModelMap model) {
-        model.put("professor", new Professor());
-        return "professors/add";
+        model.addAttribute("professor", new Professor());
+        return PROFESSORS_ADD_VIEW;
     }
 
     /**
      * Used to save a professor instance and redirect to the professor list.
-     *
-     * @param professor
-     *            the professor to persist.
+     * @param model the model used by the view.
+     * @param professor the professor to persist.
+     * @param result The binding result from spring, it can contain errors about the model.
+     * @param redirectAttributes Redirect attributes, e.g. flash messages.
      * @return the logical view name.
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addProfessor(final ModelMap model,
+    public String addProfessorSubmit(final ModelMap model,
             @Valid @ModelAttribute("professor") final Professor professor,
             final BindingResult result,
             final RedirectAttributes redirectAttributes) {
-        if(result.hasErrors()) {
-            model.put("professor", professor);
-            return "professors/add";
+        if (result.hasErrors()) {
+            model.addAttribute("professor", professor);
+            return PROFESSORS_ADD_VIEW;
         } else {
             try {
                 professor.setRole(Role.PROFESSOR);
                 professors.save(professor);
                 return redirect("professors");
             } catch (DataAccessException e) {
-                addErrorFlash("Professor konnte nicht gespeichert werden: " + e.getLocalizedMessage(), redirectAttributes);
-                return redirect("professors/add");
+                addErrorFlash(PROFESSOR_COULD_NOT_BE_SAVED_MESSAGE + e.getLocalizedMessage(), redirectAttributes);
+                return redirect(PROFESSORS_ADD_VIEW);
             }
         }
     }
@@ -82,47 +86,57 @@ public class ProfessorsController extends AbstractController {
     /**
      * Used to edit a existing professor instance.
      * @param model the model used by the view.
-     * @param id the id of the professor which is going to be edited.
+     * @param professor the professor which is going to be edited.
      * @return the logical view name.
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String editProfessorForm(final ModelMap model, @PathVariable("id") final Integer id) {
-        model.put("professor", professors.findOne(id));
-        return "professors/edit";
+    public String editProfessorForm(final ModelMap model, @PathVariable("id") final Professor professor) {
+        model.addAttribute("professor", professor);
+        return PROFESSORS_EDIT_VIEW;
     }
 
     /**
      * Used to persist edited attributes of a existing professor.
-     * @param professor The submitted professor instance, deserialized from a POST-Request. Can therefore be missing some attributes which were not included in the HTML.
-     * @param id The id of the professor which is going to be edited.
+     * @param model the model used by the view.
+     * @param professorToSave the professor, fetched from the db.
+     * @param professorSubmitted The submitted professor instance, deserialized from a POST-Request. Can therefore be missing some attributes which were not included in the HTML.
      * @param redirectAttributes Redirect attributes, e.g. flash messages.
+     * @param result The binding result from spring, it can contain errors about the model.
      * @return the logical view name.
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String editProfessor(final ModelMap model,
-            @Valid @ModelAttribute("professor") final Professor professor,
-            final BindingResult result,
+    public String editProfessorSubmit(final ModelMap model,
             @PathVariable("id") final Professor professorToSave,
+            @Valid @ModelAttribute("professor") final Professor professorSubmitted,
+            final BindingResult result,
             final RedirectAttributes redirectAttributes) {
-        if(result.hasErrors()) {
-            model.put("professor", professor);
-            return "professors/edit";
+        if (result.hasErrors()) {
+            return editProfessorForm(model, professorSubmitted);
         } else {
             try {
-                professorToSave.setEmail(professor.getEmail());
-                professorToSave.setFirstName(professor.getFirstName());
-                professorToSave.setLastName(professor.getLastName());
-                professorToSave.setTitle(professor.getTitle());
+                // we copy the attributes, because we are missing some foreign
+                // keys from the post request. (e.g. ordered scripts, which
+                // every user has)
+                professorToSave.setEmail(professorSubmitted.getEmail());
+                professorToSave.setFirstName(professorSubmitted.getFirstName());
+                professorToSave.setLastName(professorSubmitted.getLastName());
+                professorToSave.setTitle(professorSubmitted.getTitle());
                 professors.save(professorToSave);
                 addSuccessFlash("Professor erfolgreich gespeichert", redirectAttributes);
                 return redirect("professors");
             } catch (DataAccessException e) {
-                addErrorFlash("Professor konnte nicht gespeichert werden: " + e.getLocalizedMessage(), redirectAttributes);
-                return redirect("professors/edit/" + professor.getId());
+                addErrorFlash(PROFESSOR_COULD_NOT_BE_SAVED_MESSAGE + e.getLocalizedMessage(), redirectAttributes);
+                return redirect(PROFESSORS_EDIT_VIEW + "/" + professorSubmitted.getId());
             }
         }
     }
 
+    /**
+     * Used to delete professor instances.
+     * @param professor The professor to delete.
+     * @param redirectAttributes Redirect attributes, e.g. flash messages.
+     * @return the logical view name.
+     */
     @RequestMapping(value = "/delete/{id}")
     public String deleteProfessor(@ModelAttribute("professor") final Professor professor,
             final RedirectAttributes redirectAttributes) {
@@ -132,7 +146,7 @@ public class ProfessorsController extends AbstractController {
             return redirect("professors");
         } catch (DataAccessException e) {
             addErrorFlash("Professor konnte nicht gelöscht werden: " + e.getLocalizedMessage(), redirectAttributes);
-            return redirect("professors/edit/" + professor.getId());
+            return redirect(PROFESSORS_EDIT_VIEW + "/" + professor.getId());
         }
     }
 }
