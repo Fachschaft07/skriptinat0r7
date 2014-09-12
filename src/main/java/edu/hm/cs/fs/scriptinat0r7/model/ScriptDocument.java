@@ -34,7 +34,7 @@ public class ScriptDocument implements Serializable {
     @Lob
     @Column(nullable = false)
     private byte[] file;
-
+  
     private int sortnumber;
     private ReviewState reviewState;
 
@@ -51,7 +51,8 @@ public class ScriptDocument implements Serializable {
     @ManyToOne
     private Script script;
 
-    /**
+
+	/**
      * Returns the size of the file.
      *
      * @return the size of the file.
@@ -59,7 +60,8 @@ public class ScriptDocument implements Serializable {
     public int getFileSize() {
         return file.length;
     }
-
+        
+    
     public byte[] getFile() {
         return Arrays.copyOf(this.file, this.file.length);
     }
