@@ -1,10 +1,13 @@
 package edu.hm.cs.fs.scriptinat0r7.controller;
 
+import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
@@ -18,10 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.hm.cs.fs.scriptinat0r7.exception.UnauthorizedException;
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
-import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
-import edu.hm.cs.fs.scriptinat0r7.repositories.LectureRepository;
+import edu.hm.cs.fs.scriptinat0r7.service.LectureService;
+import edu.hm.cs.fs.scriptinat0r7.service.ScriptDocumentsService;
 import edu.hm.cs.fs.scriptinat0r7.service.ScriptsService;
 
 /**
@@ -32,14 +36,16 @@ import edu.hm.cs.fs.scriptinat0r7.service.ScriptsService;
 public class ScriptsController extends AbstractController {
 
     private static final String SCRIPTS_LIST_VIEW = "scripts/list";
-    private static final String SCRIPTS_LIST_PATH = "scripts";
     private static final String SCRIPTS_SUBMIT_VIEW = "scripts/submit";
 
     @Autowired
-    private ScriptsService scripts;
+    private ScriptsService scriptsService;
 
     @Autowired
-    private LectureRepository lectures;
+    private LectureService lecturesService;
+
+    @Autowired
+    private ScriptDocumentsService documentsService;
 
     /**
      * Gets and displays all existing scripts.
@@ -51,9 +57,9 @@ public class ScriptsController extends AbstractController {
     @RequestMapping(method = RequestMethod.GET)
     public String showScripts(final ModelMap model, final HttpServletRequest request) {
         if (request.isUserInRole("ROLE_FACHSCHAFTLER")) {
-            model.addAttribute("scripts", scripts.findAll());
+            model.addAttribute("scripts", scriptsService.findAll());
         } else {
-            model.addAttribute("scripts", scripts.findAllPublicScripts());
+            model.addAttribute("scripts", scriptsService.findAllPublicScripts());
         }
         return SCRIPTS_LIST_VIEW;
     }
@@ -61,14 +67,9 @@ public class ScriptsController extends AbstractController {
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public String showScriptDetail(final ModelMap model,
             @PathVariable("id") final int id,
-            final RedirectAttributes redirectAttribtues) {
-        try {
-            model.addAttribute("script", scripts.findPublicScriptById(id));
-            return "scripts/detail";
-        } catch (IllegalAccessException e) {
-            addErrorFlash("Script nicht verfügbar", redirectAttribtues);
-            return redirect("scripts");
-        }
+            final RedirectAttributes redirectAttribtues) throws UnauthorizedException {
+        model.addAttribute("script", scriptsService.findPublicScriptById(id));
+        return "scripts/detail";
     }
 
     /**
@@ -77,7 +78,7 @@ public class ScriptsController extends AbstractController {
      */
     @RequestMapping(value = "/submit", method = RequestMethod.GET)
     public String addScriptForm(final ModelMap model) {
-        model.addAttribute("lectures", lectures.findAll());
+        model.addAttribute("lectures", lecturesService.findAll());
         model.addAttribute("script", new Script());
         return SCRIPTS_SUBMIT_VIEW;
     }
@@ -95,13 +96,13 @@ public class ScriptsController extends AbstractController {
             final BindingResult result,
             final RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            model.addAttribute("lectures", lectures.findAll());
+            model.addAttribute("lectures", lecturesService.findAll());
             model.addAttribute("script", script);
             return SCRIPTS_SUBMIT_VIEW;
         } else {
             try {
-                final Script savedScript = scripts.save(script);
-                addSuccessFlash("Skript erfolgreich erstellt. Bitte fahre mit den Dateien fort.", redirectAttributes);
+                final Script savedScript = scriptsService.saveAsNewScript(script);
+                addSuccessFlash("Daten gültig, bitte fahre mit den Dateien fort.", redirectAttributes);
                 return redirect("scripts/submit/files/" + savedScript.getId());
             } catch (DataAccessException e) {
                 addErrorFlash("Es trat ein Fehler auf: " + e.getLocalizedMessage(), redirectAttributes);
@@ -114,46 +115,69 @@ public class ScriptsController extends AbstractController {
     public String addScriptFilesForm(final ModelMap map,
             @PathVariable("id") final Script script,
             final RedirectAttributes redirectAttributes,
-            final HttpServletRequest httpServletRequest) {
-        // TODO: REMOVE DEBUG CODE!
-        if (isScriptOwnedByUserAndNotYetFinished(script, httpServletRequest)) {
-            map.addAttribute("id", script.getId());
-            return "scripts/submit-files";
-        } else {
-            addErrorFlash("Das Skript wurde bereits vollständig abgeschickt.", redirectAttributes);
-            return redirect(SCRIPTS_LIST_PATH);
-        }
+            final HttpServletRequest httpServletRequest) throws UnauthorizedException {
+        abortUnauthorizedAccess(script, httpServletRequest);
+        map.addAttribute("id", script.getId());
+        return "scripts/submit-files";
     }
 
-    private boolean isScriptOwnedByUserAndNotYetFinished(final Script script,
-            final HttpServletRequest httpServletRequest) {
-        return true || (script.getSubmitter() == httpServletRequest.getUserPrincipal() && !script.isSubmittedCompletely());
+    private void abortUnauthorizedAccess(final Script script,
+            final HttpServletRequest httpServletRequest) throws UnauthorizedException {
+        // TODO: maybe move to service layer
+        // TODO: is it consequently used?
+        if (!(true || (script.getSubmitter() == httpServletRequest.getUserPrincipal() && !script.isSubmittedCompletely()))) {
+            throw new UnauthorizedException();
+        }
     }
 
     @RequestMapping(value = "/submit/files/{id}", method = RequestMethod.POST)
     public String addScriptFilesSubmit(final ModelMap map,
-            @PathVariable("id") int scriptId,
+            @PathVariable("id") final Script script,
             @RequestParam("files[]") final List<MultipartFile> files,
-            final RedirectAttributes redirectAttributes) {
-        final Script script = scripts.
-        try {
-            for(int i = 0; i < files.size(); i++) {
-                MultipartFile file = files.get(i);
-                ScriptDocument document = new ScriptDocument();
-                document.setFile(file.getBytes());
-                document.setFilename(file.getName());
-                document.setReviewState(ReviewState.LOCKED);
-                document.setScript(script);
-                document.setSortnumber(i);
-                script.addScriptDocument(document);
+            final RedirectAttributes redirectAttributes,
+            final HttpServletRequest httpServletRequest) throws UnauthorizedException {
+        abortUnauthorizedAccess(script, httpServletRequest);
+        final List<String> filesInError = new LinkedList<>();
+        for(int i = 0; i < files.size(); i++) {
+            final MultipartFile file = files.get(i);
+            try {
+                documentsService.save(script, i, file);
+            } catch (DataAccessException | IOException e) {
+                // TODO logging
+                filesInError.add(file.getOriginalFilename());
             }
-
-            scripts.save(script);
-            return redirect("script/submit/password/" + script.getId());
-        } catch (Exception e) {
-            addErrorFlash("Fehler beim Upload der Datei.", redirectAttributes);
-            return redirect("script/submit/files/" + script.getId());
         }
+
+        if (!filesInError.isEmpty()) {
+            final String message = "Folgende Dateien konnten nicht erfolgreich hochgeladen werden: " + StringUtils.join(filesInError, ", ");
+            addErrorFlash(message, redirectAttributes);
+        }
+
+        return redirect("scripts/submit/password/" + script.getId());
+    }
+
+    @RequestMapping("submit/password/{id}")
+    public String addScriptPasswordForm(@PathVariable("id") final Script script,
+            final ModelMap model,
+            final HttpServletRequest httpServletRequest) throws UnauthorizedException {
+        abortUnauthorizedAccess(script, httpServletRequest);
+        final List<String> passwords = new LinkedList<>();
+        passwords.add("");
+        passwords.add("test");
+        final List<ScriptDocument> documentWithMissingPassword = documentsService.findByMissingPassword(script, passwords);
+
+        if (!documentWithMissingPassword.isEmpty()) {
+            model.addAttribute("scriptsWithMissingPassword", documentWithMissingPassword);
+            return "scripts/submit-password";
+        } else {
+            return redirect("scripts/submit/summarize/" + script.getId());
+        }
+    }
+
+    @RequestMapping(value = "/submit/summarize/{id}", method = RequestMethod.GET)
+    public String addScriptSummarizeForm(final ModelMap model) {
+        TODO! // intentional compile failure to mark next spot of progress
+        return "scripts/submit-summarize";
     }
 
     /**
@@ -163,7 +187,7 @@ public class ScriptsController extends AbstractController {
      */
     @RequestMapping(value = "/show-submissions", method = RequestMethod.GET)
     public String showScriptSubmissions(final ModelMap model) {
-        model.addAttribute("scripts", scripts.findAllLockedScripts());
+        model.addAttribute("scripts", scriptsService.findAllLockedScripts());
         return "scripts/show-submissions";
     }
 }

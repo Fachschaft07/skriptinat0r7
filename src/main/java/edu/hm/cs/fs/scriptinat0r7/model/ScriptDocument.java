@@ -10,8 +10,10 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -28,10 +30,10 @@ public class ScriptDocument implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(nullable = false)
-    private Integer hashvalue;
+    private Long hashvalue;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(nullable = false)
     private byte[] file;
 
@@ -51,13 +53,15 @@ public class ScriptDocument implements Serializable {
     @ManyToOne
     private Script script;
 
-    /**
-     * Returns the size of the file.
-     *
-     * @return the size of the file.
-     */
+    @Column(nullable = false)
+    private Integer fileSize;
+
     public int getFileSize() {
-        return file.length;
+        return fileSize;
+    }
+
+    public void setFileSize(Integer fileSize) {
+        this.fileSize = fileSize;
     }
 
     public byte[] getFile() {
@@ -66,6 +70,7 @@ public class ScriptDocument implements Serializable {
 
     public void setFile(final byte[] file) {
         this.file = Arrays.copyOf(file, file.length);
+        this.fileSize = file.length;
     }
 
     public int getSortnumber() {
@@ -116,17 +121,17 @@ public class ScriptDocument implements Serializable {
         this.script = script;
     }
 
-    public Integer getHashvalue() {
+    public Long getHashvalue() {
         return hashvalue;
     }
 
-    public void setHashvalue(final Integer hashvalue) {
+    public void setHashvalue(final Long hashvalue) {
         this.hashvalue = hashvalue;
     }
 
     @Override
     public final int hashCode() {
-        return Objects.hash(hashvalue, Arrays.hashCode(file), sortnumber, 
+        return Objects.hash(hashvalue, Arrays.hashCode(file), sortnumber,
                 reviewState, password, filename, note, script);
     }
 

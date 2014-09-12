@@ -11,7 +11,7 @@ import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
  * Test class for the {@code ScriptDocument}.
  */
 public class ScriptDocumentTest {
-    
+
     /**
      * Tests the equals contract for equals() and hashCode().
      */
@@ -28,9 +28,9 @@ public class ScriptDocumentTest {
         ScriptDocument document = new ScriptDocument();
         document.setFile(new byte[] {0x00, 0x01, 0x02, -0x80});
         int expected = 4;
-        
+
         int actual = document.getFileSize();
-        
+
         assertEquals("The size of the file is not the expected.", expected, actual);
     }
 
@@ -41,10 +41,10 @@ public class ScriptDocumentTest {
     public void testGetAndSetFile() {
         ScriptDocument document = new ScriptDocument();
         byte[] expected = new byte[] {0x00, 0x01, 0x02, -0x80};
-        
+
         document.setFile(expected);
         byte[] actual = document.getFile();
-        
+
         assertArrayEquals("The files of the script document are not equal.", expected, actual);
     }
 
@@ -55,13 +55,13 @@ public class ScriptDocumentTest {
     public void testGetAndSetSortnumber() {
         ScriptDocument document = new ScriptDocument();
         int expected = 1;
-        
+
         document.setSortnumber(expected);
         int actual = document.getSortnumber();
-        
+
         assertEquals("The sortnumber of the script document is not equal.", expected, actual);
     }
-    
+
     /**
      * Tests the getter and setter for the review state.
      */
@@ -69,10 +69,10 @@ public class ScriptDocumentTest {
     public void testGetAndSetReviewState() {
         ScriptDocument document = new ScriptDocument();
         ReviewState expected = ReviewState.PROFESSORAPPROVED;
-        
+
         document.setReviewState(expected);
         ReviewState actual = document.getReviewState();
-        
+
         assertSame("The review state of the script document is not the same.", expected, actual);
     }
 
@@ -83,10 +83,10 @@ public class ScriptDocumentTest {
     public void testGetAndSetPassword() {
         ScriptDocument document = new ScriptDocument();
         String expected = "top_secret";
-        
+
         document.setPassword(expected);
         String actual = document.getPassword();
-        
+
         assertSame("The password of the script document is not the same.", expected, actual);
     }
 
@@ -97,10 +97,10 @@ public class ScriptDocumentTest {
     public void testGetAndSetFilename() {
         ScriptDocument document = new ScriptDocument();
         String expected = "datenkommunikation.pdf";
-        
+
         document.setFilename(expected);
         String actual = document.getFilename();
-        
+
         assertSame("The filename of the script document is not the same.", expected, actual);
     }
 
@@ -111,10 +111,10 @@ public class ScriptDocumentTest {
     public void testGetAndSetNote() {
         ScriptDocument document = new ScriptDocument();
         String expected = "some notes...";
-        
+
         document.setNote(expected);
         String actual = document.getNote();
-        
+
         assertSame("The note of the script document is not the same.", expected, actual);
     }
 
@@ -125,10 +125,10 @@ public class ScriptDocumentTest {
     public void testGetAndSetScript() {
         ScriptDocument document = new ScriptDocument();
         Script expected = new Script();
-        
+
         document.setScript(expected);
         Script actual = document.getScript();
-        
+
         assertSame("The note of the script document is not the same.", expected, actual);
     }
 
@@ -138,11 +138,11 @@ public class ScriptDocumentTest {
     @Test
     public void testGetAndSetHashvalue() {
         ScriptDocument document = new ScriptDocument();
-        int expected = 123456789;
-        
+        Long expected = 123456789L;
+
         document.setHashvalue(expected);
-        int actual = document.getHashvalue();
-        
+        Long actual = document.getHashvalue();
+
         assertEquals("The hash value of the script document is not the same.", expected, actual);
     }
 
