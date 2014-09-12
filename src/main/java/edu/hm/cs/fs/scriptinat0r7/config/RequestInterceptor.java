@@ -25,9 +25,9 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         if (handler instanceof HandlerMethod && modelAndView != null && !isRedirect(modelAndView)) {
             final HandlerMethod handlerMethod = (HandlerMethod) handler;
             final String method = handlerMethod.getMethod().getName();
-            modelAndView.getModelMap().put("method", method);
+            modelAndView.getModelMap().addAttribute("method", method);
             final String controller = handlerMethod.getMethod().getDeclaringClass().getSimpleName();
-            modelAndView.getModelMap().put("controller", controller);
+            modelAndView.getModelMap().addAttribute("controller", controller);
         }
     }
 
