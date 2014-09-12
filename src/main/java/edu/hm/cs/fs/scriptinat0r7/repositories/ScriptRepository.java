@@ -24,7 +24,7 @@ public interface ScriptRepository extends PagingAndSortingRepository<Script, Int
     Collection<Script> findAll();
 
     /**
-     * Returns all sripts, which have script documents with the given state.
+     * Returns all scripts, which have script documents with the given state.
      * @param states The states that filter the scripts.
      * @return a {@code List} of all matching scripts.
      */
