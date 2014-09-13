@@ -1,6 +1,13 @@
 package edu.hm.cs.fs.scriptinat0r7.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 import org.junit.Test;
@@ -122,14 +129,35 @@ public class ScriptDocumentTest {
      * Tests the getter and setter for the script.
      */
     @Test
-    public void testGetAndSetScript() {
+    public void testGetAndSetScripts() {
         ScriptDocument document = new ScriptDocument();
-        Script expected = new Script();
+        Set<Script> expected = Collections.emptySet();
         
-        document.setScript(expected);
-        Script actual = document.getScript();
+        document.setScripts(expected);
+        Set<Script> actual = document.getScripts();
         
-        assertSame("The note of the script document is not the same.", expected, actual);
+        assertSame("The parent scripts of the script document are not the same.", expected, actual);
+    }
+    
+    @Test
+	public void testAddScript() {
+    	ScriptDocument document = new ScriptDocument();
+    	Script script = new Script();
+    	
+    	document.addScript(script);
+    	
+    	assertEquals("The set of scripts has not 1 element.", 1, document.getScripts().size());
+	}
+    
+    @Test
+    public void testAddScriptExistingSet() {
+    	ScriptDocument document = new ScriptDocument();
+    	document.setScripts(new HashSet<Script>());
+    	Script script = new Script();
+    	
+    	document.addScript(script);
+    	
+    	assertEquals("The set of scripts has not 1 element.", 1, document.getScripts().size());
     }
 
     /**

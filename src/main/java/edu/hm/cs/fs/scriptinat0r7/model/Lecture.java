@@ -20,11 +20,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import edu.hm.cs.fs.scriptinat0r7.model.enums.SemesterType;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.StudyProgram;
 
 /**
@@ -49,14 +47,8 @@ public class Lecture implements Serializable {
     @Enumerated(EnumType.STRING)
     private StudyProgram studyProgram;
 
-    @Enumerated(EnumType.STRING)
-    private SemesterType semesterType;
-
-    @Min(1980)
-    private Integer semesterYear;
-
     @OneToMany
-    private Set<Script> usedScripts = new HashSet<Script>();
+    private Set<Script> usedScripts;
 
     public Integer getId() {
         return id;
@@ -88,22 +80,6 @@ public class Lecture implements Serializable {
 
     public void setStudyProgram(final StudyProgram studyProgram) {
         this.studyProgram = studyProgram;
-    }
-
-    public SemesterType getSemesterType() {
-        return semesterType;
-    }
-
-    public void setSemesterType(final SemesterType semesterType) {
-        this.semesterType = semesterType;
-    }
-
-    public Integer getSemesterYear() {
-        return semesterYear;
-    }
-
-    public void setSemesterYear(final Integer semesterYear) {
-        this.semesterYear = semesterYear;
     }
 
     public Set<Script> getUsedScripts() {
@@ -143,7 +119,7 @@ public class Lecture implements Serializable {
 
     @Override
     public final int hashCode() {
-        return Objects.hash(name, readingProfessor, studyProgram, semesterType, semesterYear);
+        return Objects.hash(name, readingProfessor, studyProgram);
     }
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
@@ -157,8 +133,6 @@ public class Lecture implements Serializable {
         if (!Objects.equals(this.name, other.name)) { return false; }
         if (!Objects.equals(this.readingProfessor, other.readingProfessor)) { return false; }
         if (!Objects.equals(this.studyProgram, other.studyProgram)) { return false; }
-        if (!Objects.equals(this.semesterType, other.semesterType)) { return false; }
-        if (!Objects.equals(this.semesterYear, other.semesterYear)) { return false; }
 
         return true;
     }

@@ -116,8 +116,6 @@ public class LecturesController extends AbstractController {
             try {
                 lectureToSave.setName(lectureSubmitted.getName());
                 lectureToSave.setReadingProfessor(lectureSubmitted.getReadingProfessor());
-                lectureToSave.setSemesterType(lectureSubmitted.getSemesterType());
-                lectureToSave.setSemesterYear(lectureSubmitted.getSemesterYear());
                 lectureToSave.setStudyProgram(lectureSubmitted.getStudyProgram());
                 lectures.save(lectureToSave);
                 addSuccessFlash("Vorlesung erfolgreich gespeichert.", redirectAttributes);

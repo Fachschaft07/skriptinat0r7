@@ -37,11 +37,12 @@ public interface ScriptRepository extends PagingAndSortingRepository<Script, Int
      * @param states The states that filter the scripts.
      * @return a {@code List} of all matching scripts.
      */
-    @Query("SELECT u FROM #{#entityName} u"
-            + " WHERE EXISTS (SELECT scriptDocument"
-            + "              FROM ScriptDocument scriptDocument"
-            + "              WHERE scriptDocument.reviewState in (:states)"
-            + "              AND scriptDocument.script = u)")
+    /* 
+     * TODO: Query prüfen. Genommen und umgebaut von
+     * http://stackoverflow.com/questions/19886903/
+     * generation-query-when-the-manytomany-relationship-is-used-by-spring-data-jpa-pro
+     */
+    @Query("SELECT u FROM #{#entityName} u INNER JOIN u.scriptDocuments j where j.reviewState in (:states)")
     List<Script> findByReviewState(@Param("states") ReviewState... states);
 
 }

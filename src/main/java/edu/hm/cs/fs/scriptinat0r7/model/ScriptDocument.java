@@ -8,13 +8,15 @@ package edu.hm.cs.fs.scriptinat0r7.model;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
@@ -48,8 +50,8 @@ public class ScriptDocument implements Serializable {
     @Column(nullable = true)
     private String note;
 
-    @ManyToOne
-    private Script script;
+    @ManyToMany
+    private Set<Script> scripts;
 
     /**
      * Returns the size of the file.
@@ -108,12 +110,19 @@ public class ScriptDocument implements Serializable {
         this.note = note;
     }
 
-    public Script getScript() {
-        return script;
+    public Set<Script> getScripts() {
+        return scripts;
     }
 
-    public void setScript(final Script script) {
-        this.script = script;
+    public void setScripts(final Set<Script> scripts) {
+        this.scripts = scripts;
+    }
+    
+    public void addScript(final Script script) {
+    	if (scripts == null) {
+    		scripts = new HashSet<Script>();
+    	}
+    	scripts.add(script);
     }
 
     public Integer getHashvalue() {
@@ -127,7 +136,7 @@ public class ScriptDocument implements Serializable {
     @Override
     public final int hashCode() {
         return Objects.hash(hashvalue, Arrays.hashCode(file), sortnumber, 
-                reviewState, password, filename, note, script);
+                reviewState, password, filename, note, scripts);
     }
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
@@ -145,7 +154,7 @@ public class ScriptDocument implements Serializable {
         if (!Objects.equals(this.password, other.password)) { return false; }
         if (!Objects.equals(this.filename, other.filename)) { return false; }
         if (!Objects.equals(this.note, other.note)) { return false; }
-        if (!Objects.equals(this.script, other.script)) { return false; }
+        if (!Objects.equals(this.scripts, other.scripts)) { return false; }
 
         return true;
     }

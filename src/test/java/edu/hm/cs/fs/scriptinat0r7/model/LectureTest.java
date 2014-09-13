@@ -10,7 +10,6 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 
 import org.junit.Test;
 
-import edu.hm.cs.fs.scriptinat0r7.model.enums.SemesterType;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.StudyProgram;
 
 /**
@@ -83,34 +82,6 @@ public class LectureTest {
     }
 
     /**
-     * Tests the getter and setter of the semester type.
-     */
-    @Test
-    public void testGetAndSetSemesterType() {
-        Lecture lecture = new Lecture();
-        SemesterType expected = SemesterType.SS;
-
-        lecture.setSemesterType(expected);
-        SemesterType actual = lecture.getSemesterType();
-
-        assertSame("The semester type is not the same.", expected, actual);
-    }
-
-    /**
-     * Tests the getter and setter of the semester year.
-     */
-    @Test
-    public void testGetAndSetSemesterYear() {
-        Lecture lecture = new Lecture();
-        int expected = 2014;
-
-        lecture.setSemesterYear(expected);
-        int actual = lecture.getSemesterYear();
-
-        assertEquals("The semester year is not equal.", expected, actual);
-    }
-
-    /**
      * Tests the getter and setter of the used scripts.
      */
     @Test
@@ -164,5 +135,24 @@ public class LectureTest {
         lecture.removeScript(script);
         assertEquals("The set of scripts has not 0 elements.", 0, lecture.getUsedScripts().size());
     }
+    
+    /**
+     * Tests if the name of the lecture and professor is properly returned. 
+     */
+    @Test
+	public void testGetLectureAndProfessor() {
+		Lecture lecture = new Lecture();
+		lecture.setName("Softwareentwicklung II");
+		Professor prof = new Professor();
+		prof.setFirstName("Veronika");
+		prof.setLastName("Thurner");
+		prof.setTitle("Prof. Dr.");
+		lecture.setReadingProfessor(prof);
+		String expected = "Softwareentwicklung II / Prof. Dr. Thurner, Veronika";
+		
+		String actual = lecture.getLectureAndProfessor();
+		
+		assertEquals("The lecture and professor string ist not equal to expected.", expected, actual);
+	}
     
 }

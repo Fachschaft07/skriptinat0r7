@@ -26,7 +26,6 @@
                             <tr data-href="${pageContext.request.contextPath}/lectures/edit/${lecture.id}">
                                 <td>${lecture.name}</td>
                                 <td>${lecture.readingProfessor.fullName}</td>
-                                <td>${lecture.semesterType}${lecture.semesterYear}</td>
                                 <td>${lecture.studyProgram.name}</td>
                                 <td>todo</td>
                             </tr>

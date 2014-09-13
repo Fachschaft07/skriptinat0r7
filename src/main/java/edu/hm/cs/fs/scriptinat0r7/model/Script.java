@@ -18,10 +18,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ScriptCategory;
+import edu.hm.cs.fs.scriptinat0r7.model.enums.SemesterType;
 
 /**
  * Represents a script.
@@ -44,11 +45,17 @@ public class Script implements Serializable {
 
     @ManyToMany
     private Set<User> authors;
+    
+    @Enumerated(EnumType.STRING)
+    private SemesterType semesterType;
+
+    @Min(1980)
+    private Integer semesterYear;
 
     @ManyToMany
     private Set<Lecture> lectures;
 
-    @OneToMany
+    @ManyToMany
     private Set<ScriptDocument> scriptDocuments;
 
     public Integer getId() {
@@ -104,6 +111,22 @@ public class Script implements Serializable {
      */
     public void removeAuthor(final User author) {
         authors.remove(author);
+    }
+    
+    public SemesterType getSemesterType() {
+    	return semesterType;
+    }
+    
+    public void setSemesterType(SemesterType semesterType) {
+    	this.semesterType = semesterType;
+    }
+    
+    public int getSemesterYear() {
+    	return semesterYear;
+    }
+    
+    public void setSemesterYear(int semesterYear) {
+    	this.semesterYear = semesterYear;
     }
 
     public Set<Lecture> getLectures() {

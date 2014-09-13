@@ -12,6 +12,7 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ScriptCategory;
+import edu.hm.cs.fs.scriptinat0r7.model.enums.SemesterType;
 
 /**
  * Test class for the {@code Script}.
@@ -123,6 +124,34 @@ public class ScriptTest {
         script.removeAuthor(author);
         assertEquals("The set of student orders has not 0 elements.", 0, script.getAuthors().size());
     }
+    
+    /**
+     * Tests the getter and setter of the semester type.
+     */
+    @Test
+    public void testGetAndSetSemesterType() {
+    	Script script = new Script();
+    	SemesterType expected = SemesterType.SS;
+    	
+    	script.setSemesterType(expected);
+    	SemesterType actual = script.getSemesterType();
+    	
+    	assertSame("The semester type is not the same.", expected, actual);
+    }
+    
+    /**
+     * Tests the getter and setter of the semester year.
+     */
+    @Test
+    public void testGetAndSetSemesterYear() {
+    	Script script = new Script();
+    	int expected = 2014;
+    	
+    	script.setSemesterYear(expected);
+    	int actual = script.getSemesterYear();
+    	
+    	assertEquals("The semester year is not equal.", expected, actual);
+    }
 
     /**
      * Tests the getter and setter of the lectures.
@@ -137,6 +166,7 @@ public class ScriptTest {
         
         assertSame("The lectures of the script are not the same.", expected, actual);
     }
+    
 
     /**
      * Tests the add method of the lectures.
