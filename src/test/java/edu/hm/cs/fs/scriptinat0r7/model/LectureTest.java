@@ -137,22 +137,22 @@ public class LectureTest {
     }
     
     /**
-     * Tests if the name of the lecture and professor is properly returned. 
+     * Tests if the name of the lecture and professor is properly returned.
      */
     @Test
-	public void testGetLectureAndProfessor() {
-		Lecture lecture = new Lecture();
-		lecture.setName("Softwareentwicklung II");
-		Professor prof = new Professor();
-		prof.setFirstName("Veronika");
-		prof.setLastName("Thurner");
-		prof.setTitle("Prof. Dr.");
-		lecture.setReadingProfessor(prof);
-		String expected = "Softwareentwicklung II / Prof. Dr. Thurner, Veronika";
-		
-		String actual = lecture.getLectureAndProfessor();
-		
-		assertEquals("The lecture and professor string ist not equal to expected.", expected, actual);
-	}
+    public void testGetLectureAndProfessor() {
+        Lecture lecture = new Lecture();
+        lecture.setName("Softwareentwicklung II");
+        Professor prof = new Professor();
+        prof.setFirstName("Veronika");
+        prof.setLastName("Thurner");
+        prof.setTitle("Prof. Dr.");
+        lecture.setReadingProfessor(prof);
+        String expected = "Softwareentwicklung II / Prof. Dr. Thurner, Veronika";
+
+        String actual = lecture.getLectureAndProfessor();
+
+        assertEquals("The lecture and professor string ist not equal to expected.", expected, actual);
+    }
     
 }

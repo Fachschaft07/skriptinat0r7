@@ -139,25 +139,31 @@ public class ScriptDocumentTest {
         assertSame("The parent scripts of the script document are not the same.", expected, actual);
     }
     
+    /**
+     * Tests the add method of the scripts.
+     */
     @Test
-	public void testAddScript() {
-    	ScriptDocument document = new ScriptDocument();
-    	Script script = new Script();
-    	
-    	document.addScript(script);
-    	
-    	assertEquals("The set of scripts has not 1 element.", 1, document.getScripts().size());
-	}
+    public void testAddScript() {
+        ScriptDocument document = new ScriptDocument();
+        Script script = new Script();
+
+        document.addScript(script);
+
+        assertEquals("The set of scripts has not 1 element.", 1, document.getScripts().size());
+    }
     
+    /**
+     * Tests the add method of the scripts when there is already an existing set.
+     */
     @Test
     public void testAddScriptExistingSet() {
-    	ScriptDocument document = new ScriptDocument();
-    	document.setScripts(new HashSet<Script>());
-    	Script script = new Script();
-    	
-    	document.addScript(script);
-    	
-    	assertEquals("The set of scripts has not 1 element.", 1, document.getScripts().size());
+        ScriptDocument document = new ScriptDocument();
+        document.setScripts(new HashSet<Script>());
+        Script script = new Script();
+
+        document.addScript(script);
+
+        assertEquals("The set of scripts has not 1 element.", 1, document.getScripts().size());
     }
 
     /**

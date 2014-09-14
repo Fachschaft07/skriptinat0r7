@@ -114,19 +114,19 @@ public class Script implements Serializable {
     }
     
     public SemesterType getSemesterType() {
-    	return semesterType;
+        return semesterType;
     }
     
-    public void setSemesterType(SemesterType semesterType) {
-    	this.semesterType = semesterType;
+    public void setSemesterType(final SemesterType semesterType) {
+        this.semesterType = semesterType;
     }
     
     public int getSemesterYear() {
-    	return semesterYear;
+        return semesterYear;
     }
     
-    public void setSemesterYear(int semesterYear) {
-    	this.semesterYear = semesterYear;
+    public void setSemesterYear(final int semesterYear) {
+        this.semesterYear = semesterYear;
     }
 
     public Set<Lecture> getLectures() {

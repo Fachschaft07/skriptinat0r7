@@ -130,13 +130,13 @@ public class ScriptTest {
      */
     @Test
     public void testGetAndSetSemesterType() {
-    	Script script = new Script();
-    	SemesterType expected = SemesterType.SS;
-    	
-    	script.setSemesterType(expected);
-    	SemesterType actual = script.getSemesterType();
-    	
-    	assertSame("The semester type is not the same.", expected, actual);
+        Script script = new Script();
+        SemesterType expected = SemesterType.SS;
+
+        script.setSemesterType(expected);
+        SemesterType actual = script.getSemesterType();
+
+        assertSame("The semester type is not the same.", expected, actual);
     }
     
     /**
@@ -144,13 +144,13 @@ public class ScriptTest {
      */
     @Test
     public void testGetAndSetSemesterYear() {
-    	Script script = new Script();
-    	int expected = 2014;
-    	
-    	script.setSemesterYear(expected);
-    	int actual = script.getSemesterYear();
-    	
-    	assertEquals("The semester year is not equal.", expected, actual);
+        Script script = new Script();
+        int expected = 2014;
+
+        script.setSemesterYear(expected);
+        int actual = script.getSemesterYear();
+
+        assertEquals("The semester year is not equal.", expected, actual);
     }
 
     /**

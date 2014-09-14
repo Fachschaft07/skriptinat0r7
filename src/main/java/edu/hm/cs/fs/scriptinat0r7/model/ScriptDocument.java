@@ -117,12 +117,18 @@ public class ScriptDocument implements Serializable {
     public void setScripts(final Set<Script> scripts) {
         this.scripts = scripts;
     }
-    
+
+    /**
+     * Adds a script to this {@code ScriptDocument}.
+     * 
+     * @param script
+     *            the script to add.
+     */
     public void addScript(final Script script) {
-    	if (scripts == null) {
-    		scripts = new HashSet<Script>();
-    	}
-    	scripts.add(script);
+        if (scripts == null) {
+            scripts = new HashSet<Script>();
+        }
+        scripts.add(script);
     }
 
     public Integer getHashvalue() {
