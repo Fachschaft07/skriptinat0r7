@@ -18,7 +18,7 @@
                     </div>
                 </c:if>
             
-                <form action="<c:url value="/login"/>" method="post" class="form-horizontal" role="form">
+                <form action="<c:url value="/login.do"/>" method="post" class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-4 control-label">Benutzername</label>
                         <div class="col-sm-8">

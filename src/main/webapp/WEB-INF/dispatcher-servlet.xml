@@ -44,4 +44,5 @@
 
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <import resource="classpath:/spring/beans.xml" />
+    <import resource="classpath:/spring/spring-security-config.xml" />
 </beans>
