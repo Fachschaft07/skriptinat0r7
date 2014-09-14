@@ -1,6 +1,7 @@
 package edu.hm.cs.fs.scriptinat0r7.controller;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,7 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.common.collect.Sets;
+
 import edu.hm.cs.fs.scriptinat0r7.exception.UnauthorizedException;
+import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 import edu.hm.cs.fs.scriptinat0r7.service.LectureService;
@@ -102,7 +106,6 @@ public class ScriptsController extends AbstractController {
         } else {
             try {
                 final Script savedScript = scriptsService.saveAsNewScript(script);
-                addSuccessFlash("Daten gültig, bitte fahre mit den Dateien fort.", redirectAttributes);
                 return redirect("scripts/submit/files/" + savedScript.getId());
             } catch (DataAccessException e) {
                 addErrorFlash("Es trat ein Fehler auf: " + e.getLocalizedMessage(), redirectAttributes);
@@ -159,15 +162,20 @@ public class ScriptsController extends AbstractController {
     @RequestMapping("submit/password/{id}")
     public String addScriptPasswordForm(@PathVariable("id") final Script script,
             final ModelMap model,
-            final HttpServletRequest httpServletRequest) throws UnauthorizedException {
+            final HttpServletRequest httpServletRequest,
+            @RequestParam(value = "passwords", defaultValue = "") String passwordsPost,
+            final RedirectAttributes redirectAttributes) throws UnauthorizedException {
         abortUnauthorizedAccess(script, httpServletRequest);
         final List<String> passwords = new LinkedList<>();
-        passwords.add("");
-        passwords.add("test");
-        final List<ScriptDocument> documentWithMissingPassword = documentsService.findByMissingPassword(script, passwords);
+        Collections.addAll(passwords, StringUtils.split(passwordsPost));
+        final List<ScriptDocument> documentsWithMissingPassword = documentsService.tryPasswordsOnScriptDocumentsWithMissingPassword(script, passwords);
+        final List<ScriptDocument> documentsWithKnownPassword = documentsService.findByScript(script);
+        documentsWithKnownPassword.removeAll(documentsWithMissingPassword);
 
-        if (!documentWithMissingPassword.isEmpty()) {
-            model.addAttribute("scriptsWithMissingPassword", documentWithMissingPassword);
+        if (!documentsWithMissingPassword.isEmpty()) {
+            model.addAttribute("id", script.getId());
+            model.addAttribute("documentsWithMissingPassword", documentsWithMissingPassword);
+            model.addAttribute("documentsWithKnownPassword", documentsWithKnownPassword);
             return "scripts/submit-password";
         } else {
             return redirect("scripts/submit/summarize/" + script.getId());
@@ -175,9 +183,40 @@ public class ScriptsController extends AbstractController {
     }
 
     @RequestMapping(value = "/submit/summarize/{id}", method = RequestMethod.GET)
-    public String addScriptSummarizeForm(final ModelMap model) {
-        TODO! // intentional compile failure to mark next spot of progress
+    public String addScriptSummarizeForm(final ModelMap model,
+            @PathVariable("id") final Script script,
+            final HttpServletRequest httpServletRequest) throws UnauthorizedException {
+        abortUnauthorizedAccess(script, httpServletRequest);
+        List<Lecture> scriptLectures = lecturesService.findByScript(script);
+        script.setLectures(Sets.newHashSet(scriptLectures)); // TODO: horrible hack to avoid lazy loading exception in view
+        model.addAttribute("script", script);
+        model.addAttribute("scriptDocuments", documentsService.findByScript(script));
+        model.addAttribute("lectures", scriptLectures);
         return "scripts/submit-summarize";
+    }
+
+    @RequestMapping(value = "/submit/summarize/{id}", method = RequestMethod.POST)
+    public String addScriptSummarizeSubmit(final RedirectAttributes redirectAttributes,
+            @RequestParam("scriptDocumentSort[]") final String[] orderedDocumentHashes,
+            @PathVariable("id") final Script script,
+            HttpServletRequest httpServletRequest) throws UnauthorizedException {
+        abortUnauthorizedAccess(script, httpServletRequest);
+
+        documentsService.updateDocumentOrder(mapStringArrayToLongList(orderedDocumentHashes),
+                documentsService.findByScript(script));
+        scriptsService.finalizeScriptSubmit(script);
+
+        addSuccessFlash("Script erfolgreich eingeschickt. Herzlichen Dank für deine Mühe. Über deinen Account kannst du zu deinen Einsendungen navigieren. Dort siehst du, sobald es zur Bestellung freigeschalten wurde.", redirectAttributes);
+        return redirect("scripts");
+    }
+
+    private List<Long> mapStringArrayToLongList(final String[] orderedDocumentHashes) {
+        // TODO: java 8 lambda
+        List<Long> result = new LinkedList<Long>();
+        for (final String hash : orderedDocumentHashes) {
+            result.add(Long.parseLong(hash));
+        }
+        return result;
     }
 
     /**

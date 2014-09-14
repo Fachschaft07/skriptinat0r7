@@ -7,8 +7,30 @@
 <tiles:insertDefinition name="defaultTemplate">
     <tiles:putAttribute name="content">
         <h2>Skript einschicken - Schritt 3. Passwörter</h2>
-        <form:form action="${pageContext.request.contextPath}/scripts/submit/files/${id}?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
-            TODO - ask for passwords and list files with missing password
-        </form:form>
+        <form action="${pageContext.request.contextPath}/scripts/submit/password/${id}" method="post">
+            <p>Folgenden Dokumente sind verschlüsselt und benötigen ein Passwort:</p>
+            <ul>
+                <c:forEach items="${documentsWithMissingPassword}" var="document">
+                    <li class="text-warning">${document.filename}</li>
+                </c:forEach>
+            </ul>
+            
+            <p>Folgende Dokumente konnten wir entschlüsseln / benötigten kein Passwort:</p>
+            <ul>
+                <c:forEach items="${documentsWithKnownPassword}" var="document">
+                    <li class="text-success">${document.filename}</li>
+                </c:forEach>
+            </ul>
+            
+            <p>Bitte gib in folgendes Formular die notwendigen Passwörter ein. Eines pro Zeile, die Reihenfolge ist egal.</p>
+            <div class="form-group">
+                <textarea name="passwords" class="form-control" rows="${documentsWithMissingPassword.size()}"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <button class="btn btn-primary" ><span class="glyphicon glyphicon-lock"></span> Entschlüsseln</button>
+            </div>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        </form>
     </tiles:putAttribute>
 </tiles:insertDefinition>

@@ -1,11 +1,13 @@
 package edu.hm.cs.fs.scriptinat0r7.repositories;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
+import edu.hm.cs.fs.scriptinat0r7.model.Script;
 
 /**
  * Repository to execute CRUD operations on {@code Lecture}s.
@@ -26,5 +28,7 @@ public interface LectureRepository extends PagingAndSortingRepository<Lecture, I
      * @return a list of matched lectures.
      */
     List<Lecture> findByNameContaining(String searchQuery);
+
+    List<Lecture> findByUsedScriptsIn(Collection<Script> script);
 
 }

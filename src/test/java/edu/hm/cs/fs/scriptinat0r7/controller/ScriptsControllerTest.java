@@ -32,7 +32,7 @@ public class ScriptsControllerTest {
         final ScriptsService service = mock(ScriptsService.class);
         final ModelMap model = mock(ModelMap.class);
         final HttpServletRequest request = mock(HttpServletRequest.class);
-        ReflectionTestUtils.setField(controller, "scripts", service);
+        ReflectionTestUtils.setField(controller, "scriptsService", service);
         final Collection<Script> scripts = Collections.emptyList();
         when(service.findAll()).thenReturn(scripts);
         when(request.isUserInRole("ROLE_FACHSCHAFTLER")).thenReturn(false);

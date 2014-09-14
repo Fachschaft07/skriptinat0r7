@@ -58,4 +58,9 @@ public class ScriptsService {
             throw new UnauthorizedException();
         }
     }
+
+    public void finalizeScriptSubmit(Script script) {
+        script.setSubmittedCompletely(true);
+        scripts.save(script);
+    }
 }

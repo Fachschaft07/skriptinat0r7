@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.zip.CRC32;
 
 import org.apache.commons.io.IOUtils;
@@ -39,6 +40,8 @@ public class ScriptDocumentsService {
         document.setSortnumber(sortNumber);
         document.setScript(script);
         // TODO: check if is pdf
+        // TODO: check if needs pw
+        document.setPasswordMissing(true);
         return save(document);
     }
 
@@ -47,21 +50,25 @@ public class ScriptDocumentsService {
         return scriptDocuments.findByScriptOrderBySortnumberAsc(script);
     }
 
-    public List<ScriptDocument> findByMissingPassword(final Script script, Collection<String> passwordsToTry) {
-        List<ScriptDocument> result = new LinkedList<>();
+    public List<ScriptDocument> tryPasswordsOnScriptDocumentsWithMissingPassword(final Script script, Collection<String> passwordsToTry) {
+        final List<ScriptDocument> documentsWherePasswordStillMissing = new LinkedList<>();
 
-        for (ScriptDocument document : scriptDocuments.findByScriptOrderBySortnumberAsc(script)) {
+        for (ScriptDocument currentDocument : scriptDocuments.findByScriptAndIsPasswordMissingTrue(script)) {
             try {
-                findRightPassword(passwordsToTry, document);
+                final String passwordThatDecryptsThisDocument = tryPasswordsForDocument(passwordsToTry, currentDocument);
+                currentDocument.setPassword(passwordThatDecryptsThisDocument);
+                currentDocument.setPasswordMissing(false);
+                save(currentDocument);
             } catch (IllegalArgumentException | IOException e) {
-                result.add(document);
+                documentsWherePasswordStillMissing.add(currentDocument);
             }
         }
 
-        return result;
+        return documentsWherePasswordStillMissing;
     }
 
-    public String findRightPassword(final Collection<String> passwords, final ScriptDocument scriptDocument) throws IOException {
+    public String tryPasswordsForDocument(final Collection<String> passwords,
+            final ScriptDocument scriptDocument) throws IOException, IllegalArgumentException {
         PDFParser pdf = null;
         try {
             final ByteArrayInputStream bytes = new ByteArrayInputStream(scriptDocument.getFile());
@@ -100,6 +107,26 @@ public class ScriptDocumentsService {
 
     public ScriptDocument save(final ScriptDocument document) {
         return scriptDocuments.save(document);
+    }
+
+    @Transactional
+    public void updateDocumentOrder(final List<Long> orderedDocumentHashes,
+            final List<ScriptDocument> documents) {
+        for (final ScriptDocument document : documents) {
+            boolean hasChanged = false;
+            for (int i = 0; i < orderedDocumentHashes.size(); i++) {
+                final Long documentHash = orderedDocumentHashes.get(i);
+                if (Objects.equals(documentHash, document.getHashvalue())) {
+                    document.setSortnumber(i);
+                    hasChanged = true;
+                    scriptDocuments.save(document);
+                    break;
+                }
+            }
+            if (!hasChanged) {
+                throw new IllegalArgumentException("at least one document has not been assigned a sortnumber. this is a illegal condition, as it could cause duplicate sortnumbers");
+            }
+        }
     }
 
 }
