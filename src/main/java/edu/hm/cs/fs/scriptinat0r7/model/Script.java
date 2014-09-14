@@ -17,6 +17,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -41,7 +42,7 @@ public class Script implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(unique = true)
+    @Column
     @NotBlank
     private String name;
 
@@ -53,6 +54,7 @@ public class Script implements Serializable {
 
     @ManyToMany
     @NotEmpty
+    @JoinTable
     private Set<Lecture> lectures;
 
     @OneToMany
@@ -207,7 +209,7 @@ public class Script implements Serializable {
 
     @Override
     public final int hashCode() {
-        return Objects.hash(id, name, category, authors, lectures, scriptDocuments, submitter, isSubmittedCompletely);
+        return Objects.hash(id, name, category, submitter, isSubmittedCompletely);
     }
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
@@ -221,9 +223,6 @@ public class Script implements Serializable {
         if (!Objects.equals(this.id, other.id)) { return false; }
         if (!Objects.equals(this.name, other.name)) { return false; }
         if (!Objects.equals(this.category, other.category)) { return false; }
-        if (!Objects.equals(this.authors, other.authors)) { return false; }
-        if (!Objects.equals(this.lectures, other.lectures)) { return false; }
-        if (!Objects.equals(this.scriptDocuments, other.scriptDocuments)) { return false; }
         if (!Objects.equals(this.submitter, other.submitter)) { return false; }
         if (!Objects.equals(this.isSubmittedCompletely, other.isSubmittedCompletely)) { return false; }
 

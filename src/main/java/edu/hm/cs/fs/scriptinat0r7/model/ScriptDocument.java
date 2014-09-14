@@ -19,6 +19,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.io.FileUtils;
+
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 
 /**
@@ -56,12 +58,18 @@ public class ScriptDocument implements Serializable {
     @Column(nullable = false)
     private Integer fileSize;
 
+    private boolean isPasswordMissing;
+
     public int getFileSize() {
         return fileSize;
     }
 
     public void setFileSize(Integer fileSize) {
         this.fileSize = fileSize;
+    }
+
+    public String getFileSizeFormatted() {
+        return FileUtils.byteCountToDisplaySize(fileSize);
     }
 
     public byte[] getFile() {
@@ -127,6 +135,14 @@ public class ScriptDocument implements Serializable {
 
     public void setHashvalue(final Long hashvalue) {
         this.hashvalue = hashvalue;
+    }
+
+    public boolean isPasswordMissing() {
+        return isPasswordMissing;
+    }
+
+    public void setPasswordMissing(boolean isRightPassword) {
+        this.isPasswordMissing = isRightPassword;
     }
 
     @Override
