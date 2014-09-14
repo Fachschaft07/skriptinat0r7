@@ -10,6 +10,7 @@
         <title>Skriptensystem Fachschaft 07</title>
         <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/resources/css/typeahead/typeaheadjs.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/resources/js/jquery-ui/jquery-ui.min.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet">
     </head>
     <body>
