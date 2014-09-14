@@ -43,6 +43,7 @@ dependencies {
    compile 'mysql:mysql-connector-java:5.1.32'
    compile 'findbugs:annotations:1.0.0'
    compile 'com.google.code.findbugs:jsr305:3.0.0'
+   compile 'com.google.guava:guava:18.0'
    compile 'com.sun.mail:javax.mail:1.5.2'
 
 
