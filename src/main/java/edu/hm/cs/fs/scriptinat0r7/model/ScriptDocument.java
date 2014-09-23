@@ -9,6 +9,7 @@ package edu.hm.cs.fs.scriptinat0r7.model;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.zip.CRC32;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -64,7 +65,7 @@ public class ScriptDocument implements Serializable {
         return fileSize;
     }
 
-    public void setFileSize(Integer fileSize) {
+    public void setFileSize(final Integer fileSize) {
         this.fileSize = fileSize;
     }
 
@@ -76,6 +77,10 @@ public class ScriptDocument implements Serializable {
         return Arrays.copyOf(this.file, this.file.length);
     }
 
+    /**
+     * Sets the file.
+     * @param file the file.
+     */
     public void setFile(final byte[] file) {
         this.file = Arrays.copyOf(file, file.length);
         this.fileSize = file.length;
@@ -141,7 +146,7 @@ public class ScriptDocument implements Serializable {
         return isPasswordMissing;
     }
 
-    public void setPasswordMissing(boolean isRightPassword) {
+    public void setPasswordMissing(final boolean isRightPassword) {
         this.isPasswordMissing = isRightPassword;
     }
 
@@ -171,4 +176,14 @@ public class ScriptDocument implements Serializable {
         return true;
     }
     // CHECKSTYLE.ON: NPath Complexity
+
+    /**
+     * Computes the hash value of a script document.
+     * @return the 32 bit hash value as a long.
+     */
+    public long computeHashvalue() {
+        final CRC32 crc = new CRC32();
+        crc.update(getFile());
+        return crc.getValue();
+    }
 }

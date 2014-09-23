@@ -14,51 +14,88 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
 
 import edu.hm.cs.fs.scriptinat0r7.exception.UnauthorizedException;
 
+/**
+ * Special controller, used by spring to serve error pages.
+ */
 @ControllerAdvice
 public class ExceptionController extends AbstractController {
 
+    private static final String ERRORS_400 = "errors/400";
+
+    /**
+     * Handles an error case.
+     * @return an error page
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public String handleMissingServletRequestParameterException() {
-        return "errors/400";
+        return ERRORS_400;
     }
 
+    /**
+     * Handles an error case.
+     * @return an error page
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ServletRequestBindingException.class)
     public String handleServletRequestBindingException() {
-        return "errors/400";
+        return ERRORS_400;
     }
 
+    /**
+     * Handles an error case.
+     * @return an error page
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(TypeMismatchException.class)
     public String handleTypeMismatchException() {
-        return "errors/400";
+        return ERRORS_400;
     }
 
+    /**
+     * Handles an error case.
+     * @return an error page
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public String handleHttpMessageNotReadableException() {
-        return "errors/400";
+        return ERRORS_400;
     }
 
+    /**
+     * Handles an error case.
+     * @return an error page
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public String handleMethodArgumentNotValidException() {
-        return "errors/400";
+        return ERRORS_400;
     }
 
+    /**
+     * Handles an error case.
+     * @return an error page
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingServletRequestPartException.class)
     public String handleMissingServletRequestPartException() {
-        return "errors/400";
+        return ERRORS_400;
     }
 
+    /**
+     * Handles an error case.
+     * @return an error page
+     */
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(UnauthorizedException.class)
     public String handleUnauthorized() {
         return "errors/401";
     }
 
+    /**
+     * Handles an error case.
+     * @return an error page
+     */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoSuchRequestHandlingMethodException.class)
     public String handleNoSuchRequestHandlingMethodException() {

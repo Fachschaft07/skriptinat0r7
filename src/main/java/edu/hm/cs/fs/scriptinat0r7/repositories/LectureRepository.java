@@ -29,6 +29,11 @@ public interface LectureRepository extends PagingAndSortingRepository<Lecture, I
      */
     List<Lecture> findByNameContaining(String searchQuery);
 
+    /**
+     * Returns all lectures which have a script in the given collection.
+     * @param script the scripts, which are used to filter the lectures.
+     * @return a list of matched lectures.
+     */
     List<Lecture> findByUsedScriptsIn(Collection<Script> script);
 
 }

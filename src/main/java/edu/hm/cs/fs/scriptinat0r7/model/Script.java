@@ -63,7 +63,7 @@ public class Script implements Serializable {
     @OneToOne
     private User submitter;
 
-    private boolean isSubmittedCompletely;
+    private boolean submittedCompletely;
 
     public Integer getId() {
         return id;
@@ -186,21 +186,25 @@ public class Script implements Serializable {
         return submitter;
     }
 
-    public void setSubmitter(User submitter) {
+    public void setSubmitter(final User submitter) {
         this.submitter = submitter;
     }
 
     public boolean isSubmittedCompletely() {
-        return isSubmittedCompletely;
+        return submittedCompletely;
     }
 
-    public void setSubmittedCompletely(boolean isSubmittedCompletely) {
-        this.isSubmittedCompletely = isSubmittedCompletely;
+    public void setSubmittedCompletely(final boolean isSubmittedCompletely) {
+        this.submittedCompletely = isSubmittedCompletely;
     }
 
+    /**
+     * returns if all script documents are allowed to be seen.
+     * @return true if all script documents are allowed to be seen.
+     */
     public boolean areAllScriptsApproved() {
         for (ScriptDocument document : getScriptDocuments()) {
-            if(document.getReviewState() == ReviewState.DELETED || document.getReviewState() == ReviewState.LOCKED) {
+            if (document.getReviewState() == ReviewState.DELETED || document.getReviewState() == ReviewState.LOCKED) {
                 return false;
             }
         }
@@ -209,7 +213,7 @@ public class Script implements Serializable {
 
     @Override
     public final int hashCode() {
-        return Objects.hash(id, name, category, submitter, isSubmittedCompletely);
+        return Objects.hash(id, name, category, submitter, submittedCompletely);
     }
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
@@ -224,7 +228,7 @@ public class Script implements Serializable {
         if (!Objects.equals(this.name, other.name)) { return false; }
         if (!Objects.equals(this.category, other.category)) { return false; }
         if (!Objects.equals(this.submitter, other.submitter)) { return false; }
-        if (!Objects.equals(this.isSubmittedCompletely, other.isSubmittedCompletely)) { return false; }
+        if (!Objects.equals(this.submittedCompletely, other.submittedCompletely)) { return false; }
 
         return true;
     }

@@ -50,11 +50,21 @@ public class LectureService {
         lectures.delete(lecture);
     }
 
-    public List<Lecture> findByNameContaining(String searchQuery) {
+    /**
+     * Returns all lectures where the name contains the given query.
+     * @param searchQuery the query.
+     * @return all matching lectures.
+     */
+    public List<Lecture> findByNameContaining(final String searchQuery) {
         return lectures.findByNameContaining(searchQuery);
     }
 
-    public List<Lecture> findByScript(Script script) {
+    /**
+     * Returns all lectures which have a script in the given collection.
+     * @param script the script, which is used to filter the lectures.
+     * @return a list of matched lectures.
+     */
+    public List<Lecture> findByScript(final Script script) {
         return lectures.findByUsedScriptsIn(Collections.singleton(script));
     }
 }
