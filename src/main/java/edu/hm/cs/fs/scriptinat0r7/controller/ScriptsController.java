@@ -206,7 +206,9 @@ public class ScriptsController extends AbstractController {
                 documentsService.findByScript(script));
         scriptsService.finalizeScriptSubmit(script);
 
-        addSuccessFlash("Script erfolgreich eingeschickt. Herzlichen Dank für deine Mühe. Über deinen Account kannst du zu deinen Einsendungen navigieren. Dort siehst du, sobald es zur Bestellung freigeschalten wurde.", redirectAttributes);
+        addSuccessFlash("Script erfolgreich eingeschickt. Herzlichen Dank für deine Mühe."
+                + " Über deinen Account kannst du zu deinen Einsendungen navigieren."
+                + "Dort siehst du, sobald es zur Bestellung freigeschalten wurde.", redirectAttributes);
         return redirect("scripts");
     }
 
