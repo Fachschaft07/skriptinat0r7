@@ -89,7 +89,7 @@ public class ExceptionController extends AbstractController {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(UnauthorizedException.class)
     public String handleUnauthorized() {
-        return "errors/401";
+        return "errors/403";
     }
 
     /**

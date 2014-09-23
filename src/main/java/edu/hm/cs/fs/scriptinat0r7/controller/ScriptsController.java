@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -276,6 +277,7 @@ public class ScriptsController extends AbstractController {
      * @param model the model used by the view.
      * @return the logical view name.
      */
+    @Secured("ROLE_FACHSCHAFTLER")
     @RequestMapping(value = "/show-submissions", method = RequestMethod.GET)
     public String showScriptSubmissions(final ModelMap model) {
         model.addAttribute("scripts", scriptsService.findAllLockedScripts());

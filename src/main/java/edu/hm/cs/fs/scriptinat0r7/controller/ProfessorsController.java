@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,7 @@ import edu.hm.cs.fs.scriptinat0r7.service.ProfessorService;
 /**
  * Controller to render pages for dealing with {@code Professors}s.
  */
+@Secured("ROLE_FACHSCHAFTLER")
 @Controller
 @RequestMapping("/professors")
 public class ProfessorsController extends AbstractController {
