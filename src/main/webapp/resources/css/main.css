@@ -76,3 +76,11 @@ body {
 .clickable {
     cursor: pointer;
 }
+
+.sortable {
+    cursor: all-scroll;
+}
+
+.natural-padding {
+    padding: 1em;
+}

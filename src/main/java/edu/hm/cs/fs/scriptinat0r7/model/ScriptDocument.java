@@ -11,13 +11,18 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.zip.CRC32;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.apache.commons.io.FileUtils;
 
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 
@@ -30,10 +35,10 @@ public class ScriptDocument implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(nullable = false)
-    private Integer hashvalue;
+    private Long hashvalue;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(nullable = false)
     private byte[] file;
 
@@ -53,21 +58,34 @@ public class ScriptDocument implements Serializable {
     @ManyToMany
     private Set<Script> scripts;
 
-    /**
-     * Returns the size of the file.
-     *
-     * @return the size of the file.
-     */
+    @Column(nullable = false)
+    private Integer fileSize;
+
+    private boolean isPasswordMissing;
+
     public int getFileSize() {
-        return file.length;
+        return fileSize;
+    }
+
+    public void setFileSize(final Integer fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public String getFileSizeFormatted() {
+        return FileUtils.byteCountToDisplaySize(fileSize);
     }
 
     public byte[] getFile() {
         return Arrays.copyOf(this.file, this.file.length);
     }
 
+    /**
+     * Sets the file.
+     * @param file the file.
+     */
     public void setFile(final byte[] file) {
         this.file = Arrays.copyOf(file, file.length);
+        this.fileSize = file.length;
     }
 
     public int getSortnumber() {
@@ -120,7 +138,7 @@ public class ScriptDocument implements Serializable {
 
     /**
      * Adds a script to this {@code ScriptDocument}.
-     * 
+     *
      * @param script
      *            the script to add.
      */
@@ -131,18 +149,26 @@ public class ScriptDocument implements Serializable {
         scripts.add(script);
     }
 
-    public Integer getHashvalue() {
+    public Long getHashvalue() {
         return hashvalue;
     }
 
-    public void setHashvalue(final Integer hashvalue) {
+    public void setHashvalue(final Long hashvalue) {
         this.hashvalue = hashvalue;
+    }
+
+    public boolean isPasswordMissing() {
+        return isPasswordMissing;
+    }
+
+    public void setPasswordMissing(final boolean isRightPassword) {
+        this.isPasswordMissing = isRightPassword;
     }
 
     @Override
     public final int hashCode() {
-        return Objects.hash(hashvalue, Arrays.hashCode(file), sortnumber, 
-                reviewState, password, filename, note, scripts);
+        return Objects.hash(hashvalue, Arrays.hashCode(file), sortnumber,
+                reviewState, password, filename, note);
     }
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
@@ -160,9 +186,18 @@ public class ScriptDocument implements Serializable {
         if (!Objects.equals(this.password, other.password)) { return false; }
         if (!Objects.equals(this.filename, other.filename)) { return false; }
         if (!Objects.equals(this.note, other.note)) { return false; }
-        if (!Objects.equals(this.scripts, other.scripts)) { return false; }
 
         return true;
     }
     // CHECKSTYLE.ON: NPath Complexity
+
+    /**
+     * Computes the hash value of a script document.
+     * @return the 32 bit hash value as a long.
+     */
+    public long computeHashvalue() {
+        final CRC32 crc = new CRC32();
+        crc.update(getFile());
+        return crc.getValue();
+    }
 }

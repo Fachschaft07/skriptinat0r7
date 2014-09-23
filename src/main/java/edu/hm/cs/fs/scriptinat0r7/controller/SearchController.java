@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
 import edu.hm.cs.fs.scriptinat0r7.model.Professor;
-import edu.hm.cs.fs.scriptinat0r7.model.Script;
-import edu.hm.cs.fs.scriptinat0r7.repositories.ProfessorRepository;
-import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
+import edu.hm.cs.fs.scriptinat0r7.service.LectureService;
+import edu.hm.cs.fs.scriptinat0r7.service.ProfessorService;
 
 /**
  * Controller responsible for search queries, e.g. the quick ajax-search and an extended search.
@@ -25,10 +25,10 @@ import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
 public class SearchController extends AbstractController {
 
     @Autowired
-    private ScriptRepository scripts;
+    private LectureService lectures;
 
     @Autowired
-    private ProfessorRepository professors;
+    private ProfessorService professors;
 
     /**
      * Request method for serializing search results via json.
@@ -44,13 +44,13 @@ public class SearchController extends AbstractController {
     public Collection<SearchResult> index(final ModelMap model, @RequestParam("q") final String searchQuery) {
         final List<SearchResult> result = new ArrayList<>();
 
-        for (final Script script : scripts.findByNameContaining(searchQuery)) {
-            // TODO: provide real names
-            result.add(new SearchResult(script.toString(), script.toString()));
-        }
         for (final Professor professor : professors.findByFirstNameContainingOrLastNameContaining(searchQuery)) {
-            // TODO: provide real names
-            result.add(new SearchResult(professor.toString(), professor.toString()));
+            // TODO: provide real urls
+            result.add(new SearchResult(professor.getFullName(), professor.toString()));
+        }
+        for (final Lecture lecture : lectures.findByNameContaining(searchQuery)) {
+            // TODO: provide real url
+            result.add(new SearchResult(lecture.getLectureAndProfessor(), lecture.toString()));
         }
 
         return result;

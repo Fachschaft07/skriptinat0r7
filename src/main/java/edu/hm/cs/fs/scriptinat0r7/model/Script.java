@@ -17,10 +17,16 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ScriptCategory;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.SemesterType;
 
@@ -37,7 +43,8 @@ public class Script implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(unique = true)
+    @Column
+    @NotBlank
     private String name;
 
     @Enumerated(EnumType.STRING)
@@ -45,7 +52,7 @@ public class Script implements Serializable {
 
     @ManyToMany
     private Set<User> authors;
-    
+
     @Enumerated(EnumType.STRING)
     private SemesterType semesterType;
 
@@ -53,10 +60,17 @@ public class Script implements Serializable {
     private Integer semesterYear;
 
     @ManyToMany
+    @NotEmpty
+    @JoinTable
     private Set<Lecture> lectures;
 
     @ManyToMany
     private Set<ScriptDocument> scriptDocuments;
+
+    @OneToOne
+    private User submitter;
+
+    private boolean submittedCompletely;
 
     public Integer getId() {
         return id;
@@ -112,19 +126,19 @@ public class Script implements Serializable {
     public void removeAuthor(final User author) {
         authors.remove(author);
     }
-    
+
     public SemesterType getSemesterType() {
         return semesterType;
     }
-    
+
     public void setSemesterType(final SemesterType semesterType) {
         this.semesterType = semesterType;
     }
-    
+
     public int getSemesterYear() {
         return semesterYear;
     }
-    
+
     public void setSemesterYear(final int semesterYear) {
         this.semesterYear = semesterYear;
     }
@@ -191,9 +205,38 @@ public class Script implements Serializable {
         scriptDocuments.remove(scriptDocument);
     }
 
+    public User getSubmitter() {
+        return submitter;
+    }
+
+    public void setSubmitter(final User submitter) {
+        this.submitter = submitter;
+    }
+
+    public boolean isSubmittedCompletely() {
+        return submittedCompletely;
+    }
+
+    public void setSubmittedCompletely(final boolean isSubmittedCompletely) {
+        this.submittedCompletely = isSubmittedCompletely;
+    }
+
+    /**
+     * returns if all script documents are allowed to be seen.
+     * @return true if all script documents are allowed to be seen.
+     */
+    public boolean areAllScriptsApproved() {
+        for (ScriptDocument document : getScriptDocuments()) {
+            if (document.getReviewState() == ReviewState.DELETED || document.getReviewState() == ReviewState.LOCKED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public final int hashCode() {
-        return Objects.hash(id, name, category, authors, lectures, scriptDocuments);
+        return Objects.hash(id, name, category, submitter, submittedCompletely);
     }
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
@@ -207,9 +250,8 @@ public class Script implements Serializable {
         if (!Objects.equals(this.id, other.id)) { return false; }
         if (!Objects.equals(this.name, other.name)) { return false; }
         if (!Objects.equals(this.category, other.category)) { return false; }
-        if (!Objects.equals(this.authors, other.authors)) { return false; }
-        if (!Objects.equals(this.lectures, other.lectures)) { return false; }
-        if (!Objects.equals(this.scriptDocuments, other.scriptDocuments)) { return false; }
+        if (!Objects.equals(this.submitter, other.submitter)) { return false; }
+        if (!Objects.equals(this.submittedCompletely, other.submittedCompletely)) { return false; }
 
         return true;
     }

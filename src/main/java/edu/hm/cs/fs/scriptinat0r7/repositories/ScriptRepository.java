@@ -16,15 +16,6 @@ import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 public interface ScriptRepository extends PagingAndSortingRepository<Script, Integer> {
 
     /**
-     * Finds a {@code Script} by its name.
-     *
-     * @param name
-     *            the name of the {@code Script} to search.
-     * @return a {@code List} of all scripts matching the given name.
-     */
-    List<Script> findByNameContaining(String name);
-
-    /**
      * Finds all {@code Script}s.
      *
      * @return a {@code List} of all scripts.
@@ -33,7 +24,7 @@ public interface ScriptRepository extends PagingAndSortingRepository<Script, Int
     Collection<Script> findAll();
 
     /**
-     * Returns all sripts, which have script documents with the given state.
+     * Returns all scripts, which have script documents with the given state.
      * @param states The states that filter the scripts.
      * @return a {@code List} of all matching scripts.
      */
