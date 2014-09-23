@@ -1,19 +1,11 @@
 package edu.hm.cs.fs.scriptinat0r7.service;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.pdfbox.exceptions.CryptographyException;
-import org.apache.pdfbox.pdfparser.PDFParser;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.encryption.BadSecurityHandlerException;
-import org.apache.pdfbox.pdmodel.encryption.StandardDecryptionMaterial;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
+import edu.hm.cs.fs.scriptinat0r7.pdf.PdfHelper;
 import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptDocumentsRepository;
 
 /**
@@ -78,7 +71,7 @@ public class ScriptDocumentsService {
 
         for (ScriptDocument currentDocument : scriptDocuments.findByScriptAndIsPasswordMissingTrue(script)) {
             try {
-                final String passwordThatDecryptsThisDocument = tryPasswordsForDocument(passwordsToTry, currentDocument);
+                final String passwordThatDecryptsThisDocument = PdfHelper.findCorrectPassword(currentDocument.getFile(), passwordsToTry);
                 currentDocument.setPassword(passwordThatDecryptsThisDocument);
                 currentDocument.setPasswordMissing(false);
                 save(currentDocument);
@@ -88,46 +81,6 @@ public class ScriptDocumentsService {
         }
 
         return documentsWherePasswordStillMissing;
-    }
-
-    /**
-     * Tries to decrypt a document with the given passwords.
-     * @param passwords to try.
-     * @param scriptDocument the script document which shall be decrypted.
-     * @return the password (can be an empty string)
-     * @throws IOException can happen while interacting with the document.
-     * @throws IllegalArgumentException thrown, if no password is matching.
-     */
-    public String tryPasswordsForDocument(final Collection<String> passwords,
-            final ScriptDocument scriptDocument) throws IOException, IllegalArgumentException {
-        PDFParser pdf = null;
-        try {
-            final ByteArrayInputStream bytes = new ByteArrayInputStream(scriptDocument.getFile());
-            pdf = new PDFParser(bytes);
-            pdf.parse();
-            final PDDocument pdfDocument = pdf.getPDDocument();
-
-            if (pdfDocument.isEncrypted()) {
-                for (String password : passwords) {
-                    try {
-                        StandardDecryptionMaterial passwordDecrypter = new StandardDecryptionMaterial(password);
-                        pdfDocument.openProtection(passwordDecrypter);
-                        return password;
-                    } catch (BadSecurityHandlerException | IOException | CryptographyException e) {
-                        // was wrong password, try next...
-                    }
-                }
-            } else {
-                return StringUtils.EMPTY;
-            }
-        } finally {
-            if (pdf != null) {
-                IOUtils.closeQuietly(pdf.getDocument());
-                pdf.clearResources();
-            }
-        }
-
-        throw new IllegalArgumentException("no password is able to decrypt the document");
     }
 
     /**

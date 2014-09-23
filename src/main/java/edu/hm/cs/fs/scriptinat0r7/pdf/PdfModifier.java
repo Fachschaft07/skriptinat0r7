@@ -10,16 +10,9 @@ import org.apache.pdfbox.util.PDFMergerUtility;
 /**
  * PDF modifier functions.
  */
-public class PdfModifier {
+public final class PdfModifier {
 
-    private final PdfHelper helper;
-
-    /**
-     * The constructor.
-     */
-    public PdfModifier() {
-        helper = new PdfHelper();
-    }
+    private PdfModifier() { }
 
     /**
      * This method joins pdf documents. The document at index 0 is the first document.
@@ -29,14 +22,14 @@ public class PdfModifier {
      * @throws IOException thrown if io error happen.
      * @throws COSVisitorException thrown if a pdf is corrupt.
      */
-    public byte[] mergePdfs(List<byte[]> pdfsToBeMerged) throws IOException, COSVisitorException {
-        PDDocument mergedPdf = new PDDocument();
-        PDFMergerUtility mergerUtility = new PDFMergerUtility();
+    public static byte[] mergePdfs(final List<byte[]> pdfsToBeMerged) throws IOException, COSVisitorException {
+        final PDDocument mergedPdf = new PDDocument();
+        final PDFMergerUtility mergerUtility = new PDFMergerUtility();
         for (byte[] nextBPdf : pdfsToBeMerged) {
-            PDDocument nextPdf = helper.loadDocumentFromByteStream(nextBPdf);
+            final PDDocument nextPdf = PdfHelper.loadDocumentFromByteStream(nextBPdf);
             mergerUtility.appendDocument(mergedPdf, nextPdf);
         }
-        return helper.convertPDDocumentToByte(mergedPdf);
+        return PdfHelper.convertPDDocumentToByte(mergedPdf);
     }
 
 }

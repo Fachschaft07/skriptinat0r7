@@ -11,16 +11,9 @@ import org.apache.pdfbox.pdmodel.PDPage;
 /**
  * Cconverter functions for pdf documents.
  */
-public class PdfConverter {
+public final class PdfConverter {
 
-    private final PdfHelper helper;
-
-    /**
-     * The constructor.
-     */
-    public PdfConverter() {
-        helper = new PdfHelper();
-    }
+    private PdfConverter() { }
 
     /**
      * retrieves the first page as an image.
@@ -29,8 +22,8 @@ public class PdfConverter {
      * @throws IOException thrown if io errors happen.
      */
     @SuppressWarnings("unchecked")
-    public BufferedImage getFirstPageAsImage(final byte[] pdfByteStream) throws IOException {
-        try (final PDDocument document = helper.loadDocumentFromByteStream(pdfByteStream)) {
+    public static BufferedImage getFirstPageAsImage(final byte[] pdfByteStream) throws IOException {
+        try (final PDDocument document = PdfHelper.loadDocumentFromByteStream(pdfByteStream)) {
             List<PDPage> pages = document.getDocumentCatalog().getAllPages();
             Iterator<PDPage> iterator = pages.iterator();
             PDPage page = iterator.next();
