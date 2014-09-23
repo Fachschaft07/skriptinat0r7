@@ -169,7 +169,7 @@ public class ScriptsController extends AbstractController {
         for (int i = 0; i < files.size(); i++) {
             final MultipartFile file = files.get(i);
             try {
-                documentsService.create(script, i, file);
+                documentsService.create(Collections.singleton(script), i, file);
             } catch (DataAccessException | IOException e) {
                 // TODO logging
                 filesInError.add(file.getOriginalFilename());

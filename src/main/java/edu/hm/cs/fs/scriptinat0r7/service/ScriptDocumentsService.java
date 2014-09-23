@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,16 +35,16 @@ public class ScriptDocumentsService {
      * @return the persisted script document.
      * @throws IOException if io errors happen while reading the file contents.
      */
-    public ScriptDocument create(final Script script, final int sortNumber,
+    public ScriptDocument create(final Set<Script> script, final int sortNumber,
             final MultipartFile file) throws IOException {
         final ScriptDocument document = new ScriptDocument();
         document.setFile(file.getBytes());
         document.setHashvalue(document.computeHashvalue());
         document.setFilename(file.getOriginalFilename());
         document.setReviewState(ReviewState.LOCKED);
-        document.setScript(script);
+        document.setScripts(script);
         document.setSortnumber(sortNumber);
-        document.setScript(script);
+        document.setScripts(script);
         // TODO: check if is pdf
         // TODO: check if needs pw
         document.setPasswordMissing(true);
@@ -57,7 +58,7 @@ public class ScriptDocumentsService {
      */
     @Transactional
     public List<ScriptDocument> findByScript(final Script script) {
-        return scriptDocuments.findByScriptOrderBySortnumberAsc(script);
+        return scriptDocuments.findByScriptsInOrderBySortnumberAsc(script);
     }
 
     /**
@@ -69,7 +70,7 @@ public class ScriptDocumentsService {
     public List<ScriptDocument> tryPasswordsOnScriptDocumentsWithMissingPassword(final Script script, final Collection<String> passwordsToTry) {
         final List<ScriptDocument> documentsWherePasswordStillMissing = new LinkedList<>();
 
-        for (ScriptDocument currentDocument : scriptDocuments.findByScriptAndIsPasswordMissingTrue(script)) {
+        for (ScriptDocument currentDocument : scriptDocuments.findByScriptsInAndIsPasswordMissingTrue(script)) {
             try {
                 final String passwordThatDecryptsThisDocument = PdfHelper.findCorrectPassword(currentDocument.getFile(), passwordsToTry);
                 currentDocument.setPassword(passwordThatDecryptsThisDocument);

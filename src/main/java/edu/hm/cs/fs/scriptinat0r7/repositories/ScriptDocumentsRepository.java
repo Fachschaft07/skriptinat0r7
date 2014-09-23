@@ -26,13 +26,13 @@ public interface ScriptDocumentsRepository extends PagingAndSortingRepository<Sc
      * @param script the script whose script documents shall be retrieved.
      * @return the script documents.
      */
-    List<ScriptDocument> findByScriptOrderBySortnumberAsc(Script script);
+    List<ScriptDocument> findByScriptsInOrderBySortnumberAsc(Script script);
 
     /**
      * Find all {@code ScriptDocument}s for a script, where the password is missing.
      * @param script the script whose script documents shall be retrieved.
      * @return the script documents.
      */
-    List<ScriptDocument> findByScriptAndIsPasswordMissingTrue(Script script);
+    List<ScriptDocument> findByScriptsInAndIsPasswordMissingTrue(Script script);
 
 }

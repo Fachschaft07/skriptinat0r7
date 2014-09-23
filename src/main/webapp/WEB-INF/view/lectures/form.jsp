@@ -19,20 +19,6 @@
         </div>
     </div>
     
-<!--     <div class="form-group"> -->
-<!--         <label for="semesterType" class="col-sm-2 control-label">Semestertyp</label> -->
-<!--         <div class="col-sm-3"> -->
-<%--             <form:select id="semesterType" path="semesterType" cssClass="form-control"> --%>
-<%--                 <form:options itemLabel="name" /> --%>
-<%--             </form:select> --%>
-<!--         </div> -->
-<!--         <div class="col-sm-7"> -->
-<%--             <p class="text-danger"><form:errors path="semesterType" /></p> --%>
-<!--         </div> -->
-<!--     </div> -->
-    
-<%--     <t:input path="semesterYear" label="Jahr" required="true"></t:input> --%>
-    
     <div class="form-group">
         <label for="studyProgram" class="col-sm-2 control-label">Studiengang</label>
         <div class="col-sm-3">
