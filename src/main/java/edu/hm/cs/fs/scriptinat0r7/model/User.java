@@ -6,6 +6,7 @@
 package edu.hm.cs.fs.scriptinat0r7.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -20,6 +21,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Email;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import edu.hm.cs.fs.scriptinat0r7.model.enums.Role;
 
@@ -29,7 +32,7 @@ import edu.hm.cs.fs.scriptinat0r7.model.enums.Role;
 @Entity
 @Table(name = "skriptorUser")
 @javax.persistence.Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class User implements Serializable {
+public class User implements UserDetails, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -178,6 +181,48 @@ public class User implements Serializable {
     public String toString() {
         return "User [id=" + id + ", role=" + role + ", email=" + email + ", firstName=" + firstName + ", lastName="
                 + lastName + "]";
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }
