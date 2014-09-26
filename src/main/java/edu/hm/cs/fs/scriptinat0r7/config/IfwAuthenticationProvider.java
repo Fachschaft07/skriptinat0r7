@@ -12,20 +12,11 @@ public class IfwAuthenticationProvider extends AbstractUserDetailsAuthentication
 
     private JdbcTemplate ifwJdbc;
     private UsersService userService;
-
-    public IfwAuthenticationProvider(JdbcTemplate ifwJdbc, UsersService users) {
+    
+    public IfwAuthenticationProvider(JdbcTemplate ifwJdbc, UsersService userService) {
         this.ifwJdbc = ifwJdbc;
-        this.userService = users;
-//        initializeDatabaseConnection();
+        this.userService = userService;
     }
-
-//    private void initializeDatabaseConnection() {
-//        MysqlDataSource ifwDataSource = new MysqlDataSource();
-//        ifwDataSource.setURL("jdbc:mysql://localhost:3306/ifw");
-//        ifwDataSource.setUser("root");
-//        ifwDataSource.setPassword("");
-//        ifwJdbc = new JdbcTemplate(ifwDataSource);
-//    }
 
     @Override
     protected void additionalAuthenticationChecks(UserDetails userDetails,
@@ -39,7 +30,7 @@ public class IfwAuthenticationProvider extends AbstractUserDetailsAuthentication
     protected UserDetails retrieveUser(String username,
             UsernamePasswordAuthenticationToken authentication)
             throws AuthenticationException {
+
         return userService.findByName(username);
     }
-
 }
