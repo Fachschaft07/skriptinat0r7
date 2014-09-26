@@ -16,7 +16,6 @@
                         <tr>
                             <th>Name</th>
                             <th>Professor</th>
-                            <th>Semester</th>
                             <th>Studiengruppe</th>
                             <th>Anzahl Skripten</th>
                         </tr>

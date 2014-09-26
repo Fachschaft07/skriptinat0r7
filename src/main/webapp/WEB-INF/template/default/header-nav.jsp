@@ -12,9 +12,10 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">trampusc@hm.edu <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">${userName}<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="${pageContext.request.contextPath}/account/settings">Einstellungen</a></li>
+                        <li><a href="${pageContext.request.contextPath}/scripts/my-submissions">Meine Einsendungen</a></li>
                         <li><a href="${pageContext.request.contextPath}/logout">Abmelden</a></li>
                     </ul>
                 </li>

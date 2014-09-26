@@ -1,5 +1,6 @@
 package edu.hm.cs.fs.scriptinat0r7.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
+import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.repositories.LectureRepository;
 
 /**
@@ -46,5 +48,23 @@ public class LectureService {
      */
     public void delete(final Lecture lecture) {
         lectures.delete(lecture);
+    }
+
+    /**
+     * Returns all lectures where the name contains the given query.
+     * @param searchQuery the query.
+     * @return all matching lectures.
+     */
+    public List<Lecture> findByNameContaining(final String searchQuery) {
+        return lectures.findByNameContaining(searchQuery);
+    }
+
+    /**
+     * Returns all lectures which have a script in the given collection.
+     * @param script the script, which is used to filter the lectures.
+     * @return a list of matched lectures.
+     */
+    public List<Lecture> findByScript(final Script script) {
+        return lectures.findByUsedScriptsIn(Collections.singleton(script));
     }
 }

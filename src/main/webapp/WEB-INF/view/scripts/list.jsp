@@ -6,7 +6,7 @@
         <h2>Skriptindex</h2>
         <c:choose>
             <c:when test="${ ! scripts.isEmpty()}">
-                <table class="table">
+                <table class="table table-hover clickable">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -15,7 +15,7 @@
                     </thead>
                     <tbody>
                         <c:forEach items="${scripts}" var="script">
-                            <tr>
+                            <tr data-href="${pageContext.request.contextPath}/scripts/${script.id}">
                                 <td>${script.name}</td>
                                 <td>Todo</td>
                             </tr>

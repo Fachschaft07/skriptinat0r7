@@ -17,7 +17,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -47,8 +47,8 @@ public class Lecture implements Serializable {
     @Enumerated(EnumType.STRING)
     private StudyProgram studyProgram;
 
-    @OneToMany
-    private Set<Script> usedScripts;
+    @ManyToMany(mappedBy = "lectures")
+    private Set<Script> usedScripts = new HashSet<Script>();
 
     public Integer getId() {
         return id;

@@ -5,23 +5,52 @@
        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:security="http://www.springframework.org/schema/security"
        xsi:schemaLocation="http://www.springframework.org/schema/beans 
-                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
                            http://www.springframework.org/schema/jdbc 
                            http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context.xsd
                            http://www.springframework.org/schema/data/jpa
-                           http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+                           http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
     <jpa:repositories base-package="edu.hm.cs.fs.scriptinat0r7.repositories" />
-
+    <tx:annotation-driven/>
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
         p:entityManagerFactory-ref="entityManagerFactory" />
 
-    <context:annotation-config/>
+    <context:annotation-config />
+    <security:global-method-security secured-annotations="enabled" />
+
+    <bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
+        <constructor-arg ref="roleHierarchy" />
+    </bean>
+    <bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+        <property name="hierarchy">
+            <value>
+                ROLE_FACHSCHAFTLER > ROLE_USER
+            </value>
+        </property>
+    </bean>
+
+    <bean id="ifwDataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource" >
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost/test" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+    </bean>
+
+    <bean id="ifwJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg ref="ifwDataSource" />
+    </bean>
 
     <jdbc:embedded-database id="dataSource" type="DERBY" />
-    
+
     <!--
     <bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />

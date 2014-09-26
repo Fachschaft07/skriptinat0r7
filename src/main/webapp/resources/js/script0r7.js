@@ -32,3 +32,14 @@
         return confirm("Sind Sie sicher?");
     });
 })();
+
+//################################################
+//          VIEW SPECIFIC HANDLERS
+//################################################
+
+// scripts/submit-summarize
+(function() {
+    $("#sort-scripts").sortable({
+        placeholder: "",
+    });
+})();

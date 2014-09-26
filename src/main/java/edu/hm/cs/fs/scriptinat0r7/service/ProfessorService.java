@@ -43,5 +43,18 @@ public class ProfessorService {
         professors.delete(professor);
     }
 
+    /**
+     * Finds a {@code Professor} by its first or last-name. If first or last
+     * name contains the search query then the professor is treated as a match.
+     *
+     * @param searchQuery
+     *            the name of the {@code Professor} to search.
+     * @return a {@code List} of all professors matching the given query.
+     */
+    public List<Professor> findByFirstNameContainingOrLastNameContaining(
+            final String searchQuery) {
+        return professors.findByFirstNameContainingOrLastNameContaining(searchQuery);
+    }
+
 
 }
