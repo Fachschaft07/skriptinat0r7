@@ -7,9 +7,9 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:security="http://www.springframework.org/schema/security"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-                           http://www.springframework.org/schema/jdbc 
+                           http://www.springframework.org/schema/jdbc
                            http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context.xsd
@@ -19,13 +19,13 @@
                            http://www.springframework.org/schema/tx/spring-tx.xsd
                            http://www.springframework.org/schema/security
                            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
-                           
+
     <import resource="classpath:/spring/spring-security-config.xml" />
-                           
+
     <jpa:repositories base-package="edu.hm.cs.fs.scriptinat0r7.repositories" />
     <context:component-scan base-package="edu.hm.cs.fs.scriptinat0r7.service" />
     <context:annotation-config />
-    
+
     <tx:annotation-driven/>
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
         p:entityManagerFactory-ref="entityManagerFactory" />
