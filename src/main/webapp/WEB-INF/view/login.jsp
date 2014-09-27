@@ -14,7 +14,7 @@
                 </c:if>
                 <c:if test="${param.logout != null}">
                     <div class="alert alert-success">
-                        Sie wurden erfolgreich ausgeloggt..
+                        Sie wurden erfolgreich ausgeloggt.
                     </div>
                 </c:if>
             

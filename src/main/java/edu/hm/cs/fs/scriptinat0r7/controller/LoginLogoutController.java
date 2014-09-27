@@ -30,7 +30,7 @@ public class LoginLogoutController extends AbstractController {
     @RequestMapping("logout")
     public void logout(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         request.logout();
-        response.sendRedirect("login");
+        response.sendRedirect("login?logout");
     }
 
     /**

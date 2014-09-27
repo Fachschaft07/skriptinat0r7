@@ -5,24 +5,25 @@
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security.xsd">
-    	
-	<http pattern="/resources/**" security="none"/>
-	
-	<http>
-		<intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<intercept-url pattern="/**" access="ROLE_USER" />
-		<form-login login-page="/login" login-processing-url="/login.do" default-target-url="/" 
-			username-parameter="username"
-			password-parameter="password" />
-		<logout />
-	</http>
-	
-	<global-method-security secured-annotations="enabled" />
+
+    <http pattern="/resources/**" security="none"/>
+
+    <http>
+        <intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/**" access="ROLE_USER" />
+        <form-login login-page="/login" login-processing-url="/login.do" default-target-url="/"
+            username-parameter="username"
+            password-parameter="password"
+            authentication-failure-url="/login?error" />
+        <logout />
+    </http>
+
+    <global-method-security secured-annotations="enabled" />
 
     <beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
         <beans:constructor-arg ref="roleHierarchy" />
     </beans:bean>
-    
+
     <beans:bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
         <beans:property name="hierarchy">
             <beans:value>
@@ -41,22 +42,22 @@
     <beans:bean id="ifwJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <beans:constructor-arg ref="ifwDataSource" />
     </beans:bean>
-    
+
     <beans:bean id="ifwAuthenticationProvider" class="edu.hm.cs.fs.scriptinat0r7.config.IfwAuthenticationProvider">
-    	<beans:constructor-arg ref="ifwJdbcTemplate" />
-    	<beans:constructor-arg ref="usersService" />
+        <beans:constructor-arg ref="ifwJdbcTemplate" />
+        <beans:constructor-arg ref="usersService" />
     </beans:bean>
 
-	<authentication-manager>
+    <authentication-manager>
     <!-- <authentication-provider ref="ifwAuthenticationProvider" /> -->
-    <authentication-provider>
-		<user-service>
-			<user name="user" password="user" authorities="ROLE_USER" />
-			<user name="fachschaftler" password="fachschaftler" authorities="ROLE_USER, ROLE_FACHSCHAFTLER" />
-		</user-service>
-	</authentication-provider>
-	</authentication-manager>
-	
-	<beans:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
-    
+        <authentication-provider>
+            <user-service>
+                <user name="user" password="user" authorities="ROLE_USER" />
+                <user name="fachschaftler" password="fachschaftler" authorities="ROLE_USER, ROLE_FACHSCHAFTLER" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
+
 </beans:beans>
