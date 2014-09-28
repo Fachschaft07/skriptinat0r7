@@ -17,13 +17,14 @@ eclipse {
 }
 
 dependencies {
-	integtestCompile 'org.springframework:spring-test:3.2.5.RELEASE'
+	integtestCompile 'org.springframework:spring-test:3.2.10.RELEASE'
 }
 
 task integrationTest(type: Test) {
 	testClassesDir = sourceSets.integtest.output.classesDir
 	classpath = sourceSets.integtest.runtimeClasspath
 	reports.html.enabled = false
+	reports.junitXml.enabled = true
 }
 
 test {

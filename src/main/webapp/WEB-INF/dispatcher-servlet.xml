@@ -18,13 +18,6 @@
 
     <mvc:annotation-driven conversion-service="conversionService" />
 
-    <bean class="org.springframework.data.repository.support.DomainClassConverter">
-        <constructor-arg ref="conversionService" />
-    </bean>
-
-    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
-    </bean>
-
     <bean id="viewResolver"
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/view/" />
