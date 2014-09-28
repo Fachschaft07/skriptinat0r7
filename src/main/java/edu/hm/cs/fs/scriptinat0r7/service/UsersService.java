@@ -12,8 +12,8 @@ public class UsersService {
     @Autowired
     private UserRepository users;
 
-    public User findByName(String name) {
-        return users.findByName(name);
+    public User findByFacultyID(String name) {
+        return users.findByFacultyID(name);
     }
 
 }
