@@ -7,6 +7,7 @@ package edu.hm.cs.fs.scriptinat0r7.model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -19,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
@@ -53,6 +55,9 @@ public class User implements UserDetails, Serializable {
 
     @OneToMany
     private Set<StudentOrder> studentOrders;
+
+    @Transient
+    private String password;
 
     /**
      * Returns the full name (firstname and lastname) of the {@code User}.
@@ -143,6 +148,45 @@ public class User implements UserDetails, Serializable {
     }
 
     @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(getRole().asAuthority());
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String getUsername() {
+        return getFacultyID();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(role, email, firstName, lastName, facultyID);
     }
@@ -181,48 +225,6 @@ public class User implements UserDetails, Serializable {
     public String toString() {
         return "User [id=" + id + ", role=" + role + ", email=" + email + ", firstName=" + firstName + ", lastName="
                 + lastName + "]";
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        return false;
     }
 
 }

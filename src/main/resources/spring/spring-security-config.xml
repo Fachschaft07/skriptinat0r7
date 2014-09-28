@@ -1,14 +1,14 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-  xmlns:beans="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-           http://www.springframework.org/schema/security
-           http://www.springframework.org/schema/security/spring-security.xsd">
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                                 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                                 http://www.springframework.org/schema/security
+                                 http://www.springframework.org/schema/security/spring-security.xsd">
 
     <http pattern="/resources/**" security="none"/>
 
-    <http>
+    <http access-decision-manager-ref="accessDecisionManager">
         <intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
         <intercept-url pattern="/**" access="ROLE_USER" />
         <form-login login-page="/login" login-processing-url="/login.do" default-target-url="/"
@@ -18,9 +18,9 @@
         <logout />
     </http>
 
-    <global-method-security secured-annotations="enabled" />
+    <global-method-security secured-annotations="enabled" access-decision-manager-ref="accessDecisionManager" />
 
-    <beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
+    <beans:bean id="roleHierarchyVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
         <beans:constructor-arg ref="roleHierarchy" />
     </beans:bean>
 
@@ -32,9 +32,20 @@
         </beans:property>
     </beans:bean>
 
+    <beans:bean id="authenticatedVoter" class="org.springframework.security.access.vote.AuthenticatedVoter" />
+
+    <beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+        <beans:property name="decisionVoters">
+            <beans:list>
+                <beans:ref bean="roleHierarchyVoter" />
+                <beans:ref bean="authenticatedVoter" />
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+
     <beans:bean id="ifwDataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource" >
         <beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <beans:property name="url" value="jdbc:mysql://localhost/test" />
+        <beans:property name="url" value="jdbc:mysql://localhost/ifw" />
         <beans:property name="username" value="root" />
         <beans:property name="password" value="" />
     </beans:bean>
@@ -49,15 +60,17 @@
     </beans:bean>
 
     <authentication-manager>
-    <!-- <authentication-provider ref="ifwAuthenticationProvider" /> -->
-        <authentication-provider>
+        <authentication-provider user-service-ref="ifwAuthenticationProvider" />
+<!--         <authentication-provider>
             <user-service>
                 <user name="user" password="user" authorities="ROLE_USER" />
                 <user name="fachschaftler" password="fachschaftler" authorities="ROLE_USER, ROLE_FACHSCHAFTLER" />
             </user-service>
-        </authentication-provider>
+        </authentication-provider> -->
     </authentication-manager>
 
-    <beans:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
+    <beans:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
+        <beans:property name="roleHierarchy" ref="roleHierarchy" />
+    </beans:bean>
 
 </beans:beans>
