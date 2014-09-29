@@ -1,33 +1,34 @@
 configurations {
     integtest.extendsFrom testCompile
-	integtest.extendsFrom testRuntime
+    integtest.extendsFrom testRuntime
 }
 
 sourceSets {
-	integtest {
-		compileClasspath += main.output + test.output + configurations.integtest
-		runtimeClasspath += main.output + test.output + configurations.integtest
-	}
+    integtest {
+        compileClasspath += main.output + test.output + configurations.integtest
+        runtimeClasspath += main.output + test.output + configurations.integtest
+    }
 }
 
 eclipse {
-	classpath {
-		plusConfigurations += [configurations.integtestCompile]
-	}
+    classpath {
+        plusConfigurations += [configurations.integtestCompile]
+    }
 }
 
 dependencies {
-	integtestCompile 'org.springframework:spring-test:3.2.5.RELEASE'
+    integtestCompile 'org.springframework:spring-test:3.2.10.RELEASE'
 }
 
 task integrationTest(type: Test) {
-	testClassesDir = sourceSets.integtest.output.classesDir
-	classpath = sourceSets.integtest.runtimeClasspath
-	reports.html.enabled = false
+    testClassesDir = sourceSets.integtest.output.classesDir
+    classpath = sourceSets.integtest.runtimeClasspath
+    reports.html.enabled = false
+    reports.junitXml.enabled = true
 }
 
 test {
-	reports.html.enabled = false
+    reports.html.enabled = false
 }
 
 integrationTest.dependsOn test
