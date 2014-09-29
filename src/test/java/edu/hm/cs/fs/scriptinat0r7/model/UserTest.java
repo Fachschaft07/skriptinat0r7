@@ -62,7 +62,7 @@ public class UserTest {
     @Test
     public void testGetAndSetRole() {
         User user = new User();
-        Role expected = Role.REGULAR;
+        Role expected = Role.USER;
 
         user.setRole(expected);
         Role actual = user.getRole();

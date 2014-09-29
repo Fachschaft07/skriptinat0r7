@@ -15,7 +15,7 @@ public class RoleTest {
     @Test
     public void test() {
         EnumVerifier.forClass(Role.class)
-            .withEnumElement("REGULAR")
+            .withEnumElement("USER")
             .withEnumElement("FACHSCHAFTLER")
             .withEnumElement("PROFESSOR")
             .withEnumElement("LOCKED")

@@ -39,10 +39,14 @@ public class IfwAuthenticationProvider implements UserDetailsService {
         public UserDetails mapRow(ResultSet rs, int rowNum)
                 throws SQLException {
             final String ifwAccount = rs.getString("name");
-            final User user = userService.findByFacultyID(ifwAccount);
-            final String ifwPassword = rs.getString("password");
-            user.setPassword(ifwPassword);
-            return user;
+            if (userService.isStudentAccount(ifwAccount)) {
+                final User user = userService.findOrCreateByFacultyID(ifwAccount);
+                final String ifwPassword = rs.getString("password");
+                user.setPassword(ifwPassword);
+                return user;
+            } else {
+                throw new IllegalArgumentException("non student users are not yet supported"); // TODO: implement professor accounts
+            }
         }
     }
 

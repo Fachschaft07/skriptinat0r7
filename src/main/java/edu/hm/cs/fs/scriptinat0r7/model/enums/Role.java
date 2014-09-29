@@ -8,7 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
  */
 public enum Role {
     /** An ordinary, regular student. */
-    REGULAR,
+    USER,
     /** An fs-student. */
     FACHSCHAFTLER,
     /** A professor. */
