@@ -18,8 +18,6 @@
         <logout />
     </http>
 
-    <global-method-security secured-annotations="enabled" access-decision-manager-ref="accessDecisionManager" />
-
     <beans:bean id="roleHierarchyVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
         <beans:constructor-arg ref="roleHierarchy" />
     </beans:bean>
