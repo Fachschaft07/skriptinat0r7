@@ -9,6 +9,9 @@ import edu.hm.cs.fs.scriptinat0r7.model.User;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.Role;
 import edu.hm.cs.fs.scriptinat0r7.repositories.UserRepository;
 
+/**
+ * A service for business operations on users.
+ */
 @Service
 public class UsersService {
 
@@ -17,14 +20,19 @@ public class UsersService {
     @Autowired
     private UserRepository users;
 
-    public User findOrCreateByFacultyID(String facultyId) {
+    /**
+     * Returns the questioned user or creates it if it does not yet exist.
+     * @param facultyId the faculty id of the user.
+     * @return a new user instance or an persisted one.
+     */
+    public User findOrCreateByFacultyID(final String facultyId) {
         if (!isStudentAccount(facultyId)) {
             throw new IllegalArgumentException("not a valid student account");
         }
 
         User user = users.findByFacultyID(facultyId);
 
-        if(user == null) {
+        if (user == null) {
             final User newUser = new User();
             newUser.setFacultyID(facultyId);
             newUser.setRole(Role.USER);
@@ -34,7 +42,12 @@ public class UsersService {
         return user;
     }
 
-    public boolean isStudentAccount(String ifwAccount) {
+    /**
+     * Returns true if the given ifw account name is a valid student user account name.
+     * @param ifwAccount the ifw account name to check.
+     * @return true if valid, else false.
+     */
+    public boolean isStudentAccount(final String ifwAccount) {
         return ifwUserPattern.matcher(ifwAccount).matches();
     }
 

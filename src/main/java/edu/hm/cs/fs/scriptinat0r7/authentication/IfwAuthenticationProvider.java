@@ -13,18 +13,26 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import edu.hm.cs.fs.scriptinat0r7.model.User;
 import edu.hm.cs.fs.scriptinat0r7.service.UsersService;
 
+/**
+ * This class is responsible for authenticating users via an ifw jdbc connection.
+ */
 public class IfwAuthenticationProvider implements UserDetailsService {
 
-    private JdbcTemplate ifwJdbc;
-    private UsersService userService;
+    private final JdbcTemplate ifwJdbc;
+    private final UsersService userService;
 
-    public IfwAuthenticationProvider(JdbcTemplate ifwJdbc, UsersService userService) {
+    /**
+     * The constructor.
+     * @param ifwJdbc A jdbc connection to the ifw source.
+     * @param userService The user service to register users in our application.
+     */
+    public IfwAuthenticationProvider(final JdbcTemplate ifwJdbc, final UsersService userService) {
         this.ifwJdbc = ifwJdbc;
         this.userService = userService;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username)
+    public UserDetails loadUserByUsername(final String username)
             throws UsernameNotFoundException {
         try {
             RowMapper<UserDetails> mapper = new IfwAccountMapper();
@@ -34,9 +42,12 @@ public class IfwAuthenticationProvider implements UserDetailsService {
         }
     }
 
+    /**
+     * The ifw account mapper.
+     */
     private class IfwAccountMapper implements RowMapper<UserDetails> {
         @Override
-        public UserDetails mapRow(ResultSet rs, int rowNum)
+        public UserDetails mapRow(final ResultSet rs, final int rowNum)
                 throws SQLException {
             final String ifwAccount = rs.getString("name");
             if (userService.isStudentAccount(ifwAccount)) {

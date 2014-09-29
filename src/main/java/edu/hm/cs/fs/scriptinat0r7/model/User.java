@@ -157,7 +157,7 @@ public class User implements UserDetails, Serializable {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 

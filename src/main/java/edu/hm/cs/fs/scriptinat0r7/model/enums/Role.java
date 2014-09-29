@@ -18,6 +18,10 @@ public enum Role {
     /** An author of a script. */
     AUTHOR;
 
+    /**
+     * Returns the role wrapped as string in a GrantedAuthority.
+     * @return the role wrapped as string in a GrantedAuthority.
+     */
     public GrantedAuthority asAuthority() {
         final String roleName = "ROLE_" + name();
         return new SimpleGrantedAuthority(roleName);

@@ -42,7 +42,11 @@ public class ScriptDocument implements Serializable {
     @Column(nullable = false)
     private byte[] file;
 
-    @Deprecated // FIXME: sortnumber should be in a relationship with exactly one script, but we got a N-N relationship here...
+    /**
+     * FIXME: sortnumber should be in a relationship with exactly one script, but we got a N-N relationship here.
+     * @deprecated see fixme
+     */
+    @Deprecated
     private int sortnumber;
 
     private ReviewState reviewState;
