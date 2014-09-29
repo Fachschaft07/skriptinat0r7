@@ -13,7 +13,7 @@
     <context:component-scan base-package="edu.hm.cs.fs.scriptinat0r7.controller" />
 
     <mvc:interceptors>
-        <bean class="edu.hm.cs.fs.scriptinat0r7.config.RequestInterceptor" />
+        <bean class="edu.hm.cs.fs.scriptinat0r7.interceptor.RequestInterceptor" />
     </mvc:interceptors>
 
     <mvc:annotation-driven conversion-service="conversionService" />

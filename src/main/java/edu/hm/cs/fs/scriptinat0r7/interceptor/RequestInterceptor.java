@@ -1,4 +1,4 @@
-package edu.hm.cs.fs.scriptinat0r7.config;
+package edu.hm.cs.fs.scriptinat0r7.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

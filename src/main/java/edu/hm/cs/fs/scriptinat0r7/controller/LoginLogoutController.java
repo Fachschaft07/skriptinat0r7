@@ -36,8 +36,6 @@ public class LoginLogoutController extends AbstractController {
     /**
      * Request method for displaying the user login page.
      *
-     * @see edu.hm.cs.fs.scriptinat0r7.config.SecurityConfiguration
-     *
      * @return The logical view name.
      */
     @RequestMapping("login")

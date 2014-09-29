@@ -1,4 +1,4 @@
-package edu.hm.cs.fs.scriptinat0r7.config;
+package edu.hm.cs.fs.scriptinat0r7.authentication;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
