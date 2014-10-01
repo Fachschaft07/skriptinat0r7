@@ -116,6 +116,7 @@ public class ScriptsController extends AbstractController {
             return SCRIPTS_SUBMIT_VIEW;
         } else {
             try {
+                script.setSubmitter(getCurrentUser());
                 final Script savedScript = scriptsService.create(script);
                 return redirect("scripts/submit/files/" + savedScript.getId());
             } catch (DataAccessException e) {
@@ -129,24 +130,21 @@ public class ScriptsController extends AbstractController {
      * Method responsible for rendering a form to add files to a script.
      * @param map The model used by the view.
      * @param script the script to which the files shall be added.
-     * @param httpServletRequest the http request.
      * @return the logical view name.
      * @throws UnauthorizedException Thrown, if the user is not authorized to add files to this script.
      */
     @RequestMapping(value = "/submit/files/{id}", method = RequestMethod.GET)
     public String addScriptFilesForm(final ModelMap map,
-            @PathVariable("id") final Script script,
-            final HttpServletRequest httpServletRequest) throws UnauthorizedException {
-        abortUnauthorizedAccess(script, httpServletRequest);
+            @PathVariable("id") final Script script) throws UnauthorizedException {
+        abortUnauthorizedAccess(script);
         map.addAttribute("id", script.getId());
         return "scripts/submit-files";
     }
 
-    private void abortUnauthorizedAccess(final Script script,
-            final HttpServletRequest httpServletRequest) throws UnauthorizedException {
-        // TODO: deactivate debug mode.
-        // for the moment the checkstyle error is intended to remind us to implement users.
-        if (!(true || (script.getSubmitter() == httpServletRequest.getUserPrincipal() && !script.isSubmittedCompletely()))) {
+    private void abortUnauthorizedAccess(final Script script) throws UnauthorizedException {
+        final String currentUserName = getCurrentUser().getUsername();
+        final String scriptSubmitterName = script.getSubmitter().getUsername();
+        if (!scriptSubmitterName.equals(currentUserName) || script.isSubmittedCompletely()) {
             throw new UnauthorizedException();
         }
     }
@@ -156,16 +154,14 @@ public class ScriptsController extends AbstractController {
      * @param script the script to which the documents shall be added.
      * @param files the files to add to the script.
      * @param redirectAttributes Injected by spring, used to render flash messages.
-     * @param httpServletRequest the http request.
      * @return the logical view name.
      * @throws UnauthorizedException thrown if the user is not authorized to add files to this script.
      */
     @RequestMapping(value = "/submit/files/{id}", method = RequestMethod.POST)
     public String addScriptFilesSubmit(@PathVariable("id") final Script script,
             @RequestParam("files[]") final List<MultipartFile> files,
-            final RedirectAttributes redirectAttributes,
-            final HttpServletRequest httpServletRequest) throws UnauthorizedException {
-        abortUnauthorizedAccess(script, httpServletRequest);
+            final RedirectAttributes redirectAttributes) throws UnauthorizedException {
+        abortUnauthorizedAccess(script);
         final List<String> filesInError = new LinkedList<>();
         for (int i = 0; i < files.size(); i++) {
             final MultipartFile file = files.get(i);
@@ -189,7 +185,6 @@ public class ScriptsController extends AbstractController {
      * Method used to ernder the password form.
      * @param script the script for which passwords shall be retrieved.
      * @param model the model used by the view.
-     * @param httpServletRequest the http request.
      * @param passwordsPost the passwords submitted by the user.
      * @return the logical view name.
      * @throws UnauthorizedException thrown if the user is not allowed to add passwords.
@@ -197,9 +192,8 @@ public class ScriptsController extends AbstractController {
     @RequestMapping("submit/password/{id}")
     public String addScriptPasswordForm(@PathVariable("id") final Script script,
             final ModelMap model,
-            final HttpServletRequest httpServletRequest,
             @RequestParam(value = "passwords", defaultValue = "") final String passwordsPost) throws UnauthorizedException {
-        abortUnauthorizedAccess(script, httpServletRequest);
+        abortUnauthorizedAccess(script);
         final List<String> passwords = new LinkedList<>();
         Collections.addAll(passwords, StringUtils.split(passwordsPost));
         final List<ScriptDocument> documentsWithMissingPassword = documentsService.tryPasswordsOnScriptDocumentsWithMissingPassword(script, passwords);
@@ -220,15 +214,13 @@ public class ScriptsController extends AbstractController {
      * Renders the summarize form.
      * @param model the model used by the view.
      * @param script the script which is being summarized.
-     * @param httpServletRequest the htpt request.
      * @return the logical view name.
      * @throws UnauthorizedException thrown if the user is not allowed to view this page.
      */
     @RequestMapping(value = "/submit/summarize/{id}", method = RequestMethod.GET)
     public String addScriptSummarizeForm(final ModelMap model,
-            @PathVariable("id") final Script script,
-            final HttpServletRequest httpServletRequest) throws UnauthorizedException {
-        abortUnauthorizedAccess(script, httpServletRequest);
+            @PathVariable("id") final Script script) throws UnauthorizedException {
+        abortUnauthorizedAccess(script);
         final List<Lecture> scriptLectures = lecturesService.findByScript(script);
         script.setLectures(Sets.newHashSet(scriptLectures)); // TODO: horrible hack to avoid lazy loading exception in view
         model.addAttribute("script", script);
@@ -242,22 +234,20 @@ public class ScriptsController extends AbstractController {
      * @param redirectAttributes Injected by spring, used to render flash messages.
      * @param orderedDocumentHashes hashes of the script documents, ordered by the user.
      * @param script the script which is being summarized.
-     * @param httpServletRequest the http request.
      * @return a logical view name.
      * @throws UnauthorizedException thrown, if the user is not allowed to view this page.
      */
     @RequestMapping(value = "/submit/summarize/{id}", method = RequestMethod.POST)
     public String addScriptSummarizeSubmit(final RedirectAttributes redirectAttributes,
             @RequestParam("scriptDocumentSort[]") final String[] orderedDocumentHashes,
-            @PathVariable("id") final Script script,
-            final HttpServletRequest httpServletRequest) throws UnauthorizedException {
-        abortUnauthorizedAccess(script, httpServletRequest);
+            @PathVariable("id") final Script script) throws UnauthorizedException {
+        abortUnauthorizedAccess(script);
 
         documentsService.updateDocumentOrder(mapStringArrayToLongList(orderedDocumentHashes),
                 documentsService.findByScript(script));
         scriptsService.finalizeScriptSubmit(script);
 
-        addSuccessFlash("Script erfolgreich eingeschickt. Herzlichen Dank für deine Mühe."
+        addSuccessFlash("Skript erfolgreich eingeschickt. Herzlichen Dank für deine Mühe."
                 + " Über deinen Account kannst du zu deinen Einsendungen navigieren."
                 + "Dort siehst du, sobald es zur Bestellung freigeschalten wurde.", redirectAttributes);
         return redirect("scripts");

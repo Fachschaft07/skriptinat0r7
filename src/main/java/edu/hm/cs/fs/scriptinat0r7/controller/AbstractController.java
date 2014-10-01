@@ -1,6 +1,10 @@
 package edu.hm.cs.fs.scriptinat0r7.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import edu.hm.cs.fs.scriptinat0r7.model.User;
 
 /**
  * Base class for controller instances.
@@ -32,6 +36,14 @@ public class AbstractController {
      */
     protected void addErrorFlash(final String message, final RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("errorMessage", message);
+    }
+
+    protected Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    protected User getCurrentUser() {
+        return (User) getAuthentication().getPrincipal();
     }
 
 }
