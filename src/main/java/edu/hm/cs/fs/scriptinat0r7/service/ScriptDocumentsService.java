@@ -37,6 +37,9 @@ public class ScriptDocumentsService {
      */
     public ScriptDocument create(final Set<Script> script, final int sortNumber,
             final MultipartFile file) throws IOException {
+        if (!PdfHelper.isValidPdf(file.getBytes())) {
+            throw new IllegalArgumentException(file.getName() + " is not a valid pdf");
+        }
         final ScriptDocument document = new ScriptDocument();
         document.setFile(file.getBytes());
         document.setHashvalue(document.computeHashvalue());
@@ -45,8 +48,6 @@ public class ScriptDocumentsService {
         document.setScripts(script);
         document.setSortnumber(sortNumber);
         document.setScripts(script);
-        // TODO: check if is pdf
-        // TODO: check if needs pw
         document.setPasswordMissing(true);
         return save(document);
     }

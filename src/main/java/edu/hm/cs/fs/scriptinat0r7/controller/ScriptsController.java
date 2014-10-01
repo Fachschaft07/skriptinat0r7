@@ -43,7 +43,7 @@ public class ScriptsController extends AbstractController {
 
     private static final String SCRIPTS_LIST_VIEW = "scripts/list";
     private static final String SCRIPTS_SUBMIT_VIEW = "scripts/submit";
-    private static final Logger logger = Logger.getLogger(ScriptsController.class);
+    private static final Logger LOGGER = Logger.getLogger(ScriptsController.class);
 
     @Autowired
     private ScriptsService scriptsService;
@@ -65,11 +65,7 @@ public class ScriptsController extends AbstractController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String showScripts(final ModelMap model, final HttpServletRequest request) {
-        if (request.isUserInRole("ROLE_FACHSCHAFTLER")) {
-            model.addAttribute("scripts", scriptsService.findAll());
-        } else {
-            model.addAttribute("scripts", scriptsService.findAllPublicScripts());
-        }
+        model.addAttribute("scripts", scriptsService.findAllPublicScripts());
         return SCRIPTS_LIST_VIEW;
     }
 
@@ -122,7 +118,7 @@ public class ScriptsController extends AbstractController {
                 final Script savedScript = scriptsService.create(script);
                 return redirect("scripts/submit/files/" + savedScript.getId());
             } catch (DataAccessException e) {
-                logger.error("data access exception while trying to save a new script", e);
+                LOGGER.error("data access exception while trying to save a new script", e);
                 addErrorFlash("Es trat ein Fehler auf: " + e.getLocalizedMessage(), redirectAttributes);
                 return redirect(SCRIPTS_SUBMIT_VIEW);
             }
@@ -148,7 +144,7 @@ public class ScriptsController extends AbstractController {
         final String currentUserName = getCurrentUser().getUsername();
         final String scriptSubmitterName = script.getSubmitter().getUsername();
         if (!scriptSubmitterName.equals(currentUserName) || script.isSubmittedCompletely()) {
-            logger.error("user " + currentUserName + " tried to submit a script"
+            LOGGER.error("user " + currentUserName + " tried to submit a script"
                     + " for which he has no permissions or which is already submitted completely");
             throw new UnauthorizedException();
         }
@@ -171,9 +167,10 @@ public class ScriptsController extends AbstractController {
         for (int i = 0; i < files.size(); i++) {
             final MultipartFile file = files.get(i);
             try {
+                // TODO: handle duplicates
                 documentsService.create(Collections.singleton(script), i, file);
-            } catch (DataAccessException | IOException e) {
-                logger.error("could not add file " + file.getName(), e);
+            } catch (DataAccessException | IOException | IllegalArgumentException e) {
+                LOGGER.error("could not add file " + file.getName(), e);
                 filesInError.add(file.getOriginalFilename());
             }
         }

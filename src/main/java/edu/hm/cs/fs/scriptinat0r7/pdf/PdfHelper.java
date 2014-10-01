@@ -84,4 +84,17 @@ public final class PdfHelper {
         throw new IllegalArgumentException("no password is able to decrypt the document");
     }
 
+    /**
+     * Returns true if the given bytes form a valid pdf (encrypted pdf's are valid pdf's).
+     * @param pdfBytes the document to check.
+     * @return true if the given bytes form a valid pdf (encrypted pdf's are valid pdf's).
+     */
+    public static boolean isValidPdf(final byte[] pdfBytes) {
+        try (PDDocument document = loadDocumentFromByteStream(pdfBytes)) {
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
 }

@@ -1,6 +1,6 @@
 package edu.hm.cs.fs.scriptinat0r7.pdf;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,6 +53,34 @@ public class PdfHelperTest {
         ) {
             final byte[] document = IOUtils.toByteArray(resourceAsStream);
             PdfHelper.findCorrectPassword(document, Collections.singleton(""));
+        }
+    }
+
+    /**
+     * Tests if pdfs are recognized as pdfs and other files not.
+     * @throws IOException should not happen
+     */
+    @Test
+    public void testIsValidPdfOnValidPdf() throws IOException {
+        try (
+            final InputStream resourceAsStream = getClass().getResourceAsStream("/samplePdfs/sample_encrypted_with_password_test.pdf");
+        ) {
+            final byte[] document = IOUtils.toByteArray(resourceAsStream);
+            assertTrue("a valid pdf document should be detected", PdfHelper.isValidPdf(document));
+        }
+    }
+
+    /**
+     * Tests if pdfs are recognized as pdfs and other files not.
+     * @throws IOException should not happen
+     */
+    @Test
+    public void testIsValidPdfOnInvalidPdf() throws IOException {
+        try (
+            final InputStream resourceAsStream = getClass().getResourceAsStream("/samplePdfs/not_a_pdf.txt");
+        ) {
+            final byte[] document = IOUtils.toByteArray(resourceAsStream);
+            assertFalse("an invalid pdf document should be detected", PdfHelper.isValidPdf(document));
         }
     }
 
