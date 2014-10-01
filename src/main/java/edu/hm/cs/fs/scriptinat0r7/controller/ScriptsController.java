@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.access.annotation.Secured;
@@ -42,6 +43,7 @@ public class ScriptsController extends AbstractController {
 
     private static final String SCRIPTS_LIST_VIEW = "scripts/list";
     private static final String SCRIPTS_SUBMIT_VIEW = "scripts/submit";
+    private static final Logger logger = Logger.getLogger(ScriptsController.class);
 
     @Autowired
     private ScriptsService scriptsService;
@@ -120,6 +122,7 @@ public class ScriptsController extends AbstractController {
                 final Script savedScript = scriptsService.create(script);
                 return redirect("scripts/submit/files/" + savedScript.getId());
             } catch (DataAccessException e) {
+                logger.error("data access exception while trying to save a new script", e);
                 addErrorFlash("Es trat ein Fehler auf: " + e.getLocalizedMessage(), redirectAttributes);
                 return redirect(SCRIPTS_SUBMIT_VIEW);
             }
@@ -145,6 +148,8 @@ public class ScriptsController extends AbstractController {
         final String currentUserName = getCurrentUser().getUsername();
         final String scriptSubmitterName = script.getSubmitter().getUsername();
         if (!scriptSubmitterName.equals(currentUserName) || script.isSubmittedCompletely()) {
+            logger.error("user " + currentUserName + " tried to submit a script"
+                    + " for which he has no permissions or which is already submitted completely");
             throw new UnauthorizedException();
         }
     }
@@ -168,7 +173,7 @@ public class ScriptsController extends AbstractController {
             try {
                 documentsService.create(Collections.singleton(script), i, file);
             } catch (DataAccessException | IOException e) {
-                // TODO logging
+                logger.error("could not add file " + file.getName(), e);
                 filesInError.add(file.getOriginalFilename());
             }
         }
