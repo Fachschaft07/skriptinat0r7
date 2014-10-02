@@ -18,6 +18,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -62,6 +63,7 @@ public class ScriptDocument implements Serializable {
     private String note;
 
     @ManyToMany
+    @JoinTable
     private Set<Script> scripts;
 
     @Column(nullable = false)

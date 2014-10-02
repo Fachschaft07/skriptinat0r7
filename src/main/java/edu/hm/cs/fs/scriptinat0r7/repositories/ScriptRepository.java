@@ -28,6 +28,6 @@ public interface ScriptRepository extends PagingAndSortingRepository<Script, Int
      * @param states The states that filter the scripts.
      * @return a {@code List} of all matching scripts.
      */
-    @Query("SELECT u FROM #{#entityName} u INNER JOIN u.scriptDocuments j where j.reviewState in (:states)")
+    @Query("SELECT DISTINCT u FROM #{#entityName} u INNER JOIN u.scriptDocuments j where j.reviewState in (:states)")
     List<Script> findByReviewState(@Param("states") ReviewState... states);
 }

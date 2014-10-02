@@ -19,14 +19,14 @@ import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
 public class ScriptsService {
 
     @Autowired
-    private ScriptRepository scripts;
+    private ScriptRepository scriptsRepository;
 
     /**
      * Returns all scripts.
      * @return all scripts.
      */
     public Collection<Script> findAll() {
-        return scripts.findAll();
+        return scriptsRepository.findAll();
     }
 
     /**
@@ -34,7 +34,7 @@ public class ScriptsService {
      * @return all public scripts.
      */
     public List<Script> findAllPublicScripts() {
-        return scripts.findByReviewState(ReviewState.FACHSCHAFTLERAPPROVED, ReviewState.PROFESSORAPPROVED);
+        return scriptsRepository.findByReviewState(ReviewState.FACHSCHAFTLERAPPROVED, ReviewState.PROFESSORAPPROVED);
     }
 
     /**
@@ -42,7 +42,8 @@ public class ScriptsService {
      * @return all locked scripts.
      */
     public List<Script> findAllLockedScripts() {
-        return scripts.findByReviewState(ReviewState.LOCKED);
+        List<Script> scripts = scriptsRepository.findByReviewState(ReviewState.LOCKED);
+        return scripts;
     }
 
     /**
@@ -57,7 +58,7 @@ public class ScriptsService {
         scriptToSave.setName(script.getName());
         scriptToSave.setSubmittedCompletely(false);
         scriptToSave.setSubmitter(script.getSubmitter());
-        return scripts.save(scriptToSave);
+        return scriptsRepository.save(scriptToSave);
     }
 
     /**
@@ -66,7 +67,7 @@ public class ScriptsService {
      * @return the script with the given id.
      */
     public Script findOne(final int id) {
-        return scripts.findOne(id);
+        return scriptsRepository.findOne(id);
     }
 
     /**
@@ -77,7 +78,7 @@ public class ScriptsService {
      */
     @Transactional
     public Script findPublicScriptById(final int id) throws UnauthorizedException {
-        final Script script = scripts.findOne(id);
+        final Script script = scriptsRepository.findOne(id);
         if (script.areAllScriptsApproved()) {
             return script;
         } else {
@@ -91,6 +92,6 @@ public class ScriptsService {
      */
     public void finalizeScriptSubmit(final Script script) {
         script.setSubmittedCompletely(true);
-        scripts.save(script);
+        scriptsRepository.save(script);
     }
 }

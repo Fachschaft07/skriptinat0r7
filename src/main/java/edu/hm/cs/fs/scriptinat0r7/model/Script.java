@@ -64,7 +64,7 @@ public class Script implements Serializable {
     @JoinTable
     private Set<Lecture> lectures;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "scripts") // TODO: should this one be the owning side?
     private Set<ScriptDocument> scriptDocuments;
 
     @OneToOne
