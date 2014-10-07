@@ -112,6 +112,10 @@ public class ScriptDocument implements Serializable {
         this.reviewState = reviewState;
     }
 
+    public boolean isPublic() {
+        return reviewState == ReviewState.FACHSCHAFTLERAPPROVED || reviewState == ReviewState.PROFESSORAPPROVED;
+    }
+
     public String getPassword() {
         return password;
     }

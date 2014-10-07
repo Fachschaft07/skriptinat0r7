@@ -5,13 +5,30 @@
 <tiles:insertDefinition name="defaultTemplate">
     <tiles:putAttribute name="content">
         <div class="clearfix">
-            <h2 class="pull-left">Skript ${script.name}</h2>
+            <h2 class="pull-left">Skript: "${script.name}"</small></h2>
             <sec:authorize access="hasRole('ROLE_FACHSCHAFTLER')">
                 <a class="btn btn-primary hidden-xs pull-right" href="${pageContext.request.contextPath}/scripts/${script.id}/edit">
                     <span class="glyphicon glyphicon-pencil"></span> Bearbeiten
                 </a>
             </sec:authorize>
         </div>
-        TODO: is pw locked?
+        
+        <p>Dieses Skript ist für folgende Vorlesungen gültig.</p>
+        <ul>
+            <c:forEach var="document" items="${documents}">
+        </ul>
+        
+        <p>Folgende Dateien sind Teil dieses Skripts.</p>
+        <ul class="list-group">
+            <c:forEach var="document" items="${documents}">
+                <c:if test="${document.isPublic()}">
+                    <li class="list-group-item list-group-item-success">${document.filename}</li>
+                </c:if>
+                <c:if test="${!document.isPublic()}">
+                    <li class="list-group-item list-group-item-danger">${document.filename}</li>
+                </c:if>
+            </c:forEach>
+        </ul>
+        <small>Legende: <span class="text-success">bestellbar</span>, <span class="text-danger">gesperrt</span></small>
     </tiles:putAttribute>
 </tiles:insertDefinition>

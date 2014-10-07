@@ -5,9 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import edu.hm.cs.fs.scriptinat0r7.exception.UnauthorizedException;
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
@@ -68,22 +66,6 @@ public class ScriptsService {
      */
     public Script findOne(final int id) {
         return scriptsRepository.findOne(id);
-    }
-
-    /**
-     * returns the given script or throws an exception if not all script documents are approved.
-     * @param id the script to retrieve.
-     * @return the script.
-     * @throws UnauthorizedException thrown if there are script documents which are not accessible.
-     */
-    @Transactional
-    public Script findPublicScriptById(final int id) throws UnauthorizedException {
-        final Script script = scriptsRepository.findOne(id);
-        if (script.areAllScriptsApproved()) {
-            return script;
-        } else {
-            throw new UnauthorizedException();
-        }
     }
 
     /**

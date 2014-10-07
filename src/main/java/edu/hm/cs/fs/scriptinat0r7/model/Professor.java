@@ -2,8 +2,11 @@ package edu.hm.cs.fs.scriptinat0r7.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 /**
  * Represents a professor.
@@ -15,7 +18,9 @@ public class Professor extends User implements Serializable {
 
     @Column(nullable = true)
     private String title;
-    
+
+    @OneToMany(mappedBy = "readingProfessor")
+    private Set<Lecture> lectures;
 
     public void setTitle(final String title) {
         this.title = title;
@@ -28,6 +33,14 @@ public class Professor extends User implements Serializable {
     @Override
     public final String getFullName() {
         return ((title == null) || (title.length() == 0)) ? super.getFullName() : title + " " + super.getFullName();
+    }
+
+    public Set<Lecture> getLectures() {
+        return lectures;
+    }
+
+    public void setLectures(Set<Lecture> lectures) {
+        this.lectures = lectures;
     }
 
     @Override
@@ -47,7 +60,7 @@ public class Professor extends User implements Serializable {
 
         return true;
     }
-    
+
     @Override
     public boolean canEqual(final Object obj) {
         return obj instanceof Professor;

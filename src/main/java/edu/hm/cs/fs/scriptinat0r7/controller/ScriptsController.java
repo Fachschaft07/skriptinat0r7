@@ -28,9 +28,11 @@ import com.google.common.collect.Sets;
 
 import edu.hm.cs.fs.scriptinat0r7.exception.UnauthorizedException;
 import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
+import edu.hm.cs.fs.scriptinat0r7.model.Professor;
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 import edu.hm.cs.fs.scriptinat0r7.service.LectureService;
+import edu.hm.cs.fs.scriptinat0r7.service.ProfessorService;
 import edu.hm.cs.fs.scriptinat0r7.service.ScriptDocumentsService;
 import edu.hm.cs.fs.scriptinat0r7.service.ScriptsService;
 
@@ -53,6 +55,9 @@ public class ScriptsController extends AbstractController {
 
     @Autowired
     private ScriptDocumentsService documentsService;
+
+    @Autowired
+    private ProfessorService professorService;
 
     /**
      * Gets and displays all existing scripts.
@@ -79,7 +84,15 @@ public class ScriptsController extends AbstractController {
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public String showScriptDetail(final ModelMap model,
             @PathVariable("id") final int id) throws UnauthorizedException {
-        model.addAttribute("script", scriptsService.findPublicScriptById(id));
+        final Script script = scriptsService.findOne(id);
+        model.addAttribute("script", script);
+        model.addAttribute("documents", documentsService.findByScript(script));
+        List<Lecture> lectures = lecturesService.findByScript(script);
+        for (Lecture lecture : lectures) {
+            Professor professor = professorService.findByLecture(lecture);
+            lecture.setReadingProfessor(professor);
+        }
+        model.addAttribute("lectures", lectures);
         return "scripts/detail";
     }
 
@@ -180,6 +193,8 @@ public class ScriptsController extends AbstractController {
             addErrorFlash(message, redirectAttributes);
         }
 
+        // TODO: no file successfully uploaded
+
         return redirect("scripts/submit/password/" + script.getId());
     }
 
@@ -251,7 +266,7 @@ public class ScriptsController extends AbstractController {
 
         addSuccessFlash("Skript erfolgreich eingeschickt. Herzlichen Dank für deine Mühe."
                 + " Über deinen Account kannst du zu deinen Einsendungen navigieren."
-                + "Dort siehst du, sobald es zur Bestellung freigeschalten wurde.", redirectAttributes);
+                + " Dort siehst du, sobald es zur Bestellung freigeschalten wurde.", redirectAttributes);
         return redirect("scripts");
     }
 
