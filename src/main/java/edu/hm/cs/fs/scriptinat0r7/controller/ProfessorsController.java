@@ -26,6 +26,7 @@ import edu.hm.cs.fs.scriptinat0r7.service.ProfessorService;
 @RequestMapping("/professors")
 public class ProfessorsController extends AbstractController {
 
+    private static final String PROFESSOR_SAVED_MESSAGE = "Professor erfolgreich gespeichert";
     private static final String PROFESSOR_COULD_NOT_BE_SAVED_MESSAGE = "Professor konnte nicht gespeichert werden: ";
     private static final String PROFESSORS_ADD_VIEW = "professors/add";
     private static final String PROFESSORS_EDIT_VIEW = "professors/edit";
@@ -77,6 +78,7 @@ public class ProfessorsController extends AbstractController {
             try {
                 professor.setRole(Role.PROFESSOR);
                 professors.save(professor);
+                addSuccessFlash(PROFESSOR_SAVED_MESSAGE, redirectAttributes);
                 return redirect("professors");
             } catch (DataAccessException e) {
                 addErrorFlash(PROFESSOR_COULD_NOT_BE_SAVED_MESSAGE + e.getLocalizedMessage(), redirectAttributes);
@@ -124,7 +126,7 @@ public class ProfessorsController extends AbstractController {
                 professorToSave.setLastName(professorSubmitted.getLastName());
                 professorToSave.setTitle(professorSubmitted.getTitle());
                 professors.save(professorToSave);
-                addSuccessFlash("Professor erfolgreich gespeichert", redirectAttributes);
+                addSuccessFlash(PROFESSOR_SAVED_MESSAGE, redirectAttributes);
                 return redirect("professors");
             } catch (DataAccessException e) {
                 addErrorFlash(PROFESSOR_COULD_NOT_BE_SAVED_MESSAGE + e.getLocalizedMessage(), redirectAttributes);
