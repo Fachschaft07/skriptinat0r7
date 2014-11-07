@@ -58,13 +58,15 @@
     </beans:bean>
 
     <authentication-manager alias="authenticationManager">
-        <!-- <authentication-provider user-service-ref="ifwAuthenticationProvider" /> -->
+        <authentication-provider user-service-ref="ifwAuthenticationProvider" />
+        <!--
         <authentication-provider>
             <user-service>
                 <user name="ifw10000" password="ifw10000" authorities="ROLE_USER" />
                 <user name="ifw20000" password="ifw20000" authorities="ROLE_USER, ROLE_FACHSCHAFTLER" />
             </user-service>
         </authentication-provider>
+        -->
     </authentication-manager>
 
     <beans:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">

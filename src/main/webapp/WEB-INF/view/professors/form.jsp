@@ -10,6 +10,8 @@
     <t:input path="lastName" label="Nachname" />
     <t:input path="title" label="Titel" />
 
+    TODO: lectures?
+
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button class="btn btn-primary">Speichern</button>
