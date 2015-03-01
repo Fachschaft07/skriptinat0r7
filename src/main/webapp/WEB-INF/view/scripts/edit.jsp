@@ -6,7 +6,7 @@
 
 <tiles:insertDefinition name="defaultTemplate">
     <tiles:putAttribute name="content">
-        <h2>Skript einschicken - Schritt 1</h2>
+        <h2>Skript einschicken</h2>
         <form:form action="" modelAttribute="script" method="POST" cssClass="form-horizontal">
             
             <t:input path="name" label="Name des Skripts" required="true" />

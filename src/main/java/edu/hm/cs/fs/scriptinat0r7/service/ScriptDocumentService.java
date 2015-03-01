@@ -71,7 +71,7 @@ public class ScriptDocumentService {
     public List<ScriptDocument> tryPasswordsOnScriptDocumentsWithMissingPassword(final Script script, final Collection<String> passwordsToTry) {
         final List<ScriptDocument> documentsWherePasswordStillMissing = new LinkedList<>();
 
-        for (ScriptDocument currentDocument : scriptDocuments.findByScriptsInAndIsPasswordMissingTrue(script)) {
+        for (final ScriptDocument currentDocument : scriptDocuments.findByScriptsInAndIsPasswordMissingTrue(script)) {
             try {
                 final String passwordThatDecryptsThisDocument = PdfHelper.findCorrectPassword(currentDocument.getFile(), passwordsToTry);
                 currentDocument.setPassword(passwordThatDecryptsThisDocument);
@@ -117,6 +117,14 @@ public class ScriptDocumentService {
                 throw new IllegalArgumentException("at least one document has not been assigned a sortnumber. this is a illegal condition, as it could cause duplicate sortnumbers");
             }
         }
+    }
+
+    public Collection<ScriptDocument> findAll() {
+        return scriptDocuments.findAll();
+    }
+
+    public byte[] loadScriptContent(final ScriptDocument document) {
+        return document.getFile();
     }
 
 }

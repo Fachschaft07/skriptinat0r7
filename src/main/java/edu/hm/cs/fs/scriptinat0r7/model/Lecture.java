@@ -141,7 +141,6 @@ public class Lecture implements Serializable {
     @Override
     public String toString() {
         return "Lecture [id=" + id + ", name=" + name + ", readingProfessor="
-                + readingProfessor + ", studyProgram=" + studyProgram
-                + ", usedScripts=" + usedScripts + "]";
+                + readingProfessor + "]";
     }
 }

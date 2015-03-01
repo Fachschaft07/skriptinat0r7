@@ -11,7 +11,7 @@
             Die eingegebenen Informationen sind in Ordnung, bitte fahre mit den Dateien fort.
         </div>
 
-        <h2>Skript einschicken - Schritt 2. Alle Dateien auswählen und hochladen</h2>
+        <h2>Dateien hochladen - Schritt 2</h2>
         <form:form action="${pageContext.request.contextPath}/scripts/submit/files/${id}?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <input name="files[]" type="file" multiple />

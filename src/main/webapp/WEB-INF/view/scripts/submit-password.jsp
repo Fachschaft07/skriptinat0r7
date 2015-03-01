@@ -6,7 +6,7 @@
 
 <tiles:insertDefinition name="defaultTemplate">
     <tiles:putAttribute name="content">
-        <h2>Skript einschicken - Schritt 3. Passwörter</h2>
+        <h2>Passwörter - Schritt 3</h2>
         <form action="${pageContext.request.contextPath}/scripts/submit/password/${id}" method="post">
             <p>Folgenden Dokumente sind verschlüsselt und benötigen ein Passwort:</p>
             <ul>

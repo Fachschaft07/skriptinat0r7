@@ -201,6 +201,7 @@ public class ScriptsController extends AbstractController {
         }
 
         if (!filesInError.isEmpty()) {
+            // FIXME: does not seem to be displayed
             final String message = "Folgende Dateien konnten nicht erfolgreich hochgeladen werden: " + StringUtils.join(filesInError, ", ");
             addErrorFlash(message, redirectAttributes);
         }
@@ -301,5 +302,14 @@ public class ScriptsController extends AbstractController {
     public String showScriptSubmissions(final ModelMap model) {
         model.addAttribute("scripts", scriptsService.findAllLockedScripts());
         return "scripts/show-submissions";
+    }
+
+    @Secured("ROLE_FACHSCHAFTLER")
+    @RequestMapping(value = "{id}/edit", method = RequestMethod.GET)
+    public String edit(final ModelMap model, @PathVariable("id") final Script script) {
+        script.setLectures(new HashSet<>(lecturesService.findByScript(script)));
+        model.addAttribute("script", script);
+        model.addAttribute("lectures", lecturesService.findAll());
+        return "scripts/edit";
     }
 }

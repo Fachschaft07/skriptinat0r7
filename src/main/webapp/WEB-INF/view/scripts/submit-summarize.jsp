@@ -13,7 +13,7 @@
             Schick es ab, sobald du dich dazu bereit fühlst.
         </div>
 
-        <h2>Skript einschicken - Schritt 4. Zusammenfassung</h2>
+        <h2>Zusammenfassung und Bestätigung - Schritt 4</h2>
 
         <div class="form-horizontal">
             <div class="form-group">
@@ -56,7 +56,7 @@
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <button id="submit" class="btn btn-primary btn-lg" type="submit">Abschicken</button>
             </form>
-            <button class="btn btn-danger">Abbrechen TODO</button>
+            <a class="btn btn-danger" href="${pageContext.request.contextPath}/scripts/submit">Abbrechen</a>
         </div>
     </tiles:putAttribute>
 </tiles:insertDefinition>
