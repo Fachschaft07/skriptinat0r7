@@ -122,7 +122,7 @@ public class LecturesController extends AbstractController {
                 lectures.save(lectureToSave);
                 addSuccessFlash("Vorlesung erfolgreich gespeichert.", redirectAttributes);
                 return redirect("lectures");
-            } catch (DataAccessException e) {
+            } catch (final DataAccessException e) {
                 addErrorFlash("Vorlesung konnte nicht gespeichert werden: " + e.getLocalizedMessage(), redirectAttributes);
                 return redirect("lectures/edit/" + lectureSubmitted.getId());
             }
@@ -141,7 +141,7 @@ public class LecturesController extends AbstractController {
             lectures.delete(lecture);
             addSuccessFlash("Vorlesung erfolgreich gelöscht", redirectAttributes);
             return redirect("lectures");
-        } catch (DataAccessException e) {
+        } catch (final DataAccessException e) {
             addErrorFlash("Vorlesung konnte nicht gelöscht werden: " + e.getLocalizedMessage(), redirectAttributes);
             return redirect("lectures/edit/" + lecture.getId());
         }

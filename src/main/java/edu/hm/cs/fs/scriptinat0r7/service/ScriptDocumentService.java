@@ -16,16 +16,16 @@ import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 import edu.hm.cs.fs.scriptinat0r7.pdf.PdfHelper;
-import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptDocumentsRepository;
+import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptDocumentRepository;
 
 /**
  * A service for business operations on script documents.
  */
 @Service
-public class ScriptDocumentsService {
+public class ScriptDocumentService {
 
     @Autowired
-    private ScriptDocumentsRepository scriptDocuments;
+    private ScriptDocumentRepository scriptDocuments;
 
     /**
      * Persists a given script document.

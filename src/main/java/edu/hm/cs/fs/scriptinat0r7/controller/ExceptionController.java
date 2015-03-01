@@ -21,7 +21,6 @@ import edu.hm.cs.fs.scriptinat0r7.interceptor.RequestInterceptor;
  */
 @ControllerAdvice
 public class ExceptionController extends AbstractController {
-
     /**
      * Handles an error case.
      * @return an error page
@@ -31,7 +30,6 @@ public class ExceptionController extends AbstractController {
     public ModelAndView handle400() {
         return buildModelAndView("errors/400");
     }
-
 
     /**
      * Handles an error case.
@@ -43,7 +41,6 @@ public class ExceptionController extends AbstractController {
         return buildModelAndView("errors/403");
     }
 
-
     /**
      * Handles an error case.
      * @return an error page
@@ -54,8 +51,8 @@ public class ExceptionController extends AbstractController {
         return buildModelAndView("errors/404");
     }
 
-    private ModelAndView buildModelAndView(String errorPage) {
-        ModelAndView modelAndView = new ModelAndView(errorPage);
+    private ModelAndView buildModelAndView(final String errorPage) {
+        final ModelAndView modelAndView = new ModelAndView(errorPage);
         RequestInterceptor.enrichModelWithUser(modelAndView.getModelMap());
         return modelAndView;
     }

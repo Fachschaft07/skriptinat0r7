@@ -50,9 +50,6 @@ public class Script implements Serializable {
     @Enumerated(EnumType.STRING)
     private ScriptCategory category;
 
-    @ManyToMany
-    private Set<User> authors;
-
     @Enumerated(EnumType.STRING)
     private SemesterType semesterType;
 
@@ -94,37 +91,6 @@ public class Script implements Serializable {
 
     public void setCategory(final ScriptCategory category) {
         this.category = category;
-    }
-
-    public Set<User> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(final Set<User> authors) {
-        this.authors = authors;
-    }
-
-    /**
-     * Adds an author to this {@code Script}.
-     *
-     * @param author
-     *            the author to add.
-     */
-    public void addAuthor(final User author) {
-        if (authors == null) {
-            authors = new HashSet<>();
-        }
-        authors.add(author);
-    }
-
-    /**
-     * Removes an author from this {@code Script}.
-     *
-     * @param author
-     *            the author to remove.
-     */
-    public void removeAuthor(final User author) {
-        authors.remove(author);
     }
 
     public SemesterType getSemesterType() {

@@ -13,7 +13,7 @@ import edu.hm.cs.fs.scriptinat0r7.repositories.UserRepository;
  * A service for business operations on users.
  */
 @Service
-public class UsersService {
+public class UserService {
 
     private final Pattern ifwUserPattern = Pattern.compile("^if(w|s)[0-9]{5}$");
 

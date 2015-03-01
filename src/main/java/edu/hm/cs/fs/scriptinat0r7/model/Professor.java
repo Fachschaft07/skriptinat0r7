@@ -27,19 +27,19 @@ public class Professor extends User implements Serializable {
     }
 
     public String getTitle() {
-        return this.title;
+        return title;
     }
 
     @Override
     public final String getFullName() {
-        return ((title == null) || (title.length() == 0)) ? super.getFullName() : title + " " + super.getFullName();
+        return (title == null) || (title.length() == 0) ? super.getFullName() : title + " " + super.getFullName();
     }
 
     public Set<Lecture> getLectures() {
         return lectures;
     }
 
-    public void setLectures(Set<Lecture> lectures) {
+    public void setLectures(final Set<Lecture> lectures) {
         this.lectures = lectures;
     }
 
@@ -54,8 +54,8 @@ public class Professor extends User implements Serializable {
         if (obj == null) { return false; }
         if (!(obj instanceof Professor)) { return false; }
 
-        Professor other = (Professor) obj;
-        if (!Objects.equals(this.title, other.title)) { return false; }
+        final Professor other = (Professor) obj;
+        if (!Objects.equals(title, other.title)) { return false; }
         if (!super.equals(other)) { return false; }
 
         return true;

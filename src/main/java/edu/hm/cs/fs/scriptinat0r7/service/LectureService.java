@@ -21,6 +21,9 @@ public class LectureService {
     @Autowired
     private LectureRepository lectures;
 
+    @Autowired
+    private ScriptService scriptsService;
+
     /**
      * Return all lectures.
      * @return a list of lectures.
@@ -66,5 +69,13 @@ public class LectureService {
      */
     public List<Lecture> findByScript(final Script script) {
         return lectures.findByUsedScriptsIn(Collections.singleton(script));
+    }
+
+    public List<Lecture> findLecturesWithPublicScript() {
+        return lectures.findByUsedScriptsIn(scriptsService.findAllPublicScripts());
+    }
+
+    public Lecture findOne(final Integer id) {
+        return lectures.findOne(id);
     }
 }

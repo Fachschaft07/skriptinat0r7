@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
 import edu.hm.cs.fs.scriptinat0r7.model.Professor;
 
 /**
@@ -36,5 +37,7 @@ public interface ProfessorRepository extends PagingAndSortingRepository<Professo
      */
     @Override
     Collection<Professor> findAll();
+
+    Professor findByLecturesIn(Lecture lecture);
 
 }

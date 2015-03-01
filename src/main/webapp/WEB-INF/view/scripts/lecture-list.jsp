@@ -5,19 +5,21 @@
     <tiles:putAttribute name="content">
         <h2>Skriptindex</h2>
         <c:choose>
-            <c:when test="${ ! scripts.isEmpty()}">
+            <c:when test="${ ! lectures.isEmpty()}">
                 <table class="table table-hover clickable">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Autor</th>
+                            <th>Fach</th>
+                            <th>Professor</th>
+                            <th>Anzahl Skripte</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${scripts}" var="script">
-                            <tr data-href="${pageContext.request.contextPath}/scripts/${script.id}">
-                                <td>${script.name}</td>
-                                <td>Todo</td>
+                        <c:forEach items="${lectures}" var="lecture">
+                            <tr data-href="${pageContext.request.contextPath}/scripts/lecture/${lecture.id}">
+                                <td>${lecture.name}</td>
+                                <td>${lecture.readingProfessor.fullName}</td>
+                                <td>${lecture.usedScripts.size()}</td>
                             </tr>
                         </c:forEach>
                     </tbody>

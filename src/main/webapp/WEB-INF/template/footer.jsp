@@ -5,3 +5,8 @@
         <script src="${pageContext.request.contextPath}/resources/js/script0r7.js"></script>
     </body>
 </html>
+
+<!-- 
+Method: ${method}
+Controller: ${controller}
+ -->

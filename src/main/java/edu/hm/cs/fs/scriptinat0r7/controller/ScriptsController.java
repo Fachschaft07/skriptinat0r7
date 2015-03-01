@@ -1,7 +1,9 @@
 package edu.hm.cs.fs.scriptinat0r7.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,13 +30,12 @@ import com.google.common.collect.Sets;
 
 import edu.hm.cs.fs.scriptinat0r7.exception.UnauthorizedException;
 import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
-import edu.hm.cs.fs.scriptinat0r7.model.Professor;
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 import edu.hm.cs.fs.scriptinat0r7.service.LectureService;
 import edu.hm.cs.fs.scriptinat0r7.service.ProfessorService;
-import edu.hm.cs.fs.scriptinat0r7.service.ScriptDocumentsService;
-import edu.hm.cs.fs.scriptinat0r7.service.ScriptsService;
+import edu.hm.cs.fs.scriptinat0r7.service.ScriptDocumentService;
+import edu.hm.cs.fs.scriptinat0r7.service.ScriptService;
 
 /**
  * Controller to render pages for dealing with {@code Script}s.
@@ -43,24 +44,24 @@ import edu.hm.cs.fs.scriptinat0r7.service.ScriptsService;
 @RequestMapping("/scripts")
 public class ScriptsController extends AbstractController {
 
-    private static final String SCRIPTS_LIST_VIEW = "scripts/list";
+    private static final String LECTURE_LIST_VIEW = "scripts/lecture-list";
     private static final String SCRIPTS_SUBMIT_VIEW = "scripts/submit";
     private static final Logger LOGGER = Logger.getLogger(ScriptsController.class);
 
     @Autowired
-    private ScriptsService scriptsService;
+    private ScriptService scriptsService;
 
     @Autowired
     private LectureService lecturesService;
 
     @Autowired
-    private ScriptDocumentsService documentsService;
+    private ScriptDocumentService documentsService;
 
     @Autowired
     private ProfessorService professorService;
 
     /**
-     * Gets and displays all existing scripts.
+     * Display lectures and script count.
      *
      * @param model
      *            the model used by the view.
@@ -69,30 +70,41 @@ public class ScriptsController extends AbstractController {
      * @return the logical view name.
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String showScripts(final ModelMap model, final HttpServletRequest request) {
-        model.addAttribute("scripts", scriptsService.findAllPublicScripts());
-        return SCRIPTS_LIST_VIEW;
+    public String showScriptsByLectures(final ModelMap model, final HttpServletRequest request) {
+        final List<Lecture> lectures = lecturesService.findLecturesWithPublicScript();
+
+        for (final Lecture lecture : lectures) {
+            lecture.setUsedScripts(scriptsService.findByLecture(lecture)); // TODO PRELOAD
+        }
+
+        model.addAttribute("lectures", lectures);
+        return LECTURE_LIST_VIEW;
     }
 
     /**
-     * Shows a detail page for one script.
+     * Shows a detail page with all scripts for one lecture.
      * @param model the model used by the view.
-     * @param id the script id.
+     * @param id the lecture id.
      * @return the logical view name
-     * @throws UnauthorizedException thrown when the user is not authorized to view the script.
      */
+    @RequestMapping(value = "lecture/{id}", method = RequestMethod.GET)
+    public String showLectureDetail(final ModelMap model, @PathVariable("id") final Lecture lecture) throws UnauthorizedException {
+        model.addAttribute("lecture", lecture);
+
+        final List<Script> scripts = new ArrayList<>();
+        for (final Script script : scriptsService.findByLecture(lecture)) {
+            script.setScriptDocuments(new HashSet<>(documentsService.findByScript(script)));
+            scripts.add(script);
+        }
+
+        model.addAttribute("scripts", scripts);
+        return "scripts/lecture-detail";
+    }
+
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public String showScriptDetail(final ModelMap model,
-            @PathVariable("id") final int id) throws UnauthorizedException {
-        final Script script = scriptsService.findOne(id);
+    public String showScriptDetail(final ModelMap model, @PathVariable("id") final Script script) throws UnauthorizedException {
         model.addAttribute("script", script);
         model.addAttribute("documents", documentsService.findByScript(script));
-        List<Lecture> lectures = lecturesService.findByScript(script);
-        for (Lecture lecture : lectures) {
-            Professor professor = professorService.findByLecture(lecture);
-            lecture.setReadingProfessor(professor);
-        }
-        model.addAttribute("lectures", lectures);
         return "scripts/detail";
     }
 
@@ -130,7 +142,7 @@ public class ScriptsController extends AbstractController {
                 script.setSubmitter(getCurrentUser());
                 final Script savedScript = scriptsService.create(script);
                 return redirect("scripts/submit/files/" + savedScript.getId());
-            } catch (DataAccessException e) {
+            } catch (final DataAccessException e) {
                 LOGGER.error("data access exception while trying to save a new script", e);
                 addErrorFlash("Es trat ein Fehler auf: " + e.getLocalizedMessage(), redirectAttributes);
                 return redirect(SCRIPTS_SUBMIT_VIEW);
@@ -148,12 +160,12 @@ public class ScriptsController extends AbstractController {
     @RequestMapping(value = "/submit/files/{id}", method = RequestMethod.GET)
     public String addScriptFilesForm(final ModelMap map,
             @PathVariable("id") final Script script) throws UnauthorizedException {
-        abortUnauthorizedAccess(script);
+        abortUnauthorizedAccessToScriptsBeingSubmitted(script);
         map.addAttribute("id", script.getId());
         return "scripts/submit-files";
     }
 
-    private void abortUnauthorizedAccess(final Script script) throws UnauthorizedException {
+    private void abortUnauthorizedAccessToScriptsBeingSubmitted(final Script script) throws UnauthorizedException {
         final String currentUserName = getCurrentUser().getUsername();
         final String scriptSubmitterName = script.getSubmitter().getUsername();
         if (!scriptSubmitterName.equals(currentUserName) || script.isSubmittedCompletely()) {
@@ -175,7 +187,7 @@ public class ScriptsController extends AbstractController {
     public String addScriptFilesSubmit(@PathVariable("id") final Script script,
             @RequestParam("files[]") final List<MultipartFile> files,
             final RedirectAttributes redirectAttributes) throws UnauthorizedException {
-        abortUnauthorizedAccess(script);
+        abortUnauthorizedAccessToScriptsBeingSubmitted(script);
         final List<String> filesInError = new LinkedList<>();
         for (int i = 0; i < files.size(); i++) {
             final MultipartFile file = files.get(i);
@@ -210,7 +222,7 @@ public class ScriptsController extends AbstractController {
     public String addScriptPasswordForm(@PathVariable("id") final Script script,
             final ModelMap model,
             @RequestParam(value = "passwords", defaultValue = "") final String passwordsPost) throws UnauthorizedException {
-        abortUnauthorizedAccess(script);
+        abortUnauthorizedAccessToScriptsBeingSubmitted(script);
         final List<String> passwords = new LinkedList<>();
         Collections.addAll(passwords, StringUtils.split(passwordsPost));
         final List<ScriptDocument> documentsWithMissingPassword = documentsService.tryPasswordsOnScriptDocumentsWithMissingPassword(script, passwords);
@@ -237,7 +249,7 @@ public class ScriptsController extends AbstractController {
     @RequestMapping(value = "/submit/summarize/{id}", method = RequestMethod.GET)
     public String addScriptSummarizeForm(final ModelMap model,
             @PathVariable("id") final Script script) throws UnauthorizedException {
-        abortUnauthorizedAccess(script);
+        abortUnauthorizedAccessToScriptsBeingSubmitted(script);
         final List<Lecture> scriptLectures = lecturesService.findByScript(script);
         script.setLectures(Sets.newHashSet(scriptLectures)); // TODO: horrible hack to avoid lazy loading exception in view
         model.addAttribute("script", script);
@@ -258,7 +270,7 @@ public class ScriptsController extends AbstractController {
     public String addScriptSummarizeSubmit(final RedirectAttributes redirectAttributes,
             @RequestParam("scriptDocumentSort[]") final String[] orderedDocumentHashes,
             @PathVariable("id") final Script script) throws UnauthorizedException {
-        abortUnauthorizedAccess(script);
+        abortUnauthorizedAccessToScriptsBeingSubmitted(script);
 
         documentsService.updateDocumentOrder(mapStringArrayToLongList(orderedDocumentHashes),
                 documentsService.findByScript(script));
@@ -272,7 +284,7 @@ public class ScriptsController extends AbstractController {
 
     private List<Long> mapStringArrayToLongList(final String[] orderedDocumentHashes) {
         // TODO: java 8 lambda
-        List<Long> result = new LinkedList<Long>();
+        final List<Long> result = new LinkedList<Long>();
         for (final String hash : orderedDocumentHashes) {
             result.add(Long.parseLong(hash));
         }

@@ -18,7 +18,7 @@ import edu.hm.cs.fs.scriptinat0r7.model.enums.SemesterType;
  * Test class for the {@code Script}.
  */
 public class ScriptTest {
-    
+
     /**
      * Tests the equals contract for equals() and hashCode().
      */
@@ -34,10 +34,10 @@ public class ScriptTest {
     public void testGetAndSetId() {
         Script script = new Script();
         int expected = 1;
-        
+
         script.setId(expected);
         int actual = script.getId();
-        
+
         assertSame("The id is not the same.", expected, actual);
     }
 
@@ -48,10 +48,10 @@ public class ScriptTest {
     public void testGetAndSetName() {
         Script script = new Script();
         String expected = "Grundkurs Datenkommunikation";
-        
+
         script.setName(expected);
         String actual = script.getName();
-        
+
         assertSame("The name of the script is not the same.", expected, actual);
     }
 
@@ -62,69 +62,13 @@ public class ScriptTest {
     public void testGetAndSetCategory() {
         Script script = new Script();
         ScriptCategory expected = ScriptCategory.LECTURE_SCRIPT;
-        
+
         script.setCategory(expected);
         ScriptCategory actual = script.getCategory();
-        
+
         assertSame("The category of the script is not the same.", expected, actual);
     }
 
-    /**
-     * Tests the getter and setter of the authors.
-     */
-    @Test
-    public void testGetAndSetAuthors() {
-        Script script = new Script();
-        Set<User> expected = Collections.emptySet();
-        
-        script.setAuthors(expected);
-        Set<User> actual = script.getAuthors();
-        
-        assertSame("The authors of the script are not the same.", expected, actual);
-    }
-
-    /**
-     * Tests the add method of the authors.
-     */
-    @Test
-    public void testAddAuthor() {
-        Script script = new Script();
-        User author = new User();
-        
-        script.addAuthor(author);
-        
-        assertEquals("The set of authors has not 1 element.", 1, script.getAuthors().size());
-    }
-    
-    /**
-     * Tests the add method of the authors when there is already an existing set.
-     */
-    @Test
-    public void testAddAuthorExistingSet() {
-        Script script = new Script();
-        User author = new User();
-        Set<User> authors = new HashSet<User>();
-        script.setAuthors(authors);
-        
-        script.addAuthor(author);
-        
-        assertEquals("The set of authors has not 1 element.", 1, script.getAuthors().size());
-    }
-
-    /**
-     * Tests the remove method of the authors.
-     */
-    @Test
-    public void testRemoveAuthor() {
-        Script script = new Script();
-        User author = new User();
-        script.addAuthor(author);
-        assertEquals("The set of authors has not 1 element.", 1, script.getAuthors().size());
-
-        script.removeAuthor(author);
-        assertEquals("The set of student orders has not 0 elements.", 0, script.getAuthors().size());
-    }
-    
     /**
      * Tests the getter and setter of the semester type.
      */
@@ -138,7 +82,7 @@ public class ScriptTest {
 
         assertSame("The semester type is not the same.", expected, actual);
     }
-    
+
     /**
      * Tests the getter and setter of the semester year.
      */
@@ -160,13 +104,13 @@ public class ScriptTest {
     public void testGetAndSetLectures() {
         Script script = new Script();
         Set<Lecture> expected = Collections.emptySet();
-        
+
         script.setLectures(expected);
         Set<Lecture> actual = script.getLectures();
-        
+
         assertSame("The lectures of the script are not the same.", expected, actual);
     }
-    
+
 
     /**
      * Tests the add method of the lectures.
@@ -175,12 +119,12 @@ public class ScriptTest {
     public void testAddLecture() {
         Script script = new Script();
         Lecture lecture = new Lecture();
-        
+
         script.addLecture(lecture);
-        
+
         assertEquals("The set of lectures has not 1 element.", 1, script.getLectures().size());
     }
-    
+
     /**
      * Tests the add method of the lectures when there is already an existing set.
      */
@@ -190,9 +134,9 @@ public class ScriptTest {
         Lecture lecture = new Lecture();
         Set<Lecture> lectures = new HashSet<Lecture>();
         script.setLectures(lectures);
-        
+
         script.addLecture(lecture);
-        
+
         assertEquals("The set of lectures has not 1 element.", 1, script.getLectures().size());
     }
 
@@ -217,10 +161,10 @@ public class ScriptTest {
     public void testGetAndSetScriptDocuments() {
         Script script = new Script();
         Set<ScriptDocument> expected = Collections.emptySet();
-        
+
         script.setScriptDocuments(expected);
         Set<ScriptDocument> actual = script.getScriptDocuments();
-        
+
         assertSame("The script documents of the script are not the same.", expected, actual);
     }
 
@@ -231,12 +175,12 @@ public class ScriptTest {
     public void testAddScriptDocument() {
         Script script = new Script();
         ScriptDocument document = new ScriptDocument();
-        
+
         script.addScriptDocument(document);
-        
+
         assertEquals("The set of script documents has not 1 element.", 1, script.getScriptDocuments().size());
     }
-    
+
     /**
      * Tests the add method of the script documents when theres already an existing set.
      */
@@ -246,9 +190,9 @@ public class ScriptTest {
         ScriptDocument document = new ScriptDocument();
         Set<ScriptDocument> scriptDocuments = new HashSet<ScriptDocument>();
         script.setScriptDocuments(scriptDocuments);
-        
+
         script.addScriptDocument(document);
-        
+
         assertEquals("The set of script documents has not 1 element.", 1, script.getScriptDocuments().size());
     }
 
@@ -276,9 +220,9 @@ public class ScriptTest {
         script.setName("Grundkurs Datenkommunikation");
         script.setCategory(ScriptCategory.LECTURE_SCRIPT);
         String expected = "Script [id=2, name=Grundkurs Datenkommunikation, category=LECTURE_SCRIPT]";
-        
+
         String actual = script.toString();
-        
+
         assertEquals("The toString does not return expected String.", expected, actual);
     }
 

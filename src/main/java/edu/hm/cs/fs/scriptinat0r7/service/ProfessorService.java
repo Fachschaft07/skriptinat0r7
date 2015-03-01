@@ -57,9 +57,8 @@ public class ProfessorService {
         return professors.findByFirstNameContainingOrLastNameContaining(searchQuery);
     }
 
-    public Professor findByLecture(Lecture lecture) {
-        return professors.findByLecture;
+    public Professor findByLecture(final Lecture lecture) {
+        return professors.findByLecturesIn(lecture);
     }
-
 
 }

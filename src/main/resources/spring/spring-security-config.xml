@@ -54,7 +54,7 @@
 
     <beans:bean id="ifwAuthenticationProvider" class="edu.hm.cs.fs.scriptinat0r7.authentication.IfwAuthenticationProvider">
         <beans:constructor-arg ref="ifwJdbcTemplate" />
-        <beans:constructor-arg ref="usersService" />
+        <beans:constructor-arg ref="userService" />
     </beans:bean>
 
     <authentication-manager alias="authenticationManager">

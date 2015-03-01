@@ -11,12 +11,10 @@ public enum Role {
     USER,
     /** An fs-student. */
     FACHSCHAFTLER,
-    /** A professor. */
-    PROFESSOR,
     /** A locked user. */
     LOCKED,
-    /** An author of a script. */
-    AUTHOR;
+    /** A professor. */
+    PROFESSOR;
 
     /**
      * Returns the role wrapped as string in a GrantedAuthority.

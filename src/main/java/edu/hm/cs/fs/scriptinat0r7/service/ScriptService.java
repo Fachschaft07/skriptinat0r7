@@ -2,10 +2,12 @@ package edu.hm.cs.fs.scriptinat0r7.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
@@ -14,7 +16,7 @@ import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
  * A service for business operations on scripts.
  */
 @Service
-public class ScriptsService {
+public class ScriptService {
 
     @Autowired
     private ScriptRepository scriptsRepository;
@@ -40,8 +42,7 @@ public class ScriptsService {
      * @return all locked scripts.
      */
     public List<Script> findAllLockedScripts() {
-        List<Script> scripts = scriptsRepository.findByReviewState(ReviewState.LOCKED);
-        return scripts;
+        return scriptsRepository.findByReviewState(ReviewState.LOCKED);
     }
 
     /**
@@ -75,5 +76,9 @@ public class ScriptsService {
     public void finalizeScriptSubmit(final Script script) {
         script.setSubmittedCompletely(true);
         scriptsRepository.save(script);
+    }
+
+    public Set<Script> findByLecture(final Lecture lecture) {
+        return scriptsRepository.findByLecturesIn(lecture);
     }
 }
