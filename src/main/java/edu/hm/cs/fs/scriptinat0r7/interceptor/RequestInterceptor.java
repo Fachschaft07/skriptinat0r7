@@ -56,7 +56,6 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
-        LOGGER.info("preHandle " + request + " " + response + " " + handler);
         return true;
     }
 

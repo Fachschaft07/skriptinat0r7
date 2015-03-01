@@ -33,15 +33,16 @@
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
+        <dispatcher>ERROR</dispatcher>
     </filter-mapping>
 
     <error-page>
         <error-code>404</error-code>
-        <location>/WEB-INF/view/errors/404.jsp</location>
+        <location>/errors/404</location>
     </error-page>
 
     <error-page>
         <error-code>403</error-code>
-        <location>/WEB-INF/view/errors/403.jsp</location>
+        <location>/errors/403</location>
     </error-page>
 </web-app>
