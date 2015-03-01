@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -25,20 +26,24 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
     public void postHandle(final HttpServletRequest request, final HttpServletResponse response,
             final Object handler, final ModelAndView modelAndView) {
         if (handler instanceof HandlerMethod && modelAndView != null && !isRedirect(modelAndView)) {
+            enrichModelWithUser(modelAndView.getModelMap());
+            enrichModelWithHandler(handler, modelAndView.getModelMap());
+        }
+    }
 
-            // FIXME: funktioniert nicht wenn 404 oder 403 auftritt. Ursache bisher nicht ganz klar
-            // Es scheint als würden Filter nur bei "erfolgreichen" requests ausgeführt werden.
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal instanceof UserDetails) {
-                final UserDetails user = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                modelAndView.getModelMap().addAttribute("userName", user.getUsername());
-            }
+    private void enrichModelWithHandler(final Object handler, final ModelMap model) {
+        final HandlerMethod handlerMethod = (HandlerMethod) handler;
+        final String method = handlerMethod.getMethod().getName();
+        model.addAttribute("method", method);
+        final String controller = handlerMethod.getMethod().getDeclaringClass().getSimpleName();
+        model.addAttribute("controller", controller);
+    }
 
-            final HandlerMethod handlerMethod = (HandlerMethod) handler;
-            final String method = handlerMethod.getMethod().getName();
-            modelAndView.getModelMap().addAttribute("method", method);
-            final String controller = handlerMethod.getMethod().getDeclaringClass().getSimpleName();
-            modelAndView.getModelMap().addAttribute("controller", controller);
+    public static void enrichModelWithUser(final ModelMap model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            final UserDetails user = (UserDetails)principal;
+            model.addAttribute("userName", user.getUsername());
         }
     }
 
