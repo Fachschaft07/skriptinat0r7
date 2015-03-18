@@ -1,5 +1,6 @@
 package edu.hm.cs.fs.scriptinat0r7.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -72,7 +73,12 @@ public class LectureService {
     }
 
     public List<Lecture> findLecturesWithPublicScript() {
-        return lectures.findByUsedScriptsIn(scriptsService.findAllPublicScripts());
+        List<Script> findAllPublicScripts = scriptsService.findAllPublicScripts();
+        if (findAllPublicScripts.isEmpty()) {
+            return new ArrayList<Lecture>();
+        } else {
+            return lectures.findByUsedScriptsIn(findAllPublicScripts);
+        }
     }
 
     public Lecture findOne(final Integer id) {
