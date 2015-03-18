@@ -16,8 +16,10 @@
         <p>Zu dieser Vorlesung existieren folgende Skripte:</p>
         <table class="table clickable table-hover">
             <thead>
-                <th>Name</th>
-                <th>Anzahl Dokumente</th>
+                <tr>
+                    <th>Name</th>
+                    <th>Anzahl Dokumente</th>
+                </tr>
             </thead>
             <tbody>
                 <c:forEach items="${scripts}" var="script">
