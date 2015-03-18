@@ -8,22 +8,30 @@
         </div>
         <c:choose>
             <c:when test="${ ! documents.isEmpty()}">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Dateiname</th>
-                            <th>Größe</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${documents}" var="document">
+                <form:form action="script-documents/unlock" method="POST" cssClass="form-horizontal">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td><a href="${pageContext.request.contextPath}/script-documents/download/${document.hashvalue}">${document.filename}</a></td>
-                                <td>${document.fileSizeFormatted}</td>
+                                <th></th>
+                                <th>Dateiname</th>
+                                <th>Passwort</th>
+                                <th>Größe</th>
                             </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${documents}" var="document">
+                                <tr>
+                                    <td><input type="checkbox" name="script[]" value="${document.hashvalue}" /></td>
+                                    <td><a href="${pageContext.request.contextPath}/script-documents/download/${document.hashvalue}">${document.filename}</a></td>
+                                    <td>${document.password}</td>
+                                    <td>${document.fileSizeFormatted}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-success" name="action" value="accept">Freischalten</button>
+                    <button class="btn btn-danger" name="action" value="decline">Ablehnen</button>
+                </form:form>
             </c:when>
             <c:otherwise>
                 <p>Es existieren bisher keine Skriptdokumente.</p>

@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 import edu.hm.cs.fs.scriptinat0r7.service.LectureService;
@@ -51,6 +52,17 @@ public class ScriptDocumentsController extends AbstractController {
         response.setContentLength(data.length);
         response.getOutputStream().write(data);
         response.flushBuffer();
+    }
+
+    @RequestMapping(value = "unlock", method = RequestMethod.POST)
+    public String unlock(@RequestParam("script[]") final String[] scriptHashes, @RequestParam("action") final String action) {
+        // TODO
+        System.out.println("1");
+        System.out.println(action);
+        for (final String str : scriptHashes) {
+            System.out.println(str);
+        }
+        return redirect("script-documents");
     }
 
 }
