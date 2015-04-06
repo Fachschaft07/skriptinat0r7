@@ -127,4 +127,8 @@ public class ScriptDocumentService {
         return document.getFile();
     }
 
+    public ScriptDocument findOne(final Long id) {
+        return scriptDocuments.findOne(id);
+    }
+
 }

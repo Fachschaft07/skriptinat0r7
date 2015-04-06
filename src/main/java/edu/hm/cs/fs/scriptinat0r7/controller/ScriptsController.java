@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,6 +142,7 @@ public class ScriptsController extends AbstractController {
             try {
                 script.setSubmitter(getCurrentUser());
                 final Script savedScript = scriptsService.create(script);
+                addSuccessFlash("Die eingegebenen Informationen sind in Ordnung, bitte fahre mit den Dateien fort.", redirectAttributes);
                 return redirect("scripts/submit/files/" + savedScript.getId());
             } catch (final DataAccessException e) {
                 LOGGER.error("data access exception while trying to save a new script", e);
@@ -188,6 +190,12 @@ public class ScriptsController extends AbstractController {
             @RequestParam("files[]") final List<MultipartFile> files,
             final RedirectAttributes redirectAttributes) throws UnauthorizedException {
         abortUnauthorizedAccessToScriptsBeingSubmitted(script);
+
+        if (CollectionUtils.isEmpty(files) || files.get(0).isEmpty()) {
+            addErrorFlash("Bitte Skripte hochladen.", redirectAttributes);
+            return redirect("scripts/submit/files/" + script.getId());
+        }
+
         final List<String> filesInError = new LinkedList<>();
         for (int i = 0; i < files.size(); i++) {
             final MultipartFile file = files.get(i);
@@ -201,12 +209,13 @@ public class ScriptsController extends AbstractController {
         }
 
         if (!filesInError.isEmpty()) {
-            // FIXME: does not seem to be displayed
             final String message = "Folgende Dateien konnten nicht erfolgreich hochgeladen werden: " + StringUtils.join(filesInError, ", ");
             addErrorFlash(message, redirectAttributes);
         }
 
-        // TODO: no file successfully uploaded
+        if (files.size() == filesInError.size()) {
+            return redirect("scripts/submit/files/" + script.getId());
+        }
 
         return redirect("scripts/submit/password/" + script.getId());
     }

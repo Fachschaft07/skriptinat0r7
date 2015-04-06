@@ -33,6 +33,13 @@
     });
 })();
 
+// generic check all selector
+(function() {
+    jQuery(".check-all").on("click", function() {
+        jQuery($(this).data("target")).prop("checked", $(this).prop("checked"));
+    });
+})();
+
 //################################################
 //          VIEW SPECIFIC HANDLERS
 //################################################
