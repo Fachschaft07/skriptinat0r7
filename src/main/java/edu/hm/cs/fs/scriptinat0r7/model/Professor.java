@@ -1,6 +1,8 @@
 package edu.hm.cs.fs.scriptinat0r7.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -41,6 +43,10 @@ public class Professor extends User implements Serializable {
 
     public void setLectures(final Set<Lecture> lectures) {
         this.lectures = lectures;
+    }
+
+    public void setLectures(final List<Lecture> lectures) {
+        setLectures(new HashSet<>(lectures));
     }
 
     @Override

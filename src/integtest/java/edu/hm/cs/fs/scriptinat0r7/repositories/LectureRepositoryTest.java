@@ -34,7 +34,7 @@ public class LectureRepositoryTest {
         expected.setName("Softwareentwicklung II");
         testRepo.save(expected);
 
-        List<Lecture> actual = testRepo.findByNameContaining("Softwareentwicklung");
+        List<Lecture> actual = testRepo.findByNameContainingIgnoreCase("Softwareentwicklung");
 
         assertEquals("The size of the containing lectures must be exactly 1.", 1, actual.size());
     }

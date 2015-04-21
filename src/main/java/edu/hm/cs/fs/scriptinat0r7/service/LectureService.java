@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
+import edu.hm.cs.fs.scriptinat0r7.model.Professor;
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.repositories.LectureRepository;
 
@@ -60,7 +61,7 @@ public class LectureService {
      * @return all matching lectures.
      */
     public List<Lecture> findByNameContaining(final String searchQuery) {
-        return lectures.findByNameContaining(searchQuery);
+        return lectures.findByNameContainingIgnoreCase(searchQuery);
     }
 
     /**
@@ -73,7 +74,7 @@ public class LectureService {
     }
 
     public List<Lecture> findLecturesWithPublicScript() {
-        List<Script> findAllPublicScripts = scriptsService.findAllPublicScripts();
+        final List<Script> findAllPublicScripts = scriptsService.findAllPublicScripts();
         if (findAllPublicScripts.isEmpty()) {
             return new ArrayList<Lecture>();
         } else {
@@ -83,5 +84,9 @@ public class LectureService {
 
     public Lecture findOne(final Integer id) {
         return lectures.findOne(id);
+    }
+
+    public List<Lecture> findByProfessor(final Professor professor) {
+        return lectures.findByReadingProfessor(professor, new Sort("name"));
     }
 }

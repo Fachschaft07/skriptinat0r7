@@ -34,4 +34,5 @@ public interface ScriptRepository extends PagingAndSortingRepository<Script, Int
     List<Script> findByReviewState(@Param("states") ReviewState... states);
 
     Set<Script> findByLecturesIn(Lecture lecture);
+
 }

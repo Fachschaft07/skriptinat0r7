@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
+import edu.hm.cs.fs.scriptinat0r7.model.Professor;
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 
 /**
@@ -27,7 +28,7 @@ public interface LectureRepository extends PagingAndSortingRepository<Lecture, I
      * @param searchQuery the query to search for.
      * @return a list of matched lectures.
      */
-    List<Lecture> findByNameContaining(String searchQuery);
+    List<Lecture> findByNameContainingIgnoreCase(String searchQuery);
 
     /**
      * Returns all lectures which have a script in the given collection.
@@ -35,5 +36,7 @@ public interface LectureRepository extends PagingAndSortingRepository<Lecture, I
      * @return a list of matched lectures.
      */
     List<Lecture> findByUsedScriptsIn(Collection<Script> script);
+
+    List<Lecture> findByReadingProfessor(Professor professor, Sort sort);
 
 }
