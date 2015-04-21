@@ -6,6 +6,7 @@ apply plugin: 'pmd'
 apply plugin: 'checkstyle'
 apply plugin: 'jacoco'
 apply plugin: 'findbugs'
+apply plugin: 'java'
 apply from: 'gradle/integration-test.gradle'
 apply plugin: 'com.github.ben-manes.versions'
 
@@ -14,7 +15,6 @@ findbugs.toolVersion = '3.0.0'
 repositories {
     mavenCentral()
 }
-
 
 configurations {
     // exclude commons-logging, log4j, and j.u.logging - we use slf4j and logback
@@ -73,6 +73,8 @@ buildscript {
     }
 }
 
+sourceCompatibility = 1.8
+
 eclipse {
     classpath {
         file {
@@ -85,12 +87,12 @@ eclipse {
         }
     }
     jdt {
-        sourceCompatibility = 1.7
-        targetCompatibility = 1.7
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
     }
     wtp {
         facet {
-            facet name: 'java', version: '1.7'
+            facet name: 'java', version: '1.8'
             facet name: 'jst.web', version: '3.0'
         }
     }
