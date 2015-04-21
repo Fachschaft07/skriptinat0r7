@@ -9,24 +9,24 @@
     
     <div class="form-group">
         <label for="readingProfessor" class="col-sm-2 control-label">Professor</label>
-        <div class="col-sm-3">
+        <div class="col-sm-5">
             <form:select id="readingProfessor" path="readingProfessor" cssClass="form-control">
                 <form:options itemValue="id" itemLabel="fullName" items="${professors}" />
             </form:select>
         </div>
-        <div class="col-sm-7">
+        <div class="col-sm-5">
             <p class="text-danger"><form:errors path="readingProfessor" /></p>
         </div>
     </div>
     
     <div class="form-group">
         <label for="studyProgram" class="col-sm-2 control-label">Studiengang</label>
-        <div class="col-sm-3">
+        <div class="col-sm-5">
             <form:select id="studyProgram" path="studyProgram" cssClass="form-control">
                 <form:options itemLabel="name" />
             </form:select>
         </div>
-        <div class="col-sm-7">
+        <div class="col-sm-5">
             <p class="text-danger"><form:errors path="studyProgram" /></p>
         </div>
     </div>

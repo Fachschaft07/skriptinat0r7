@@ -18,7 +18,7 @@
         <div class="form-horizontal">
             <div class="form-group">
                 <label for="category" class="col-sm-2 control-label">Kategorie</label>
-                <div class="col-sm-3">
+                <div class="col-sm-5">
                     <select disabled class="form-control">
                         <option>${script.category.name}</option>
                     </select>
@@ -27,7 +27,7 @@
     
             <div class="form-group">
                 <label for="lectures" class="col-sm-2 control-label">Vorlesung(en)</label>
-                <div class="col-sm-3">
+                <div class="col-sm-5">
                     <select disabled class="form-control" multiple>
                         <c:forEach items="${lectures}" var="lecture">
                             <option>${lecture.lectureAndProfessor}</option>
