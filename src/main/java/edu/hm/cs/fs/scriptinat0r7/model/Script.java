@@ -6,6 +6,7 @@
 package edu.hm.cs.fs.scriptinat0r7.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -148,6 +149,10 @@ public class Script implements Serializable {
         this.scriptDocuments = scriptDocuments;
     }
 
+    public void setScriptDocuments(final Collection<ScriptDocument> scriptDocuments) {
+        setScriptDocuments(new HashSet<ScriptDocument>(scriptDocuments));
+    }
+
     /**
      * Adds a {@code ScriptDocument} to this {@code Script}.
      *
@@ -192,7 +197,7 @@ public class Script implements Serializable {
      * @return true if all script documents are allowed to be seen.
      */
     public boolean areAllScriptsApproved() {
-        for (ScriptDocument document : getScriptDocuments()) {
+        for (final ScriptDocument document : getScriptDocuments()) {
             if (document.getReviewState() == ReviewState.DELETED || document.getReviewState() == ReviewState.LOCKED) {
                 return false;
             }
@@ -212,7 +217,7 @@ public class Script implements Serializable {
         if (obj == null) { return false; }
         if (!(obj instanceof Script)) { return false; }
 
-        Script other = (Script) obj;
+        final Script other = (Script) obj;
         if (!Objects.equals(this.id, other.id)) { return false; }
         if (!Objects.equals(this.name, other.name)) { return false; }
         if (!Objects.equals(this.category, other.category)) { return false; }
@@ -226,6 +231,14 @@ public class Script implements Serializable {
     @Override
     public String toString() {
         return "Script [id=" + id + ", name=" + name + ", category=" + category + "]";
+    }
+
+    public boolean hasPublicDocuments() {
+        return getScriptDocuments().stream().anyMatch(scriptDocument -> scriptDocument.isPublic());
+    }
+
+    public int getScriptDocumentsCount() {
+        return scriptDocuments == null ? 0 : scriptDocuments.size();
     }
 
 }

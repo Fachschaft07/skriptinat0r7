@@ -6,7 +6,7 @@
         <h2>Vorlesungen</h2>
         <c:choose>
             <c:when test="${ ! lectures.isEmpty()}">
-                <table class="table table-hover clickable">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>Fach</th>
@@ -16,7 +16,7 @@
                     </thead>
                     <tbody>
                         <c:forEach items="${lectures}" var="lecture">
-                            <tr data-href="${pageContext.request.contextPath}/scripts/lecture/${lecture.id}">
+                            <tr data-href="${pageContext.request.contextPath}/scripts/lecture/${lecture.id}" class="clickable">
                                 <td>${lecture.name}</td>
                                 <td>${lecture.readingProfessor.fullName}</td>
                                 <td>${lecture.usedScripts.size()}</td>

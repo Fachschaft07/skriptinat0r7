@@ -2,10 +2,12 @@ package edu.hm.cs.fs.scriptinat0r7.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -75,7 +77,7 @@ public class ScriptsController extends AbstractController {
         final List<Lecture> lectures = lecturesService.findLecturesWithPublicScript();
 
         for (final Lecture lecture : lectures) {
-            lecture.setUsedScripts(scriptsService.findByLecture(lecture)); // TODO PRELOAD
+            lecture.setUsedScripts(scriptsService.findPublicByLecture(lecture)); // TODO PRELOAD
         }
 
         model.addAttribute("lectures", lectures);
@@ -92,13 +94,21 @@ public class ScriptsController extends AbstractController {
     public String showLectureDetail(final ModelMap model, @PathVariable("id") final Lecture lecture) throws UnauthorizedException {
         model.addAttribute("lecture", lecture);
 
-        final List<Script> scripts = new ArrayList<>();
+        final List<Script> publicScripts = new ArrayList<>();
+        final List<Script> nonPublicScipts = new ArrayList<>();
         for (final Script script : scriptsService.findByLecture(lecture)) {
             script.setScriptDocuments(new HashSet<>(documentsService.findByScript(script)));
-            scripts.add(script);
+            if (script.getScriptDocumentsCount() > 0) {
+                if (script.hasPublicDocuments()) {
+                    publicScripts.add(script);
+                } else {
+                    nonPublicScipts.add(script);
+                }
+            }
         }
 
-        model.addAttribute("scripts", scripts);
+        model.addAttribute("publicScripts", publicScripts);
+        model.addAttribute("nonPublicScripts", nonPublicScipts);
         return "scripts/lecture-detail";
     }
 
@@ -293,12 +303,9 @@ public class ScriptsController extends AbstractController {
     }
 
     private List<Long> mapStringArrayToLongList(final String[] orderedDocumentHashes) {
-        // TODO: java 8 lambda
-        final List<Long> result = new LinkedList<Long>();
-        for (final String hash : orderedDocumentHashes) {
-            result.add(Long.parseLong(hash));
-        }
-        return result;
+        return Arrays.stream(orderedDocumentHashes)
+                .map(hash -> Long.parseLong(hash))
+                .collect(Collectors.toList());
     }
 
     /**

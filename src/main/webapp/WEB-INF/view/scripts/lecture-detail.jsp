@@ -14,7 +14,7 @@
         </div>
         
         <p>Zu dieser Vorlesung existieren folgende Skripte:</p>
-        <table class="table clickable table-hover">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -22,13 +22,40 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${scripts}" var="script">
-                    <tr data-href="${pageContext.request.contextPath}/scripts/${script.id}">
-                        <td>${script.name}</td>
-                        <td>${script.scriptDocuments.size()}</td>
+                <c:forEach items="${publicScripts}" var="script">
+                    <tr data-href="${pageContext.request.contextPath}/scripts/${script.id}" class="clickable">
+                        <td class="col-sm-6">${script.name}</td>
+                        <td class="col-sm-6">${script.scriptDocuments.size()}</td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
+        
+        <sec:authorize access="hasRole('ROLE_FACHSCHAFTLER')">
+            <c:choose>
+                <c:when test="${ ! nonPublicScripts.isEmpty()}">
+                    <p>Nicht öffentliche Skripte:</p>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Anzahl Dokumente</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${nonPublicScripts}" var="script">
+                                <tr data-href="${pageContext.request.contextPath}/scripts/${script.id}" class="clickable">
+                                    <td class="col-sm-6">${script.name}</td>
+                                    <td class="col-sm-6">${script.scriptDocuments.size()}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </c:when>
+                <c:otherwise>
+                    <p>Es existieren keine nicht öffentlichen Skripte.</p>
+                </c:otherwise>
+            </c:choose>
+        </sec:authorize>
     </tiles:putAttribute>
 </tiles:insertDefinition>

@@ -3,6 +3,7 @@ package edu.hm.cs.fs.scriptinat0r7.service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ public class ScriptService {
 
     @Autowired
     private ScriptRepository scriptsRepository;
+
+    @Autowired
+    private ScriptDocumentService scriptDocumentsService;
 
     /**
      * Returns all scripts.
@@ -80,5 +84,13 @@ public class ScriptService {
 
     public Set<Script> findByLecture(final Lecture lecture) {
         return scriptsRepository.findByLecturesIn(lecture);
+    }
+
+    public Set<Script> findPublicByLecture(final Lecture lecture) {
+        return findByLecture(lecture)
+                .stream()
+                .map(script -> { script.setScriptDocuments(scriptDocumentsService.findByScript(script)); return script; })
+                .filter(script -> script.hasPublicDocuments())
+                .collect(Collectors.toSet());
     }
 }
