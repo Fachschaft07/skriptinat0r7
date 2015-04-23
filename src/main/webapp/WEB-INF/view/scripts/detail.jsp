@@ -71,7 +71,7 @@
                     </c:if>
                 </c:forEach>
             </form>
-            <form id="order-single" action="${pageContext.request.contextPath}/orders/order-script" method="post" />
+            <form id="order-single" action="${pageContext.request.contextPath}/orders/order-script" method="post"></form>
         </div>
 
     </tiles:putAttribute>

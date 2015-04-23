@@ -8,7 +8,7 @@
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:security="http://www.springframework.org/schema/security"
        xsi:schemaLocation="http://www.springframework.org/schema/beans 
-                           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                           http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
                            http://www.springframework.org/schema/jdbc 
                            http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
                            http://www.springframework.org/schema/context
@@ -18,7 +18,7 @@
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx.xsd
                            http://www.springframework.org/schema/security
-                           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+                           http://www.springframework.org/schema/security/spring-security-4.0.xsd">
                            
     <jpa:repositories base-package="edu.hm.cs.fs.scriptinat0r7.repositories" />
     <context:component-scan base-package="edu.hm.cs.fs.scriptinat0r7.service" />

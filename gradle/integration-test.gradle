@@ -17,7 +17,7 @@ eclipse {
 }
 
 dependencies {
-    integtestCompile 'org.springframework:spring-test:3.2.10.RELEASE'
+    integtestCompile 'org.springframework:spring-test:4.1.6.RELEASE'
 }
 
 task integrationTest(type: Test) {
