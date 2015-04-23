@@ -169,6 +169,10 @@ public class ScriptDocument implements Serializable {
         this.hashvalue = hashvalue;
     }
 
+    public boolean hasPassword() {
+        return isPasswordMissing || ! password.isEmpty();
+    }
+
     public boolean isPasswordMissing() {
         return isPasswordMissing;
     }
@@ -190,7 +194,7 @@ public class ScriptDocument implements Serializable {
         if (obj == null) { return false; }
         if (!(obj instanceof ScriptDocument)) { return false; }
 
-        ScriptDocument other = (ScriptDocument) obj;
+        final ScriptDocument other = (ScriptDocument) obj;
         if (!Objects.equals(this.hashvalue, other.hashvalue)) { return false; }
         if (!Arrays.equals(this.file, other.file)) { return false; }
         if (!Objects.equals(this.sortnumber, other.sortnumber)) { return false; }

@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.hm.cs.fs.scriptinat0r7.exception.UnauthorizedException;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
+import edu.hm.cs.fs.scriptinat0r7.model.enums.Role;
 import edu.hm.cs.fs.scriptinat0r7.service.LectureService;
 import edu.hm.cs.fs.scriptinat0r7.service.ProfessorService;
 import edu.hm.cs.fs.scriptinat0r7.service.ScriptDocumentService;
@@ -49,7 +51,12 @@ public class ScriptDocumentsController extends AbstractController {
     }
 
     @RequestMapping(value = "download/{id}", method = RequestMethod.GET)
-    public void download(@PathVariable("id") final ScriptDocument document, final HttpServletResponse response) throws IOException {
+    @Secured("ROLE_USER")
+    public void download(@PathVariable("id") final ScriptDocument document, final HttpServletResponse response) throws IOException, UnauthorizedException {
+        if ( ! getCurrentUser().getRole().equals(Role.FACHSCHAFTLER) && ! document.isPublic()) {
+            throw new UnauthorizedException();
+        }
+
         final byte[] data = documentsService.loadScriptContent(document);
         response.setHeader("Content-Disposition", "attachment; filename=\"" + document.getFilename() + "\"");
         response.setContentType("application/pdf");
