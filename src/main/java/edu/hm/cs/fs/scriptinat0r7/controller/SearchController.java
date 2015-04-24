@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +40,7 @@ public class SearchController extends AbstractController {
      *            the search request.
      * @return A collection of search results.
      */
-    @RequestMapping
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Collection<SearchResult> index(final ModelMap model, @RequestParam("q") final String searchQuery) {
         final List<SearchResult> result = new ArrayList<>();

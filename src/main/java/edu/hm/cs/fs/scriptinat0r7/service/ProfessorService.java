@@ -54,7 +54,7 @@ public class ProfessorService {
      */
     public List<Professor> findByFirstNameContainingOrLastNameContaining(
             final String searchQuery) {
-        return professors.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(searchQuery);
+        return professors.findByFirstNameOrLastName(searchQuery.toUpperCase());
     }
 
     public Professor findByLecture(final Lecture lecture) {

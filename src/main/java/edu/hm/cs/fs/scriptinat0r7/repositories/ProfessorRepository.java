@@ -24,8 +24,8 @@ public interface ProfessorRepository extends PagingAndSortingRepository<Professo
      *            the name of the {@code Professor} to search.
      * @return a {@code List} of all professors matching the given query.
      */
-    @Query("select u from #{#entityName} u where u.firstName like %:name% or u.lastName like %:name%")
-    List<Professor> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(@Param("name") String name);
+    @Query("select u from #{#entityName} u where UPPER(u.firstName) like %:name% or UPPER(u.lastName) like %:name%")
+    List<Professor> findByFirstNameOrLastName(@Param("name") String name);
 
     @Override
     List<Professor> findAll(Sort sort);
