@@ -140,13 +140,12 @@ public class ScriptsController extends AbstractController {
      * @return the logical view name.
      */
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
-    public String addScriptSubmit(final ModelMap model,
-            @Valid @ModelAttribute("script") final Script script,
+    public String addScriptSubmit(@Valid @ModelAttribute("script") final Script script,
             final BindingResult result,
+            final ModelMap model,
             final RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
+        if (result.hasErrors() || (script == null)) {
             model.addAttribute("lectures", lecturesService.findAll());
-            model.addAttribute("script", script);
             return SCRIPTS_SUBMIT_VIEW;
         } else {
             try {

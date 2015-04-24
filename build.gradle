@@ -28,7 +28,7 @@ dependencies {
     compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
     compile 'org.springframework:spring-context:4.1.6.RELEASE'
     compile 'org.springframework:spring-orm:4.1.6.RELEASE'
-    compile 'org.springframework.data:spring-data-jpa:1.8.0.RELEASE'
+    compile 'org.springframework.data:spring-data-jpa:1.7.2.RELEASE'
     compile 'org.springframework.security:spring-security-web:4.0.1.RELEASE'
     compile 'org.springframework.security:spring-security-config:4.0.1.RELEASE'
     compile 'org.springframework.security:spring-security-taglibs:4.0.1.RELEASE'

@@ -18,7 +18,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th><input type="checkbox" class="check-all" data-target=".orderable-script" /></th>
+                    <th><input type="checkbox" class="check-all" checked data-target=".orderable-script" /></th>
                     <th class="col-md-6">Dateiname</th>
                     <th class="col-md-6">Sonstiges</th>
                 </tr>
@@ -45,7 +45,7 @@
                         <c:if test="${!document.isPublic()}">
                             <tr class="danger">
                                 <td>
-                                    <input type="checkbox" readonly />
+                                    <input type="checkbox" disabled />
                                 </td>
                                 <td>
                                     ${document.filename}
