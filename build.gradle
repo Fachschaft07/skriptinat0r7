@@ -20,6 +20,7 @@ configurations {
     // exclude commons-logging, log4j, and j.u.logging - we use slf4j and logback
     all*.exclude group: 'commons-logging'
     all*.exclude group: 'log4j'
+    all*.exclude group: 'jboss', module: 'javassist'
 }
 
 dependencies {
@@ -37,6 +38,10 @@ dependencies {
     compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
     compile 'org.hibernate:hibernate-core:4.3.9.Final'
     compile 'org.hibernate:hibernate-entitymanager:4.3.9.Final'
+
+    // fix problems with hibernate
+    compile 'org.javassist:javassist:3.19.0-GA'
+
     compile 'org.apache.tiles:tiles-extras:3.0.4'
     compile 'org.apache.derby:derby:10.11.1.1'
     compile 'org.apache.pdfbox:pdfbox:1.8.6'
