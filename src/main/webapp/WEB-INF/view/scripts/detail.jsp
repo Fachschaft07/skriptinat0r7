@@ -64,14 +64,19 @@
         <div>
             <button form="order-all" class="btn btn-large btn-primary">Alle bestellbaren Skripte bestellen</button>
             <button form="order-single" class="btn btn-large btn-primary">Nur markierte bestellen</button>
-            <form id="order-all" action="${pageContext.request.contextPath}/orders/order-script" method="post">
+            <form id="order-all" action="${pageContext.request.contextPath}/orders" method="post">
                 <c:forEach var="document" items="${documents}">
                     <c:if test="${document.isPublic()}">
                         <input type="hidden" name="script_document[]" value="${document.hashvalue}" />
                     </c:if>
                 </c:forEach>
+                <input type="hidden" name="script" value="${script.id}" />
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             </form>
-            <form id="order-single" action="${pageContext.request.contextPath}/orders/order-script" method="post"></form>
+            <form id="order-single" action="${pageContext.request.contextPath}/orders" method="post">
+                <input type="hidden" name="script" value="${script.id}" />
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            </form>
         </div>
 
     </tiles:putAttribute>

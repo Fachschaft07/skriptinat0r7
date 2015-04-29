@@ -8,6 +8,7 @@ package edu.hm.cs.fs.scriptinat0r7.model;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -24,6 +25,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 
@@ -215,5 +217,9 @@ public class ScriptDocument implements Serializable {
         final CRC32 crc = new CRC32();
         crc.update(getFile());
         return crc.getValue();
+    }
+
+    public boolean isOnePasswordMatching(final Collection<String> passwords) {
+        return StringUtils.isEmpty(getPassword()) || passwords.contains(getPassword());
     }
 }
