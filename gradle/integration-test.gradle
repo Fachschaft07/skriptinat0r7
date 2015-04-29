@@ -25,6 +25,12 @@ task integrationTest(type: Test) {
     classpath = sourceSets.integtest.runtimeClasspath
     reports.html.enabled = false
     reports.junitXml.enabled = true
+    
+    jacoco {
+        append = true
+        destinationFile = file("$buildDir/jacoco/test.exec")
+        classDumpFile = file("$buildDir/jacoco/classpathdumps")
+    }
 }
 
 test {
@@ -33,3 +39,4 @@ test {
 
 integrationTest.dependsOn test
 check.dependsOn integrationTest
+jacocoTestReport.dependsOn integrationTest, test

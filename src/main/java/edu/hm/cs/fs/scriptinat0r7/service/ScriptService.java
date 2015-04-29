@@ -78,6 +78,10 @@ public class ScriptService {
      * @param script the script to finalize.
      */
     public void finalizeScriptSubmit(final Script script) {
+        if (scriptDocumentsService.findByScript(script).isEmpty()) {
+            throw new IllegalArgumentException("Can't persist script " + script.getId() + " because it does not has any documents.");
+        }
+
         script.setSubmittedCompletely(true);
         scriptsRepository.save(script);
     }

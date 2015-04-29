@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.hm.cs.fs.scriptinat0r7.exception.PasswordsMissingException;
+import edu.hm.cs.fs.scriptinat0r7.exception.ScriptDocumentNotPartOfScriptException;
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 import edu.hm.cs.fs.scriptinat0r7.model.StudentOrder;
@@ -31,7 +32,7 @@ public class StudentOrderService {
         script.setScriptDocuments(scriptDocumentsService.findByScript(script));
 
         if ( ! script.getScriptDocuments().containsAll(documentsToOrder)) {
-            throw new IllegalArgumentException("Some documents are not part of this script");
+            throw new ScriptDocumentNotPartOfScriptException("Some documents are not part of this script");
         }
 
         if ( ! script.isSubmittedCompletely()) {

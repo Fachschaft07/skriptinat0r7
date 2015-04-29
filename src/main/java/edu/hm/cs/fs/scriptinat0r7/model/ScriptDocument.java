@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import java.util.zip.CRC32;
 
 import javax.persistence.Basic;
@@ -66,7 +65,7 @@ public class ScriptDocument implements Serializable {
 
     @ManyToMany
     @JoinTable
-    private Set<Script> scripts;
+    private Collection<Script> scripts;
 
     @Column(nullable = false)
     private Integer fileSize;
@@ -86,7 +85,7 @@ public class ScriptDocument implements Serializable {
     }
 
     public byte[] getFile() {
-        return Arrays.copyOf(this.file, this.file.length);
+        return Arrays.copyOf(file, file.length);
     }
 
     /**
@@ -95,7 +94,7 @@ public class ScriptDocument implements Serializable {
      */
     public void setFile(final byte[] file) {
         this.file = Arrays.copyOf(file, file.length);
-        this.fileSize = file.length;
+        fileSize = file.length;
     }
 
     public int getSortnumber() {
@@ -115,7 +114,7 @@ public class ScriptDocument implements Serializable {
     }
 
     public boolean isPublic() {
-        return reviewState == ReviewState.FACHSCHAFTLERAPPROVED || reviewState == ReviewState.PROFESSORAPPROVED;
+        return (reviewState == ReviewState.FACHSCHAFTLERAPPROVED) || (reviewState == ReviewState.PROFESSORAPPROVED);
     }
 
     public String getPassword() {
@@ -142,12 +141,12 @@ public class ScriptDocument implements Serializable {
         this.note = note;
     }
 
-    public Set<Script> getScripts() {
+    public Collection<Script> getScripts() {
         return scripts;
     }
 
-    public void setScripts(final Set<Script> scripts) {
-        this.scripts = scripts;
+    public void setScripts(final Collection<Script> scripts) {
+        this.scripts = new HashSet<>(scripts);
     }
 
     /**
@@ -180,7 +179,7 @@ public class ScriptDocument implements Serializable {
     }
 
     public void setPasswordMissing(final boolean isRightPassword) {
-        this.isPasswordMissing = isRightPassword;
+        isPasswordMissing = isRightPassword;
     }
 
     @Override
@@ -197,13 +196,13 @@ public class ScriptDocument implements Serializable {
         if (!(obj instanceof ScriptDocument)) { return false; }
 
         final ScriptDocument other = (ScriptDocument) obj;
-        if (!Objects.equals(this.hashvalue, other.hashvalue)) { return false; }
-        if (!Arrays.equals(this.file, other.file)) { return false; }
-        if (!Objects.equals(this.sortnumber, other.sortnumber)) { return false; }
-        if (!Objects.equals(this.reviewState, other.reviewState)) { return false; }
-        if (!Objects.equals(this.password, other.password)) { return false; }
-        if (!Objects.equals(this.filename, other.filename)) { return false; }
-        if (!Objects.equals(this.note, other.note)) { return false; }
+        if (!Objects.equals(hashvalue, other.hashvalue)) { return false; }
+        if (!Arrays.equals(file, other.file)) { return false; }
+        if (!Objects.equals(sortnumber, other.sortnumber)) { return false; }
+        if (!Objects.equals(reviewState, other.reviewState)) { return false; }
+        if (!Objects.equals(password, other.password)) { return false; }
+        if (!Objects.equals(filename, other.filename)) { return false; }
+        if (!Objects.equals(note, other.note)) { return false; }
 
         return true;
     }

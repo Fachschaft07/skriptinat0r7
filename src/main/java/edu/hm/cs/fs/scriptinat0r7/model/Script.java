@@ -58,8 +58,8 @@ public class Script implements Serializable {
     private Integer semesterYear;
 
     @ManyToMany
-    @NotEmpty
     @JoinTable
+    @NotEmpty
     private Set<Lecture> lectures;
 
     @ManyToMany(mappedBy = "scripts") // TODO: should this one be the owning side?
@@ -110,12 +110,12 @@ public class Script implements Serializable {
         this.semesterYear = semesterYear;
     }
 
-    public Set<Lecture> getLectures() {
+    public Collection<Lecture> getLectures() {
         return lectures;
     }
 
-    public void setLectures(final Set<Lecture> lectures) {
-        this.lectures = lectures;
+    public void setLectures(final Collection<Lecture> lectures) {
+        this.lectures = new HashSet<>(lectures);
     }
 
     /**
@@ -189,7 +189,7 @@ public class Script implements Serializable {
     }
 
     public void setSubmittedCompletely(final boolean isSubmittedCompletely) {
-        this.submittedCompletely = isSubmittedCompletely;
+        submittedCompletely = isSubmittedCompletely;
     }
 
     /**
@@ -198,7 +198,7 @@ public class Script implements Serializable {
      */
     public boolean areAllScriptsApproved() {
         for (final ScriptDocument document : getScriptDocuments()) {
-            if (document.getReviewState() == ReviewState.DELETED || document.getReviewState() == ReviewState.LOCKED) {
+            if ((document.getReviewState() == ReviewState.DELETED) || (document.getReviewState() == ReviewState.LOCKED)) {
                 return false;
             }
         }
@@ -218,11 +218,11 @@ public class Script implements Serializable {
         if (!(obj instanceof Script)) { return false; }
 
         final Script other = (Script) obj;
-        if (!Objects.equals(this.id, other.id)) { return false; }
-        if (!Objects.equals(this.name, other.name)) { return false; }
-        if (!Objects.equals(this.category, other.category)) { return false; }
-        if (!Objects.equals(this.submitter, other.submitter)) { return false; }
-        if (!Objects.equals(this.submittedCompletely, other.submittedCompletely)) { return false; }
+        if (!Objects.equals(id, other.id)) { return false; }
+        if (!Objects.equals(name, other.name)) { return false; }
+        if (!Objects.equals(category, other.category)) { return false; }
+        if (!Objects.equals(submitter, other.submitter)) { return false; }
+        if (!Objects.equals(submittedCompletely, other.submittedCompletely)) { return false; }
 
         return true;
     }

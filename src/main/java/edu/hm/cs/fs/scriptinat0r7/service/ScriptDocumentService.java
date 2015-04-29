@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class ScriptDocumentService {
      * @return the persisted script document.
      * @throws IOException if io errors happen while reading the file contents.
      */
-    public ScriptDocument create(final Set<Script> script, final int sortNumber,
+    public ScriptDocument create(final Collection<Script> script, final int sortNumber,
             final MultipartFile file) throws IOException {
         if (!PdfHelper.isValidPdf(file.getBytes())) {
             throw new IllegalArgumentException(file.getName() + " is not a valid pdf");
@@ -47,7 +46,6 @@ public class ScriptDocumentService {
         document.setReviewState(ReviewState.LOCKED);
         document.setScripts(script);
         document.setSortnumber(sortNumber);
-        document.setScripts(script);
         document.setPasswordMissing(true);
         return save(document);
     }
