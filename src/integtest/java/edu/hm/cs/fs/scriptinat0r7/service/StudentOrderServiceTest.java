@@ -32,8 +32,11 @@ import edu.hm.cs.fs.scriptinat0r7.repositories.StudentOrderRepository;
 @ContextConfiguration("classpath:/spring/test-beans.xml")
 public class StudentOrderServiceTest {
 
+    // CHECKSTYLE:OFF
+    // TODO: remove checkstyle comment, upgrade checkstyle and configure VisibilityModifier ignoreAnnotationCanonicalNames
     @Rule
-    public ExpectedException thrown= ExpectedException.none();
+    public final ExpectedException thrown = ExpectedException.none();
+    // CHECKSTYLE:ON
 
     @Autowired
     private StudentOrderService studentOrderService;

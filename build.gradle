@@ -122,6 +122,11 @@ pmd {
     toolVersion  = '5.0.5'
 }
 
+/* Configures the Checkstyle-Plugin globally. */
+checkstyle {
+    toolVersion = '6.1'
+}
+
 /* Configures the PMD-Plugin for main and test */
 tasks.withType(Pmd) {
     ruleSets = []
@@ -135,6 +140,7 @@ tasks.withType(Pmd) {
 
 tasks.withType(Checkstyle) {
     ignoreFailures = true
+    config
     configProperties = ['config_loc':"${projectDir}/config/checkstyle"]
 }
 
@@ -159,5 +165,5 @@ task supressNoTestsRun {
 build.dependsOn(supressNoTestsRun)
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.0'
+    gradleVersion = '2.3'
 }

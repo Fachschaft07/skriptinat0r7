@@ -40,3 +40,4 @@ test {
 integrationTest.dependsOn test
 check.dependsOn integrationTest
 jacocoTestReport.dependsOn integrationTest, test
+check.dependsOn jacocoTestReport
