@@ -36,7 +36,6 @@ import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 import edu.hm.cs.fs.scriptinat0r7.service.LectureService;
-import edu.hm.cs.fs.scriptinat0r7.service.ProfessorService;
 import edu.hm.cs.fs.scriptinat0r7.service.ScriptDocumentService;
 import edu.hm.cs.fs.scriptinat0r7.service.ScriptService;
 
@@ -59,9 +58,6 @@ public class ScriptsController extends AbstractController {
 
     @Autowired
     private ScriptDocumentService documentsService;
-
-    @Autowired
-    private ProfessorService professorService;
 
     /**
      * Display lectures and script count.

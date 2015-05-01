@@ -3,7 +3,6 @@ package edu.hm.cs.fs.scriptinat0r7.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.ModelMap;
@@ -15,8 +14,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * Enriches the model with the controller name.
  */
 public class RequestInterceptor extends HandlerInterceptorAdapter {
-
-    private static final Logger LOGGER = Logger.getLogger(RequestInterceptor.class);
 
     /**
      * Get controller class name and enrich the model with it.
@@ -55,7 +52,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
     }
 
     @Override
-    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
+    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
         return true;
     }
 

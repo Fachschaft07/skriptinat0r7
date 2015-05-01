@@ -213,16 +213,32 @@ public class Script implements Serializable {
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
     @Override
     public final boolean equals(final Object obj) {
-        if (this == obj) { return true; }
-        if (obj == null) { return false; }
-        if (!(obj instanceof Script)) { return false; }
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Script)) {
+            return false;
+        }
 
         final Script other = (Script) obj;
-        if (!Objects.equals(id, other.id)) { return false; }
-        if (!Objects.equals(name, other.name)) { return false; }
-        if (!Objects.equals(category, other.category)) { return false; }
-        if (!Objects.equals(submitter, other.submitter)) { return false; }
-        if (!Objects.equals(submittedCompletely, other.submittedCompletely)) { return false; }
+        if (!Objects.equals(id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(category, other.category)) {
+            return false;
+        }
+        if (!Objects.equals(submitter, other.submitter)) {
+            return false;
+        }
+        if (!Objects.equals(submittedCompletely, other.submittedCompletely)) {
+            return false;
+        }
 
         return true;
     }

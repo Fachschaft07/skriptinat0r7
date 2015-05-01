@@ -19,10 +19,7 @@ import edu.hm.cs.fs.scriptinat0r7.exception.UnauthorizedException;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.Role;
-import edu.hm.cs.fs.scriptinat0r7.service.LectureService;
-import edu.hm.cs.fs.scriptinat0r7.service.ProfessorService;
 import edu.hm.cs.fs.scriptinat0r7.service.ScriptDocumentService;
-import edu.hm.cs.fs.scriptinat0r7.service.ScriptService;
 
 /**
  * Controller to render pages for dealing with {@code Script}s.
@@ -33,16 +30,7 @@ import edu.hm.cs.fs.scriptinat0r7.service.ScriptService;
 public class ScriptDocumentsController extends AbstractController {
 
     @Autowired
-    private ScriptService scriptsService;
-
-    @Autowired
-    private LectureService lecturesService;
-
-    @Autowired
     private ScriptDocumentService documentsService;
-
-    @Autowired
-    private ProfessorService professorService;
 
     @RequestMapping
     public String list(final ModelMap model) {
@@ -53,7 +41,7 @@ public class ScriptDocumentsController extends AbstractController {
     @RequestMapping(value = "download/{id}", method = RequestMethod.GET)
     @Secured("ROLE_USER")
     public void download(@PathVariable("id") final ScriptDocument document, final HttpServletResponse response) throws IOException, UnauthorizedException {
-        if ( ! getCurrentUser().getRole().equals(Role.FACHSCHAFTLER) && ! document.isPublic()) {
+        if (!getCurrentUser().getRole().equals(Role.FACHSCHAFTLER) && !document.isPublic()) {
             throw new UnauthorizedException();
         }
 
@@ -66,7 +54,9 @@ public class ScriptDocumentsController extends AbstractController {
     }
 
     @RequestMapping(value = "unlock", method = RequestMethod.POST)
-    public String unlock(@RequestParam(value="script[]", required=false) final String[] scriptHashes, @RequestParam("action") final String action, final RedirectAttributes redirectAttributes) {
+    public String unlock(@RequestParam(value = "script[]", required = false) final String[] scriptHashes,
+            @RequestParam("action") final String action,
+            final RedirectAttributes redirectAttributes) {
         if (ArrayUtils.isEmpty(scriptHashes)) {
             addErrorFlash("Keine Datei ausgewählt!", redirectAttributes);
         } else {

@@ -1,6 +1,7 @@
 package edu.hm.cs.fs.scriptinat0r7.service;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -54,7 +55,7 @@ public class ProfessorService {
      */
     public List<Professor> findByFirstNameContainingOrLastNameContaining(
             final String searchQuery) {
-        return professors.findByFirstNameOrLastName(searchQuery.toUpperCase());
+        return professors.findByFirstNameOrLastName(searchQuery.toUpperCase(Locale.getDefault()));
     }
 
     public Professor findByLecture(final Lecture lecture) {

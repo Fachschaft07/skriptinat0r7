@@ -31,15 +31,15 @@ public class StudentOrderService {
 
         script.setScriptDocuments(scriptDocumentsService.findByScript(script));
 
-        if ( ! script.getScriptDocuments().containsAll(documentsToOrder)) {
+        if (!script.getScriptDocuments().containsAll(documentsToOrder)) {
             throw new ScriptDocumentNotPartOfScriptException("Some documents are not part of this script");
         }
 
-        if ( ! script.isSubmittedCompletely()) {
+        if (!script.isSubmittedCompletely()) {
             throw new IllegalArgumentException("Script is not orderable");
         }
 
-        if ( ! documentsToOrder.stream().allMatch(doc -> doc.isPublic())) {
+        if (!documentsToOrder.stream().allMatch(doc -> doc.isPublic())) {
             throw new IllegalArgumentException("At least one document is not public");
         }
 
@@ -50,9 +50,11 @@ public class StudentOrderService {
         final List<ScriptDocument> documentsWithMissingPasswords = new ArrayList<>(documentsToOrder);
         documentsWithMissingPasswords.removeAll(documentsWithKnownPassword);
 
-        if ( ! documentsWithMissingPasswords.isEmpty()) {
+        if (!documentsWithMissingPasswords.isEmpty()) {
             throw new PasswordsMissingException(documentsWithMissingPasswords, documentsWithKnownPassword);
         }
+
+        // TODO: Save order
 
         return new StudentOrder();
     }

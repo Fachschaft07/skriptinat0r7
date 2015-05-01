@@ -11,6 +11,7 @@ public class PasswordsMissingException extends Exception {
     private final Collection<ScriptDocument> documentsWithKnownPassword;
 
     public PasswordsMissingException(final Collection<ScriptDocument> documentsWithMissingPasswords, final Collection<ScriptDocument> documentsWithKnownPassword) {
+        super("Password for document(s) is missing");
         this.documentsWithMissingPasswords = documentsWithMissingPasswords;
         this.documentsWithKnownPassword = documentsWithKnownPassword;
     }

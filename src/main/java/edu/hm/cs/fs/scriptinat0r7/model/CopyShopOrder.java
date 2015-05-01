@@ -104,15 +104,29 @@ public class CopyShopOrder implements Serializable {
 
     @Override
     public final boolean equals(final Object obj) {
-        if (this == obj) { return true; }
-        if (obj == null) { return false; }
-        if (!(obj instanceof CopyShopOrder)) { return false; }
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof CopyShopOrder)) {
+            return false;
+        }
 
-        CopyShopOrder other = (CopyShopOrder) obj;
-        if (!Objects.equals(this.id, other.id)) { return false; }
-        if (!Objects.equals(this.orderDate, other.orderDate)) { return false; }
-        if (!Objects.equals(this.printoutDelivery, other.printoutDelivery)) { return false; }
-        if (!Objects.equals(this.studentOrders, other.studentOrders)) { return false; }
+        final CopyShopOrder other = (CopyShopOrder) obj;
+        if (!Objects.equals(id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(orderDate, other.orderDate)) {
+            return false;
+        }
+        if (!Objects.equals(printoutDelivery, other.printoutDelivery)) {
+            return false;
+        }
+        if (!Objects.equals(studentOrders, other.studentOrders)) {
+            return false;
+        }
 
         return true;
     }

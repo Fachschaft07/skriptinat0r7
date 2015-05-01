@@ -171,7 +171,7 @@ public class ScriptDocument implements Serializable {
     }
 
     public boolean hasPassword() {
-        return isPasswordMissing || ! password.isEmpty();
+        return isPasswordMissing || !password.isEmpty();
     }
 
     public boolean isPasswordMissing() {
@@ -190,19 +190,40 @@ public class ScriptDocument implements Serializable {
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
     @Override
+    @SuppressWarnings(value = { "PMD.ModifiedCyclomaticComplexity", "PMD.StdCyclomaticComplexity"})
     public final boolean equals(final Object obj) {
-        if (this == obj) { return true; }
-        if (obj == null) { return false; }
-        if (!(obj instanceof ScriptDocument)) { return false; }
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof ScriptDocument)) {
+            return false;
+        }
 
         final ScriptDocument other = (ScriptDocument) obj;
-        if (!Objects.equals(hashvalue, other.hashvalue)) { return false; }
-        if (!Arrays.equals(file, other.file)) { return false; }
-        if (!Objects.equals(sortnumber, other.sortnumber)) { return false; }
-        if (!Objects.equals(reviewState, other.reviewState)) { return false; }
-        if (!Objects.equals(password, other.password)) { return false; }
-        if (!Objects.equals(filename, other.filename)) { return false; }
-        if (!Objects.equals(note, other.note)) { return false; }
+        if (!Objects.equals(hashvalue, other.hashvalue)) {
+            return false;
+        }
+        if (!Arrays.equals(file, other.file)) {
+            return false;
+        }
+        if (!Objects.equals(sortnumber, other.sortnumber)) {
+            return false;
+        }
+        if (!Objects.equals(reviewState, other.reviewState)) {
+            return false;
+        }
+        if (!Objects.equals(password, other.password)) {
+            return false;
+        }
+        if (!Objects.equals(filename, other.filename)) {
+            return false;
+        }
+        if (!Objects.equals(note, other.note)) {
+            return false;
+        }
 
         return true;
     }

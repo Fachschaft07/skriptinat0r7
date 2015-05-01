@@ -17,7 +17,6 @@ import edu.hm.cs.fs.scriptinat0r7.exception.PasswordsMissingException;
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 import edu.hm.cs.fs.scriptinat0r7.model.StudentOrder;
-import edu.hm.cs.fs.scriptinat0r7.service.ScriptDocumentService;
 import edu.hm.cs.fs.scriptinat0r7.service.StudentOrderService;
 
 @Controller
@@ -25,16 +24,13 @@ import edu.hm.cs.fs.scriptinat0r7.service.StudentOrderService;
 public class OrdersController extends AbstractController {
 
     @Autowired
-    private ScriptDocumentService scriptDocumentsService;
-
-    @Autowired
     private StudentOrderService studentOrderService;
 
     @RequestMapping(method = RequestMethod.POST)
     public String orderScripts(
-            @RequestParam(value="script_document[]") final Collection<ScriptDocument> documentsToOrder,
-            @RequestParam(value="script") final Script script,
-            @RequestParam(value="passwords", required=false, defaultValue="") final String passwordPost,
+            @RequestParam(value = "script_document[]") final Collection<ScriptDocument> documentsToOrder,
+            @RequestParam(value = "script") final Script script,
+            @RequestParam(value = "passwords", required = false, defaultValue = "") final String passwordPost,
             final ModelMap model,
             final RedirectAttributes redirectAttributes) {
 

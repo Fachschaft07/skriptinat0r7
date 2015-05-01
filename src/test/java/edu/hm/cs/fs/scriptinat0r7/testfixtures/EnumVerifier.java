@@ -32,7 +32,7 @@ public final class EnumVerifier<T extends Enum<T>> {
      *            the type of the {@code Enum}.
      */
     public static <T extends Enum<T>> EnumVerifier<T> forClass(final Class<T> type) {
-        List<T> enumElements = new LinkedList<T>();
+        final List<T> enumElements = new LinkedList<T>();
         return new EnumVerifier<T>(enumElements, type);
     }
 
@@ -45,7 +45,7 @@ public final class EnumVerifier<T extends Enum<T>> {
      * @return the actual instance of {@code EnumVerifier}.
      */
     public EnumVerifier<T> withEnumElement(final String enumString) {
-        T element = getValueOf(enumString);
+        final T element = getValueOf(enumString);
         this.enumElements.add(element);
         return this;
     }
@@ -54,8 +54,8 @@ public final class EnumVerifier<T extends Enum<T>> {
     private T getValueOf(final String enumString) {
         try {
             return (T) type.getMethod("valueOf", String.class).invoke(null, enumString);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException |
-                NoSuchMethodException | SecurityException e) {
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException e) {
             throw new AssertionError("No such Enum element with name " + enumString + " in Enum type "
                     + type.getSimpleName() + ".", e);
         }
@@ -70,8 +70,8 @@ public final class EnumVerifier<T extends Enum<T>> {
     }
 
     private void verifyLengthOfEnumElementList() throws AssertionError {
-        int realEnumLength = type.getEnumConstants().length;
-        int givenEnumsLength = enumElements.size();
+        final int realEnumLength = type.getEnumConstants().length;
+        final int givenEnumsLength = enumElements.size();
 
         if (realEnumLength > givenEnumsLength) {
             throw new AssertionError("More Enum constants exist than specified 'withEnumElement(enum)'.");
@@ -84,8 +84,8 @@ public final class EnumVerifier<T extends Enum<T>> {
 
     private void verifyCorrectElementOrdering() throws AssertionError {
         for (int i = 0; i < enumElements.size(); i++) {
-            T actual = enumElements.get(i);
-            int ordinal = actual.ordinal();
+            final T actual = enumElements.get(i);
+            final int ordinal = actual.ordinal();
             if (ordinal != i) {
                 throw new AssertionError("The Enum element " + type.getSimpleName() + "." + actual.toString()
                         + " is at the wrong position; expected at <" + ordinal + ">, but was <" + i + ">.");

@@ -56,13 +56,23 @@ public class Professor extends User implements Serializable {
 
     @Override
     public final boolean equals(final Object obj) {
-        if (this == obj) { return true; }
-        if (obj == null) { return false; }
-        if (!(obj instanceof Professor)) { return false; }
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Professor)) {
+            return false;
+        }
 
         final Professor other = (Professor) obj;
-        if (!Objects.equals(title, other.title)) { return false; }
-        if (!super.equals(other)) { return false; }
+        if (!Objects.equals(title, other.title)) {
+            return false;
+        }
+        if (!super.equals(other)) {
+            return false;
+        }
 
         return true;
     }
