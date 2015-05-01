@@ -56,7 +56,7 @@
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <button id="submit" class="btn btn-primary btn-lg" type="submit">Abschicken</button>
             </form>
-            <a class="btn btn-danger" href="${pageContext.request.contextPath}/scripts/submit">Abbrechen</a>
+            <a class="btn btn-danger" href="${pageContext.request.contextPath}/scripts-submit">Abbrechen</a>
         </div>
     </tiles:putAttribute>
 </tiles:insertDefinition>

@@ -18,7 +18,14 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th><input type="checkbox" class="check-all" checked data-target=".orderable-script" /></th>
+                    <th>
+                        <c:if test="${hasPublicScripts}">
+                            <input type="checkbox" class="check-all" checked data-target=".orderable-script" />
+                        </c:if>
+                        <c:if test="${!hasPublicScripts}">
+                            <input type="checkbox" disabled />
+                        </c:if>
+                    </th>
                     <th class="col-md-6">Dateiname</th>
                     <th class="col-md-6">Sonstiges</th>
                 </tr>
@@ -61,23 +68,25 @@
         </table>
         <small>Legende: <span class="text-success">bestellbar</span>, <span class="text-danger">gesperrt</span></small>
 
-        <div>
-            <button form="order-all" class="btn btn-large btn-primary">Alle bestellbaren Skripte bestellen</button>
-            <button form="order-single" class="btn btn-large btn-primary">Nur markierte bestellen</button>
-            <form id="order-all" action="${pageContext.request.contextPath}/orders" method="post">
-                <c:forEach var="document" items="${documents}">
-                    <c:if test="${document.isPublic()}">
-                        <input type="hidden" name="script_document[]" value="${document.hashvalue}" />
-                    </c:if>
-                </c:forEach>
-                <input type="hidden" name="script" value="${script.id}" />
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-            </form>
-            <form id="order-single" action="${pageContext.request.contextPath}/orders" method="post">
-                <input type="hidden" name="script" value="${script.id}" />
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-            </form>
-        </div>
+        <c:if test="${hasPublicScripts}">
+            <div>
+                <button form="order-all" class="btn btn-large btn-primary">Alle bestellbaren Skripte bestellen</button>
+                <button form="order-single" class="btn btn-large btn-primary">Nur markierte bestellen</button>
+                <form id="order-all" action="${pageContext.request.contextPath}/orders" method="post">
+                    <c:forEach var="document" items="${documents}">
+                        <c:if test="${document.isPublic()}">
+                            <input type="hidden" name="script_document[]" value="${document.hashvalue}" />
+                        </c:if>
+                    </c:forEach>
+                    <input type="hidden" name="script" value="${script.id}" />
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                </form>
+                <form id="order-single" action="${pageContext.request.contextPath}/orders" method="post">
+                    <input type="hidden" name="script" value="${script.id}" />
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                </form>
+            </div>
+        </c:if>
 
     </tiles:putAttribute>
 </tiles:insertDefinition>

@@ -45,7 +45,7 @@ public class OrdersController extends AbstractController {
             model.addAttribute("documentsWithKnownPassword", e.getDocumentsWithKnownPassword());
             model.addAttribute("script", script);
             model.addAttribute("documents", documentsToOrder);
-            return "orders/submit-password";
+            return "orders/password";
         } catch (final IllegalArgumentException e) {
             addErrorFlash("Fehler beim Bestellen der Skripte / des Skriptes! " + e.getMessage(), redirectAttributes);
             return redirect("scripts/" + script.getId());

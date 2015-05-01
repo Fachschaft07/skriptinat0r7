@@ -7,7 +7,7 @@
 <tiles:insertDefinition name="defaultTemplate">
     <tiles:putAttribute name="content">
         <h2>Passwörter - Schritt 3</h2>
-        <form action="${pageContext.request.contextPath}/scripts/submit/password/${id}" method="post">
+        <form action="${pageContext.request.contextPath}/scripts-submit/password/${id}" method="post">
             <jsp:include page="/WEB-INF/partials/script-documents-passwords.jsp" />
         </form>
     </tiles:putAttribute>
