@@ -17,7 +17,7 @@ import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
  * A service for business operations on scripts.
  */
 @Service
-public class ScriptService {
+public class ScriptService extends AbstractService {
 
     @Autowired
     private ScriptRepository scriptsRepository;

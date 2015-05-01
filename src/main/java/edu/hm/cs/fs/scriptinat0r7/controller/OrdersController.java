@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,6 +24,8 @@ import edu.hm.cs.fs.scriptinat0r7.service.StudentOrderService;
 @RequestMapping("/orders")
 public class OrdersController extends AbstractController {
 
+    private static final Logger LOGGER = Logger.getLogger(ScriptsController.class);
+
     @Autowired
     private StudentOrderService studentOrderService;
 
@@ -33,7 +36,6 @@ public class OrdersController extends AbstractController {
             @RequestParam(value = "passwords", required = false, defaultValue = "") final String passwordPost,
             final ModelMap model,
             final RedirectAttributes redirectAttributes) {
-
         final List<String> passwords = Arrays.asList(StringUtils.split(passwordPost));
         try {
             final StudentOrder order = studentOrderService.placeOrder(documentsToOrder, script, passwords);
@@ -41,12 +43,14 @@ public class OrdersController extends AbstractController {
             return redirect("scripts/" + script.getId());
         } catch (final PasswordsMissingException e) {
             // ask for passwords
+            LOGGER.error(e);
             model.addAttribute("documentsWithMissingPassword", e.getDocumentsWithMissingPasswords());
             model.addAttribute("documentsWithKnownPassword", e.getDocumentsWithKnownPassword());
             model.addAttribute("script", script);
             model.addAttribute("documents", documentsToOrder);
             return "orders/password";
         } catch (final IllegalArgumentException e) {
+            LOGGER.error(e);
             addErrorFlash("Fehler beim Bestellen der Skripte / des Skriptes! " + e.getMessage(), redirectAttributes);
             return redirect("scripts/" + script.getId());
         }

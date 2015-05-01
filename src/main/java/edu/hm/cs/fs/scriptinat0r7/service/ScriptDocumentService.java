@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
+import edu.hm.cs.fs.scriptinat0r7.model.User;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 import edu.hm.cs.fs.scriptinat0r7.pdf.PdfHelper;
 import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptDocumentRepository;
@@ -21,10 +23,13 @@ import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptDocumentRepository;
  * A service for business operations on script documents.
  */
 @Service
-public class ScriptDocumentService {
+public class ScriptDocumentService extends AbstractService {
 
     @Autowired
     private ScriptDocumentRepository scriptDocuments;
+
+    @Autowired
+    private StudentOrderService studentOrderService;
 
     /**
      * Persists a given script document.
@@ -127,6 +132,13 @@ public class ScriptDocumentService {
 
     public ScriptDocument findOne(final Long id) {
         return scriptDocuments.findOne(id);
+    }
+
+    public Collection<ScriptDocument> findOrderedDocuments(final User currentUser) {
+        return studentOrderService.getOrdersWithDocumentsOf(currentUser).stream()
+                .flatMap(f -> f.getScriptDocuments().stream())
+                .distinct()
+                .collect(Collectors.toSet());
     }
 
 }

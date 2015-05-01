@@ -1,8 +1,9 @@
 package edu.hm.cs.fs.scriptinat0r7.service;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -18,7 +19,7 @@ import edu.hm.cs.fs.scriptinat0r7.repositories.LectureRepository;
  * A service for business operations on lectures.
  */
 @Service
-public class LectureService {
+public class LectureService extends AbstractService {
 
     @Autowired
     private LectureRepository lectures;
@@ -73,12 +74,12 @@ public class LectureService {
         return lectures.findByUsedScriptsIn(Collections.singleton(script));
     }
 
-    public List<Lecture> findLecturesWithPublicScript() {
+    public Set<Lecture> findLecturesWithPublicScript() {
         final List<Script> findAllPublicScripts = scriptsService.findAllPublicScripts();
         if (findAllPublicScripts.isEmpty()) {
-            return new ArrayList<Lecture>();
+            return new HashSet<Lecture>();
         } else {
-            return lectures.findByUsedScriptsIn(findAllPublicScripts);
+            return new HashSet<>(lectures.findByUsedScriptsIn(findAllPublicScripts));
         }
     }
 

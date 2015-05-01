@@ -1,5 +1,6 @@
 package edu.hm.cs.fs.scriptinat0r7.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -25,13 +26,17 @@ import edu.hm.cs.fs.scriptinat0r7.interceptor.RequestInterceptor;
 @Controller
 @RequestMapping("/errors")
 public class ExceptionController extends AbstractController {
+
+    private static final Logger LOGGER = Logger.getLogger(ExceptionController.class);
+
     /**
      * Handles an error case.
      * @return an error page
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({MissingServletRequestParameterException.class, ServletRequestBindingException.class, TypeMismatchException.class, HttpMessageNotReadableException.class, MethodArgumentNotValidException.class})
-    public ModelAndView handle400() {
+    @ExceptionHandler({MissingServletRequestParameterException.class, ServletRequestBindingException.class, TypeMismatchException.class, HttpMessageNotReadableException.class, MethodArgumentNotValidException.class, IllegalArgumentException.class})
+    public ModelAndView handle400(final Exception e) {
+        LOGGER.error(e);
         return buildModelAndView("errors/400");
     }
 
@@ -42,7 +47,8 @@ public class ExceptionController extends AbstractController {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({UnauthorizedException.class, AccessDeniedException.class})
     @RequestMapping("403")
-    public ModelAndView handleUnauthorized() {
+    public ModelAndView handleUnauthorized(final Exception e) {
+        LOGGER.error(e);
         return buildModelAndView("errors/403");
     }
 
@@ -53,8 +59,17 @@ public class ExceptionController extends AbstractController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoSuchRequestHandlingMethodException.class)
     @RequestMapping("404")
-    public ModelAndView handleNoSuchRequestHandlingMethodException() {
+    public ModelAndView handleNoSuchRequestHandlingMethodException(final Exception e) {
+        LOGGER.error(e);
         return buildModelAndView("errors/404");
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    @RequestMapping("500")
+    public ModelAndView handleNoInternalServerError(final Exception e) {
+        LOGGER.error(e);
+        return buildModelAndView("errors/500");
     }
 
     private ModelAndView buildModelAndView(final String errorPage) {

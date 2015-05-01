@@ -15,7 +15,7 @@ import edu.hm.cs.fs.scriptinat0r7.repositories.ProfessorRepository;
  * A service for business operations on professors.
  */
 @Service
-public class ProfessorService {
+public class ProfessorService extends AbstractService {
 
     @Autowired
     private ProfessorRepository professors;

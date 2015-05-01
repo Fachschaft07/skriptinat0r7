@@ -1,6 +1,7 @@
 package edu.hm.cs.fs.scriptinat0r7.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class ScriptsController extends AbstractController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String showScriptsByLectures(final ModelMap model, final HttpServletRequest request) {
-        final List<Lecture> lectures = lecturesService.findLecturesWithPublicScript();
+        final Collection<Lecture> lectures = lecturesService.findLecturesWithPublicScript();
 
         for (final Lecture lecture : lectures) {
             lecture.setUsedScripts(scriptsService.findPublicByLecture(lecture)); // TODO PRELOAD
@@ -94,7 +95,10 @@ public class ScriptsController extends AbstractController {
         final List<ScriptDocument> documents = documentsService.findByScript(script);
         model.addAttribute("script", script);
         model.addAttribute("documents", documents);
-        model.addAttribute("hasPublicScripts", documents.stream().anyMatch(ScriptDocument::isPublic));
+        final Collection<ScriptDocument> previouslyOrderedDocuments = documentsService.findOrderedDocuments(getCurrentUser());
+        model.addAttribute("orderedDocuments", previouslyOrderedDocuments);
+        model.addAttribute("hasOrderableScripts", documents.stream().filter(ScriptDocument::isPublic)
+                                                                    .anyMatch(doc -> !previouslyOrderedDocuments.contains(doc)));
         return "scripts/detail";
     }
 

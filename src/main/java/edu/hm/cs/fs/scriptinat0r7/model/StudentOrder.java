@@ -7,6 +7,7 @@
 package edu.hm.cs.fs.scriptinat0r7.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
@@ -18,8 +19,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -28,6 +31,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "skriptorStudentOrder")
+@NamedEntityGraph(name = "StudentOrder.scriptDocuments", attributeNodes = @NamedAttributeNode("scriptDocuments"))
 public class StudentOrder implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -39,7 +43,7 @@ public class StudentOrder implements Serializable {
     @ManyToOne
     private CopyShopOrder copyShopOrder;
 
-    @OneToMany
+    @ManyToMany
     private Set<ScriptDocument> scriptDocuments;
 
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -50,6 +54,9 @@ public class StudentOrder implements Serializable {
 
     @Lob
     private String notes;
+
+    @ManyToOne
+    private User orderer;
 
     public Integer getId() {
         return id;
@@ -73,6 +80,10 @@ public class StudentOrder implements Serializable {
 
     public void setScriptDocuments(final Set<ScriptDocument> scriptDocuments) {
         this.scriptDocuments = scriptDocuments;
+    }
+
+    public void setScriptDocuments(final Collection<ScriptDocument> documentsToOrder) {
+        setScriptDocuments(new HashSet<>(documentsToOrder));
     }
 
     /**
@@ -122,9 +133,17 @@ public class StudentOrder implements Serializable {
         this.notes = notes;
     }
 
+    public User getOrderer() {
+        return orderer;
+    }
+
+    public void setOrderer(final User orderer) {
+        this.orderer = orderer;
+    }
+
     @Override
     public final int hashCode() {
-        return Objects.hash(id, copyShopOrder, scriptDocuments, orderDate, studentPickup, notes);
+        return Objects.hash(id, copyShopOrder, scriptDocuments, orderDate, studentPickup, notes, orderer);
     }
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
@@ -158,6 +177,9 @@ public class StudentOrder implements Serializable {
             return false;
         }
         if (!Objects.equals(notes, other.notes)) {
+            return false;
+        }
+        if (!Objects.equals(orderer, other.orderer)) {
             return false;
         }
 

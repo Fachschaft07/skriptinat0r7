@@ -11,6 +11,9 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -22,11 +25,14 @@ import edu.hm.cs.fs.scriptinat0r7.exception.ScriptDocumentNotPartOfScriptExcepti
 import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
+import edu.hm.cs.fs.scriptinat0r7.model.User;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
+import edu.hm.cs.fs.scriptinat0r7.model.enums.Role;
 import edu.hm.cs.fs.scriptinat0r7.repositories.LectureRepository;
 import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptDocumentRepository;
 import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptRepository;
 import edu.hm.cs.fs.scriptinat0r7.repositories.StudentOrderRepository;
+import edu.hm.cs.fs.scriptinat0r7.repositories.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/spring/test-beans.xml")
@@ -53,6 +59,9 @@ public class StudentOrderServiceTest {
     @Autowired
     private LectureRepository lectureRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @DirtiesContext
     @Test
     public void testOrder() throws IllegalArgumentException, PasswordsMissingException {
@@ -61,12 +70,28 @@ public class StudentOrderServiceTest {
         mockLecture();
         final Script script = mockScript();
         final ScriptDocument scriptDocument = mockScriptDocumentWithScript(script);
+        final User user = mockUser();
+        mockSecurityContext(user);
 
         // when
         studentOrderService.placeOrder(Arrays.asList(scriptDocument), script, Arrays.asList());
 
         // then everything should be fine
         assertThat(studentOrderRepository.count(), equalTo(orderCountBefore + 1));
+        assertThat(studentOrderService.getOrdersWithDocumentsOf(user).size(), equalTo(1));
+    }
+
+    private void mockSecurityContext(final User user) {
+        final SecurityContextImpl securityContext = new SecurityContextImpl();
+        securityContext.setAuthentication(new UsernamePasswordAuthenticationToken(user, null));
+        SecurityContextHolder.setContext(securityContext);
+    }
+
+    private User mockUser() {
+        final User user = new User();
+        user.setRole(Role.USER);
+        user.setFacultyID("ifs10000");
+        return userRepository.save(user);
     }
 
     @DirtiesContext

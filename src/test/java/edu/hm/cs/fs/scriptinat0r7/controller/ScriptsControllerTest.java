@@ -31,13 +31,13 @@ public class ScriptsControllerTest {
         final HttpServletRequest request = mock(HttpServletRequest.class);
         final LectureService lectureServiceMock = mock(LectureService.class);
         ReflectionTestUtils.setField(controller, "lecturesService", lectureServiceMock);
-        when(lectureServiceMock.findLecturesWithPublicScript()).thenReturn(Collections.emptyList());
+        when(lectureServiceMock.findLecturesWithPublicScript()).thenReturn(Collections.emptySet());
         when(request.isUserInRole("ROLE_FACHSCHAFTLER")).thenReturn(false);
 
         final String viewName = controller.showScriptsByLectures(model, request);
 
         verify(lectureServiceMock).findLecturesWithPublicScript();
-        verify(model).addAttribute("lectures", Collections.emptyList());
+        verify(model).addAttribute("lectures", Collections.emptySet());
         assertEquals("The returned view name is not correct", "scripts/lecture-list", viewName);
     }
 
