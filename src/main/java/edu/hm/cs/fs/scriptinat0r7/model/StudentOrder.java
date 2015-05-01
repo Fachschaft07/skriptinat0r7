@@ -129,18 +129,37 @@ public class StudentOrder implements Serializable {
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
     @Override
+    @SuppressWarnings(value = { "PMD.ModifiedCyclomaticComplexity", "PMD.StdCyclomaticComplexity"})
     public final boolean equals(final Object obj) {
-        if (this == obj) { return true; }
-        if (obj == null) { return false; }
-        if (!(obj instanceof StudentOrder)) { return false; }
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof StudentOrder)) {
+            return false;
+        }
 
-        StudentOrder other = (StudentOrder) obj;
-        if (!Objects.equals(this.id, other.id)) { return false; }
-        if (!Objects.equals(this.copyShopOrder, other.copyShopOrder)) { return false; }
-        if (!Objects.equals(this.scriptDocuments, other.scriptDocuments)) { return false; }
-        if (!Objects.equals(this.orderDate, other.orderDate)) { return false; }
-        if (!Objects.equals(this.studentPickup, other.studentPickup)) { return false; }
-        if (!Objects.equals(this.notes, other.notes)) { return false; }
+        final StudentOrder other = (StudentOrder) obj;
+        if (!Objects.equals(id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(copyShopOrder, other.copyShopOrder)) {
+            return false;
+        }
+        if (!Objects.equals(scriptDocuments, other.scriptDocuments)) {
+            return false;
+        }
+        if (!Objects.equals(orderDate, other.orderDate)) {
+            return false;
+        }
+        if (!Objects.equals(studentPickup, other.studentPickup)) {
+            return false;
+        }
+        if (!Objects.equals(notes, other.notes)) {
+            return false;
+        }
 
         return true;
     }

@@ -1,5 +1,9 @@
 package edu.hm.cs.fs.scriptinat0r7.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.common.collect.ImmutableMap;
+
 import edu.hm.cs.fs.scriptinat0r7.model.Professor;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.Role;
+import edu.hm.cs.fs.scriptinat0r7.service.LectureService;
 import edu.hm.cs.fs.scriptinat0r7.service.ProfessorService;
 
 /**
@@ -30,8 +37,12 @@ public class ProfessorsController extends AbstractController {
     private static final String PROFESSOR_COULD_NOT_BE_SAVED_MESSAGE = "Professor konnte nicht gespeichert werden: ";
     private static final String PROFESSORS_ADD_VIEW = "professors/add";
     private static final String PROFESSORS_EDIT_VIEW = "professors/edit";
+
     @Autowired
-    private ProfessorService professors;
+    private ProfessorService professorService;
+
+    @Autowired
+    private LectureService lecturesService;
 
     /**
      * Gets and displays all existing professors.
@@ -42,7 +53,21 @@ public class ProfessorsController extends AbstractController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String getAllScripts(final ModelMap model) {
-        model.addAttribute("professors", professors.findAll());
+        final List<ImmutableMap<String, Object>> professorsAndLectures = new ArrayList<>();
+
+        for (final Professor professor : professorService.findAll()) {
+            final String lectures = lecturesService.findByProfessor(professor)
+                                        .stream()
+                                        .map(lecture -> lecture.getName())
+                                        .collect(Collectors.joining(", "));
+
+            professorsAndLectures.add(ImmutableMap.<String, Object>builder()
+                    .put("professor", professor)
+                    .put("lectures", lectures)
+                    .build());
+        }
+
+        model.addAttribute("professorsAndLectures", professorsAndLectures);
         return "professors/list";
     }
 
@@ -77,10 +102,10 @@ public class ProfessorsController extends AbstractController {
         } else {
             try {
                 professor.setRole(Role.PROFESSOR);
-                professors.save(professor);
+                professorService.save(professor);
                 addSuccessFlash(PROFESSOR_SAVED_MESSAGE, redirectAttributes);
                 return redirect("professors");
-            } catch (DataAccessException e) {
+            } catch (final DataAccessException e) {
                 addErrorFlash(PROFESSOR_COULD_NOT_BE_SAVED_MESSAGE + e.getLocalizedMessage(), redirectAttributes);
                 return redirect(PROFESSORS_ADD_VIEW);
             }
@@ -95,6 +120,7 @@ public class ProfessorsController extends AbstractController {
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editProfessorForm(final ModelMap model, @PathVariable("id") final Professor professor) {
+        professor.setLectures(lecturesService.findByProfessor(professor));
         model.addAttribute("professor", professor);
         return PROFESSORS_EDIT_VIEW;
     }
@@ -125,10 +151,10 @@ public class ProfessorsController extends AbstractController {
                 professorToSave.setFirstName(professorSubmitted.getFirstName());
                 professorToSave.setLastName(professorSubmitted.getLastName());
                 professorToSave.setTitle(professorSubmitted.getTitle());
-                professors.save(professorToSave);
+                professorService.save(professorToSave);
                 addSuccessFlash(PROFESSOR_SAVED_MESSAGE, redirectAttributes);
                 return redirect("professors");
-            } catch (DataAccessException e) {
+            } catch (final DataAccessException e) {
                 addErrorFlash(PROFESSOR_COULD_NOT_BE_SAVED_MESSAGE + e.getLocalizedMessage(), redirectAttributes);
                 return redirect(PROFESSORS_EDIT_VIEW + "/" + professorSubmitted.getId());
             }
@@ -145,10 +171,10 @@ public class ProfessorsController extends AbstractController {
     public String deleteProfessor(@ModelAttribute("professor") final Professor professor,
             final RedirectAttributes redirectAttributes) {
         try {
-            professors.delete(professor);
+            professorService.delete(professor);
             addSuccessFlash("Professor erfolgreich gelöscht", redirectAttributes);
             return redirect("professors");
-        } catch (DataAccessException e) {
+        } catch (final DataAccessException e) {
             addErrorFlash("Professor konnte nicht gelöscht werden: " + e.getLocalizedMessage(), redirectAttributes);
             return redirect(PROFESSORS_EDIT_VIEW + "/" + professor.getId());
         }

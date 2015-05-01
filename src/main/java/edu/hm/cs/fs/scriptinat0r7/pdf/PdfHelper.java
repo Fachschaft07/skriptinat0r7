@@ -27,7 +27,7 @@ public final class PdfHelper {
      * @return the document.
      * @throws IOException thrown if io error happen.
      */
-    protected static PDDocument loadDocumentFromByteStream(final byte[] pdfBytes) throws IOException {
+    static PDDocument loadDocumentFromByteStream(final byte[] pdfBytes) throws IOException {
         return PDDocument.load(new ByteArrayInputStream(pdfBytes));
     }
 
@@ -38,7 +38,7 @@ public final class PdfHelper {
      * @throws IOException thrown if io error happen.
      * @throws COSVisitorException An exception that represents something gone wrong when visiting a PDF object.
      */
-    protected static byte[] convertPDDocumentToByte(final PDDocument document) throws COSVisitorException, IOException {
+    static byte[] convertPDDocumentToByte(final PDDocument document) throws COSVisitorException, IOException {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         document.save(out);
         document.close();
@@ -62,9 +62,9 @@ public final class PdfHelper {
             final PDDocument pdfDocument = pdf.getPDDocument();
 
             if (pdfDocument.isEncrypted()) {
-                for (String password : possiblePasswords) {
+                for (final String password : possiblePasswords) {
                     try {
-                        StandardDecryptionMaterial passwordDecrypter = new StandardDecryptionMaterial(password);
+                        final StandardDecryptionMaterial passwordDecrypter = new StandardDecryptionMaterial(password);
                         pdfDocument.openProtection(passwordDecrypter);
                         return password;
                     } catch (BadSecurityHandlerException | IOException | CryptographyException e) {
@@ -92,7 +92,7 @@ public final class PdfHelper {
     public static boolean isValidPdf(final byte[] pdfBytes) {
         try (PDDocument document = loadDocumentFromByteStream(pdfBytes)) {
             return true;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             return false;
         }
     }

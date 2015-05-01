@@ -5,16 +5,16 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- * Provides tests for the UsersService.
+ * Provides tests for the UserService.
  */
-public class UsersServiceTest {
+public class UserServiceTest {
 
     /**
      * Test a summer student account for validness.
      */
     @Test
     public void testSummerIFAccountForValidness() {
-        UsersService service = new UsersService();
+        final UserService service = new UserService();
         assertTrue("ifs10263 should be a valid student user name", service.isStudentAccount("ifs10263"));
     }
 
@@ -23,7 +23,7 @@ public class UsersServiceTest {
      */
     @Test
     public void testWinterIFAccountForValidness() {
-        UsersService service = new UsersService();
+        final UserService service = new UserService();
         assertTrue("ifw10263 should be a valid student user name", service.isStudentAccount("ifw10263"));
     }
 
@@ -32,7 +32,7 @@ public class UsersServiceTest {
      */
     @Test
     public void testIFAccountFail() {
-        UsersService service = new UsersService();
+        final UserService service = new UserService();
         assertFalse("'definitely not an account' should not be treated as a legal ifw / ifs account name", service.isStudentAccount("definitely not an account"));
     }
 }

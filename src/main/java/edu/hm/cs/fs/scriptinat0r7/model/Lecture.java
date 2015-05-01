@@ -125,16 +125,34 @@ public class Lecture implements Serializable {
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
     @Override
     public final boolean equals(final Object obj) {
-        if (this == obj) { return true; }
-        if (obj == null) { return false; }
-        if (!(obj instanceof Lecture)) { return false; }
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Lecture)) {
+            return false;
+        }
 
         final Lecture other = (Lecture) obj;
-        if (!Objects.equals(this.name, other.name)) { return false; }
-        if (!Objects.equals(this.readingProfessor, other.readingProfessor)) { return false; }
-        if (!Objects.equals(this.studyProgram, other.studyProgram)) { return false; }
+        if (!Objects.equals(name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(readingProfessor, other.readingProfessor)) {
+            return false;
+        }
+        if (!Objects.equals(studyProgram, other.studyProgram)) {
+            return false;
+        }
 
         return true;
     }
     // CHECKSTYLE.ON: NPath Complexity
+
+    @Override
+    public String toString() {
+        return "Lecture [id=" + id + ", name=" + name + ", readingProfessor="
+                + readingProfessor + "]";
+    }
 }

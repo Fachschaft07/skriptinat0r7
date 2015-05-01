@@ -33,6 +33,22 @@
     });
 })();
 
+// generic check all selector
+(function() {
+    jQuery(".check-all").on("change", function() {
+        var target = jQuery(this).data("target");
+        var state = jQuery(this).prop("checked");
+        jQuery(target).prop("checked", state);
+    });
+    
+    jQuery(document).ready(function() {
+        // Set initial states
+        jQuery(".check-all").each(function() {
+            jQuery(this).change();
+        });
+    });
+})();
+
 //################################################
 //          VIEW SPECIFIC HANDLERS
 //################################################

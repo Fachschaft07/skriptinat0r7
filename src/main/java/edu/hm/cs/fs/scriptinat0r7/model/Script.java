@@ -6,6 +6,7 @@
 package edu.hm.cs.fs.scriptinat0r7.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -50,9 +51,6 @@ public class Script implements Serializable {
     @Enumerated(EnumType.STRING)
     private ScriptCategory category;
 
-    @ManyToMany
-    private Set<User> authors;
-
     @Enumerated(EnumType.STRING)
     private SemesterType semesterType;
 
@@ -60,11 +58,11 @@ public class Script implements Serializable {
     private Integer semesterYear;
 
     @ManyToMany
-    @NotEmpty
     @JoinTable
+    @NotEmpty
     private Set<Lecture> lectures;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "scripts") // TODO: should this one be the owning side?
     private Set<ScriptDocument> scriptDocuments;
 
     @OneToOne
@@ -96,37 +94,6 @@ public class Script implements Serializable {
         this.category = category;
     }
 
-    public Set<User> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(final Set<User> authors) {
-        this.authors = authors;
-    }
-
-    /**
-     * Adds an author to this {@code Script}.
-     *
-     * @param author
-     *            the author to add.
-     */
-    public void addAuthor(final User author) {
-        if (authors == null) {
-            authors = new HashSet<>();
-        }
-        authors.add(author);
-    }
-
-    /**
-     * Removes an author from this {@code Script}.
-     *
-     * @param author
-     *            the author to remove.
-     */
-    public void removeAuthor(final User author) {
-        authors.remove(author);
-    }
-
     public SemesterType getSemesterType() {
         return semesterType;
     }
@@ -143,12 +110,12 @@ public class Script implements Serializable {
         this.semesterYear = semesterYear;
     }
 
-    public Set<Lecture> getLectures() {
+    public Collection<Lecture> getLectures() {
         return lectures;
     }
 
-    public void setLectures(final Set<Lecture> lectures) {
-        this.lectures = lectures;
+    public void setLectures(final Collection<Lecture> lectures) {
+        this.lectures = new HashSet<>(lectures);
     }
 
     /**
@@ -180,6 +147,10 @@ public class Script implements Serializable {
 
     public void setScriptDocuments(final Set<ScriptDocument> scriptDocuments) {
         this.scriptDocuments = scriptDocuments;
+    }
+
+    public void setScriptDocuments(final Collection<ScriptDocument> scriptDocuments) {
+        setScriptDocuments(new HashSet<ScriptDocument>(scriptDocuments));
     }
 
     /**
@@ -218,7 +189,7 @@ public class Script implements Serializable {
     }
 
     public void setSubmittedCompletely(final boolean isSubmittedCompletely) {
-        this.submittedCompletely = isSubmittedCompletely;
+        submittedCompletely = isSubmittedCompletely;
     }
 
     /**
@@ -226,8 +197,8 @@ public class Script implements Serializable {
      * @return true if all script documents are allowed to be seen.
      */
     public boolean areAllScriptsApproved() {
-        for (ScriptDocument document : getScriptDocuments()) {
-            if (document.getReviewState() == ReviewState.DELETED || document.getReviewState() == ReviewState.LOCKED) {
+        for (final ScriptDocument document : getScriptDocuments()) {
+            if ((document.getReviewState() == ReviewState.DELETED) || (document.getReviewState() == ReviewState.LOCKED)) {
                 return false;
             }
         }
@@ -242,16 +213,32 @@ public class Script implements Serializable {
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
     @Override
     public final boolean equals(final Object obj) {
-        if (this == obj) { return true; }
-        if (obj == null) { return false; }
-        if (!(obj instanceof Script)) { return false; }
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Script)) {
+            return false;
+        }
 
-        Script other = (Script) obj;
-        if (!Objects.equals(this.id, other.id)) { return false; }
-        if (!Objects.equals(this.name, other.name)) { return false; }
-        if (!Objects.equals(this.category, other.category)) { return false; }
-        if (!Objects.equals(this.submitter, other.submitter)) { return false; }
-        if (!Objects.equals(this.submittedCompletely, other.submittedCompletely)) { return false; }
+        final Script other = (Script) obj;
+        if (!Objects.equals(id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(category, other.category)) {
+            return false;
+        }
+        if (!Objects.equals(submitter, other.submitter)) {
+            return false;
+        }
+        if (!Objects.equals(submittedCompletely, other.submittedCompletely)) {
+            return false;
+        }
 
         return true;
     }
@@ -260,6 +247,14 @@ public class Script implements Serializable {
     @Override
     public String toString() {
         return "Script [id=" + id + ", name=" + name + ", category=" + category + "]";
+    }
+
+    public boolean hasPublicDocuments() {
+        return getScriptDocuments().stream().anyMatch(scriptDocument -> scriptDocument.isPublic());
+    }
+
+    public int getScriptDocumentsCount() {
+        return scriptDocuments == null ? 0 : scriptDocuments.size();
     }
 
 }

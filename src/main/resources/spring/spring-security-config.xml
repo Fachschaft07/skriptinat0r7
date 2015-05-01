@@ -2,13 +2,13 @@
              xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
-                                 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                                 http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
                                  http://www.springframework.org/schema/security
-                                 http://www.springframework.org/schema/security/spring-security.xsd">
+                                 http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
     <http pattern="/resources/**" security="none"/>
 
-    <http access-decision-manager-ref="accessDecisionManager">
+    <http access-decision-manager-ref="accessDecisionManager" use-expressions="false">
         <intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
         <intercept-url pattern="/**" access="ROLE_USER" />
         <form-login login-page="/login" login-processing-url="/login.do" default-target-url="/"
@@ -33,12 +33,12 @@
     <beans:bean id="authenticatedVoter" class="org.springframework.security.access.vote.AuthenticatedVoter" />
 
     <beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
-        <beans:property name="decisionVoters">
+        <beans:constructor-arg>
             <beans:list>
                 <beans:ref bean="roleHierarchyVoter" />
                 <beans:ref bean="authenticatedVoter" />
             </beans:list>
-        </beans:property>
+        </beans:constructor-arg>
     </beans:bean>
 
     <beans:bean id="ifwDataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource" >
@@ -54,17 +54,19 @@
 
     <beans:bean id="ifwAuthenticationProvider" class="edu.hm.cs.fs.scriptinat0r7.authentication.IfwAuthenticationProvider">
         <beans:constructor-arg ref="ifwJdbcTemplate" />
-        <beans:constructor-arg ref="usersService" />
+        <beans:constructor-arg ref="userService" />
     </beans:bean>
 
     <authentication-manager alias="authenticationManager">
-        <!-- <authentication-provider user-service-ref="ifwAuthenticationProvider" /> -->
+        <authentication-provider user-service-ref="ifwAuthenticationProvider" />
+        <!--
         <authentication-provider>
             <user-service>
                 <user name="ifw10000" password="ifw10000" authorities="ROLE_USER" />
                 <user name="ifw20000" password="ifw20000" authorities="ROLE_USER, ROLE_FACHSCHAFTLER" />
             </user-service>
         </authentication-provider>
+        -->
     </authentication-manager>
 
     <beans:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">

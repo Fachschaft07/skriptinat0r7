@@ -22,13 +22,13 @@
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-4 control-label">Benutzername</label>
                         <div class="col-sm-8">
-                            <input class="form-control" name="username" id="username" placeholder="Benutzername">
+                            <input class="form-control" name="username" id="username" value="ifw20000" placeholder="Benutzername">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-4 control-label">Passwort</label>
                         <div class="col-sm-8">
-                            <input type="password" class="form-control" name="password" id="passwort" placeholder="Passwort">
+                            <input type="password" class="form-control" name="password" value="ifw20000" id="passwort" placeholder="Passwort">
                         </div>
                     </div>
                     <div class="form-group">

@@ -2,6 +2,7 @@ package edu.hm.cs.fs.scriptinat0r7.model;
 
 import static org.junit.Assert.*;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,11 +31,11 @@ public class ScriptDocumentTest {
      */
     @Test
     public void testGetFileSize() {
-        ScriptDocument document = new ScriptDocument();
+        final ScriptDocument document = new ScriptDocument();
         document.setFile(new byte[] {0x00, 0x01, 0x02, -0x80});
-        int expected = 4;
+        final int expected = 4;
 
-        int actual = document.getFileSize();
+        final int actual = document.getFileSize();
 
         assertEquals("The size of the file is not the expected.", expected, actual);
     }
@@ -44,11 +45,11 @@ public class ScriptDocumentTest {
      */
     @Test
     public void testGetAndSetFile() {
-        ScriptDocument document = new ScriptDocument();
-        byte[] expected = new byte[] {0x00, 0x01, 0x02, -0x80};
+        final ScriptDocument document = new ScriptDocument();
+        final byte[] expected = new byte[] {0x00, 0x01, 0x02, -0x80};
 
         document.setFile(expected);
-        byte[] actual = document.getFile();
+        final byte[] actual = document.getFile();
 
         assertArrayEquals("The files of the script document are not equal.", expected, actual);
     }
@@ -58,11 +59,11 @@ public class ScriptDocumentTest {
      */
     @Test
     public void testGetAndSetSortnumber() {
-        ScriptDocument document = new ScriptDocument();
-        int expected = 1;
+        final ScriptDocument document = new ScriptDocument();
+        final int expected = 1;
 
         document.setSortnumber(expected);
-        int actual = document.getSortnumber();
+        final int actual = document.getSortnumber();
 
         assertEquals("The sortnumber of the script document is not equal.", expected, actual);
     }
@@ -72,11 +73,11 @@ public class ScriptDocumentTest {
      */
     @Test
     public void testGetAndSetReviewState() {
-        ScriptDocument document = new ScriptDocument();
-        ReviewState expected = ReviewState.PROFESSORAPPROVED;
+        final ScriptDocument document = new ScriptDocument();
+        final ReviewState expected = ReviewState.PROFESSORAPPROVED;
 
         document.setReviewState(expected);
-        ReviewState actual = document.getReviewState();
+        final ReviewState actual = document.getReviewState();
 
         assertSame("The review state of the script document is not the same.", expected, actual);
     }
@@ -86,11 +87,11 @@ public class ScriptDocumentTest {
      */
     @Test
     public void testGetAndSetPassword() {
-        ScriptDocument document = new ScriptDocument();
-        String expected = "top_secret";
+        final ScriptDocument document = new ScriptDocument();
+        final String expected = "top_secret";
 
         document.setPassword(expected);
-        String actual = document.getPassword();
+        final String actual = document.getPassword();
 
         assertSame("The password of the script document is not the same.", expected, actual);
     }
@@ -100,11 +101,11 @@ public class ScriptDocumentTest {
      */
     @Test
     public void testGetAndSetFilename() {
-        ScriptDocument document = new ScriptDocument();
-        String expected = "datenkommunikation.pdf";
+        final ScriptDocument document = new ScriptDocument();
+        final String expected = "datenkommunikation.pdf";
 
         document.setFilename(expected);
-        String actual = document.getFilename();
+        final String actual = document.getFilename();
 
         assertSame("The filename of the script document is not the same.", expected, actual);
     }
@@ -114,11 +115,11 @@ public class ScriptDocumentTest {
      */
     @Test
     public void testGetAndSetNote() {
-        ScriptDocument document = new ScriptDocument();
-        String expected = "some notes...";
+        final ScriptDocument document = new ScriptDocument();
+        final String expected = "some notes...";
 
         document.setNote(expected);
-        String actual = document.getNote();
+        final String actual = document.getNote();
 
         assertSame("The note of the script document is not the same.", expected, actual);
     }
@@ -128,13 +129,13 @@ public class ScriptDocumentTest {
      */
     @Test
     public void testGetAndSetScripts() {
-        ScriptDocument document = new ScriptDocument();
-        Set<Script> expected = Collections.emptySet();
+        final ScriptDocument document = new ScriptDocument();
+        final Set<Script> expected = Collections.emptySet();
 
         document.setScripts(expected);
-        Set<Script> actual = document.getScripts();
+        final Collection<Script> actual = document.getScripts();
 
-        assertSame("The parent scripts of the script document are not the same.", expected, actual);
+        assertEquals("The parent scripts of the script document are not the same.", expected, actual);
     }
 
     /**
@@ -142,8 +143,8 @@ public class ScriptDocumentTest {
      */
     @Test
     public void testAddScript() {
-        ScriptDocument document = new ScriptDocument();
-        Script script = new Script();
+        final ScriptDocument document = new ScriptDocument();
+        final Script script = new Script();
 
         document.addScript(script);
 
@@ -155,9 +156,9 @@ public class ScriptDocumentTest {
      */
     @Test
     public void testAddScriptExistingSet() {
-        ScriptDocument document = new ScriptDocument();
+        final ScriptDocument document = new ScriptDocument();
         document.setScripts(new HashSet<Script>());
-        Script script = new Script();
+        final Script script = new Script();
 
         document.addScript(script);
 
@@ -169,11 +170,11 @@ public class ScriptDocumentTest {
      */
     @Test
     public void testGetAndSetHashvalue() {
-        ScriptDocument document = new ScriptDocument();
-        Long expected = 123456789L;
+        final ScriptDocument document = new ScriptDocument();
+        final Long expected = 123456789L;
 
         document.setHashvalue(expected);
-        Long actual = document.getHashvalue();
+        final Long actual = document.getHashvalue();
 
         assertEquals("The hash value of the script document is not the same.", expected, actual);
     }

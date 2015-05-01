@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,16 +15,16 @@ import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 import edu.hm.cs.fs.scriptinat0r7.pdf.PdfHelper;
-import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptDocumentsRepository;
+import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptDocumentRepository;
 
 /**
  * A service for business operations on script documents.
  */
 @Service
-public class ScriptDocumentsService {
+public class ScriptDocumentService {
 
     @Autowired
-    private ScriptDocumentsRepository scriptDocuments;
+    private ScriptDocumentRepository scriptDocuments;
 
     /**
      * Persists a given script document.
@@ -35,7 +34,7 @@ public class ScriptDocumentsService {
      * @return the persisted script document.
      * @throws IOException if io errors happen while reading the file contents.
      */
-    public ScriptDocument create(final Set<Script> script, final int sortNumber,
+    public ScriptDocument create(final Collection<Script> script, final int sortNumber,
             final MultipartFile file) throws IOException {
         if (!PdfHelper.isValidPdf(file.getBytes())) {
             throw new IllegalArgumentException(file.getName() + " is not a valid pdf");
@@ -47,7 +46,6 @@ public class ScriptDocumentsService {
         document.setReviewState(ReviewState.LOCKED);
         document.setScripts(script);
         document.setSortnumber(sortNumber);
-        document.setScripts(script);
         document.setPasswordMissing(true);
         return save(document);
     }
@@ -71,7 +69,7 @@ public class ScriptDocumentsService {
     public List<ScriptDocument> tryPasswordsOnScriptDocumentsWithMissingPassword(final Script script, final Collection<String> passwordsToTry) {
         final List<ScriptDocument> documentsWherePasswordStillMissing = new LinkedList<>();
 
-        for (ScriptDocument currentDocument : scriptDocuments.findByScriptsInAndIsPasswordMissingTrue(script)) {
+        for (final ScriptDocument currentDocument : scriptDocuments.findByScriptsInAndIsPasswordMissingTrue(script)) {
             try {
                 final String passwordThatDecryptsThisDocument = PdfHelper.findCorrectPassword(currentDocument.getFile(), passwordsToTry);
                 currentDocument.setPassword(passwordThatDecryptsThisDocument);
@@ -117,6 +115,18 @@ public class ScriptDocumentsService {
                 throw new IllegalArgumentException("at least one document has not been assigned a sortnumber. this is a illegal condition, as it could cause duplicate sortnumbers");
             }
         }
+    }
+
+    public Collection<ScriptDocument> findAll() {
+        return scriptDocuments.findAll();
+    }
+
+    public byte[] loadScriptContent(final ScriptDocument document) {
+        return document.getFile();
+    }
+
+    public ScriptDocument findOne(final Long id) {
+        return scriptDocuments.findOne(id);
     }
 
 }

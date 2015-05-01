@@ -6,7 +6,7 @@
 
     <description>
         Ullrich Hafner's PMD rules. Modified by Maximilian Goetz for use with PMD 5.0.5.
-      </description>
+    </description>
 
     <exclude-pattern>.*/R.java</exclude-pattern>
     <rule ref="rulesets/java/empty.xml">
@@ -42,15 +42,20 @@
         <exclude name="OnlyOneReturn" />
         <exclude name="BooleanInversion" />
         <exclude name="DefaultPackage" />
+        <exclude name="AvoidFinalLocalVariable" />
     </rule>
     <rule ref="rulesets/java/coupling.xml">
         <exclude name="LoosePackageCoupling" />
         <exclude name="LawOfDemeter" />
+        <exclude name="ExcessiveImports" />
+    </rule>
+    <rule ref="rulesets/java/coupling.xml/ExcessiveImports">
+        <properties>
+            <property name="minimum" value="40" />
+        </properties>
     </rule>
     <rule ref="rulesets/java/design.xml">
         <exclude name="EmptyMethodInAbstractClassShouldBeAbstract" />
-        <exclude name="UseSingleton" />
-        <exclude name="CloseResource" />
         <exclude name="CloseResource" />
     </rule>
     <rule ref="rulesets/java/finalizers.xml" />

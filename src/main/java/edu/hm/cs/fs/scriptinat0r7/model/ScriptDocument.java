@@ -8,9 +8,9 @@ package edu.hm.cs.fs.scriptinat0r7.model;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import java.util.zip.CRC32;
 
 import javax.persistence.Basic;
@@ -18,11 +18,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 
@@ -62,7 +64,8 @@ public class ScriptDocument implements Serializable {
     private String note;
 
     @ManyToMany
-    private Set<Script> scripts;
+    @JoinTable
+    private Collection<Script> scripts;
 
     @Column(nullable = false)
     private Integer fileSize;
@@ -82,7 +85,7 @@ public class ScriptDocument implements Serializable {
     }
 
     public byte[] getFile() {
-        return Arrays.copyOf(this.file, this.file.length);
+        return Arrays.copyOf(file, file.length);
     }
 
     /**
@@ -91,7 +94,7 @@ public class ScriptDocument implements Serializable {
      */
     public void setFile(final byte[] file) {
         this.file = Arrays.copyOf(file, file.length);
-        this.fileSize = file.length;
+        fileSize = file.length;
     }
 
     public int getSortnumber() {
@@ -108,6 +111,10 @@ public class ScriptDocument implements Serializable {
 
     public void setReviewState(final ReviewState reviewState) {
         this.reviewState = reviewState;
+    }
+
+    public boolean isPublic() {
+        return (reviewState == ReviewState.FACHSCHAFTLERAPPROVED) || (reviewState == ReviewState.PROFESSORAPPROVED);
     }
 
     public String getPassword() {
@@ -134,12 +141,12 @@ public class ScriptDocument implements Serializable {
         this.note = note;
     }
 
-    public Set<Script> getScripts() {
+    public Collection<Script> getScripts() {
         return scripts;
     }
 
-    public void setScripts(final Set<Script> scripts) {
-        this.scripts = scripts;
+    public void setScripts(final Collection<Script> scripts) {
+        this.scripts = new HashSet<>(scripts);
     }
 
     /**
@@ -163,12 +170,16 @@ public class ScriptDocument implements Serializable {
         this.hashvalue = hashvalue;
     }
 
+    public boolean hasPassword() {
+        return isPasswordMissing || !password.isEmpty();
+    }
+
     public boolean isPasswordMissing() {
         return isPasswordMissing;
     }
 
     public void setPasswordMissing(final boolean isRightPassword) {
-        this.isPasswordMissing = isRightPassword;
+        isPasswordMissing = isRightPassword;
     }
 
     @Override
@@ -179,19 +190,40 @@ public class ScriptDocument implements Serializable {
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
     @Override
+    @SuppressWarnings(value = { "PMD.ModifiedCyclomaticComplexity", "PMD.StdCyclomaticComplexity"})
     public final boolean equals(final Object obj) {
-        if (this == obj) { return true; }
-        if (obj == null) { return false; }
-        if (!(obj instanceof ScriptDocument)) { return false; }
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof ScriptDocument)) {
+            return false;
+        }
 
-        ScriptDocument other = (ScriptDocument) obj;
-        if (!Objects.equals(this.hashvalue, other.hashvalue)) { return false; }
-        if (!Arrays.equals(this.file, other.file)) { return false; }
-        if (!Objects.equals(this.sortnumber, other.sortnumber)) { return false; }
-        if (!Objects.equals(this.reviewState, other.reviewState)) { return false; }
-        if (!Objects.equals(this.password, other.password)) { return false; }
-        if (!Objects.equals(this.filename, other.filename)) { return false; }
-        if (!Objects.equals(this.note, other.note)) { return false; }
+        final ScriptDocument other = (ScriptDocument) obj;
+        if (!Objects.equals(hashvalue, other.hashvalue)) {
+            return false;
+        }
+        if (!Arrays.equals(file, other.file)) {
+            return false;
+        }
+        if (!Objects.equals(sortnumber, other.sortnumber)) {
+            return false;
+        }
+        if (!Objects.equals(reviewState, other.reviewState)) {
+            return false;
+        }
+        if (!Objects.equals(password, other.password)) {
+            return false;
+        }
+        if (!Objects.equals(filename, other.filename)) {
+            return false;
+        }
+        if (!Objects.equals(note, other.note)) {
+            return false;
+        }
 
         return true;
     }
@@ -205,5 +237,9 @@ public class ScriptDocument implements Serializable {
         final CRC32 crc = new CRC32();
         crc.update(getFile());
         return crc.getValue();
+    }
+
+    public boolean isOnePasswordMatching(final Collection<String> passwords) {
+        return StringUtils.isEmpty(getPassword()) || passwords.contains(getPassword());
     }
 }

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -24,26 +25,39 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(final HttpServletRequest request, final HttpServletResponse response,
             final Object handler, final ModelAndView modelAndView) {
-        if (handler instanceof HandlerMethod && modelAndView != null && !isRedirect(modelAndView)) {
-
-            // FIXME: funktioniert nicht wenn 404 oder 403 auftritt. Ursache bisher nicht ganz klar
-            // Es scheint als würden Filter nur bei "erfolgreichen" requests ausgeführt werden.
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal instanceof UserDetails) {
-                final UserDetails user = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                modelAndView.getModelMap().addAttribute("userName", user.getUsername());
-            }
-
-            final HandlerMethod handlerMethod = (HandlerMethod) handler;
-            final String method = handlerMethod.getMethod().getName();
-            modelAndView.getModelMap().addAttribute("method", method);
-            final String controller = handlerMethod.getMethod().getDeclaringClass().getSimpleName();
-            modelAndView.getModelMap().addAttribute("controller", controller);
+        if ((handler instanceof HandlerMethod) && (modelAndView != null) && !isRedirect(modelAndView)) {
+            enrichModelWithUser(modelAndView.getModelMap());
+            enrichModelWithHandler(handler, modelAndView.getModelMap());
         }
     }
 
+    private void enrichModelWithHandler(final Object handler, final ModelMap model) {
+        final HandlerMethod handlerMethod = (HandlerMethod) handler;
+        final String method = handlerMethod.getMethod().getName();
+        model.addAttribute("method", method);
+        final String controller = handlerMethod.getMethod().getDeclaringClass().getSimpleName();
+        model.addAttribute("controller", controller);
+    }
+
+    /**
+     * Adds the current user to the model map.
+     * @param model the model map.
+     */
+    public static void enrichModelWithUser(final ModelMap model) {
+        final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            final UserDetails user = (UserDetails)principal;
+            model.addAttribute("userName", user.getUsername());
+        }
+    }
+
+    @Override
+    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
+        return true;
+    }
+
     private boolean isRedirect(final ModelAndView modelAndView) {
-        return modelAndView.getViewName() != null && modelAndView.getViewName().startsWith("redirect:");
+        return (modelAndView.getViewName() != null) && modelAndView.getViewName().startsWith("redirect:");
     }
 
 }

@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import edu.hm.cs.fs.scriptinat0r7.model.User;
-import edu.hm.cs.fs.scriptinat0r7.service.UsersService;
+import edu.hm.cs.fs.scriptinat0r7.service.UserService;
 
 /**
  * This class is responsible for authenticating users via an ifw jdbc connection.
@@ -19,14 +19,14 @@ import edu.hm.cs.fs.scriptinat0r7.service.UsersService;
 public class IfwAuthenticationProvider implements UserDetailsService {
 
     private final JdbcTemplate ifwJdbc;
-    private final UsersService userService;
+    private final UserService userService;
 
     /**
      * The constructor.
      * @param ifwJdbc A jdbc connection to the ifw source.
      * @param userService The user service to register users in our application.
      */
-    public IfwAuthenticationProvider(final JdbcTemplate ifwJdbc, final UsersService userService) {
+    public IfwAuthenticationProvider(final JdbcTemplate ifwJdbc, final UserService userService) {
         this.ifwJdbc = ifwJdbc;
         this.userService = userService;
     }

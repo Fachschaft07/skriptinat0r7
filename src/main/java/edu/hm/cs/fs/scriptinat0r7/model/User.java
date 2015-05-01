@@ -193,18 +193,37 @@ public class User implements UserDetails, Serializable {
 
     // CHECKSTYLE.OFF: NPath Complexity of generated equals
     @Override
+    @SuppressWarnings(value = { "PMD.ModifiedCyclomaticComplexity", "PMD.StdCyclomaticComplexity"})
     public boolean equals(final Object obj) {
-        if (this == obj) { return true; }
-        if (obj == null) { return false; }
-        if (!(obj instanceof User)) { return false; }
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof User)) {
+            return false;
+        }
 
         final User other = (User) obj;
-        if (!(other.canEqual(this))) { return false; }
-        if (!Objects.equals(role, other.role)) { return false; }
-        if (!Objects.equals(email, other.email)) { return false; }
-        if (!Objects.equals(firstName, other.firstName)) { return false; }
-        if (!Objects.equals(lastName, other.lastName)) { return false; }
-        if (!Objects.equals(facultyID, other.facultyID)) { return false; }
+        if (!(other.canEqual(this))) {
+            return false;
+        }
+        if (!Objects.equals(role, other.role)) {
+            return false;
+        }
+        if (!Objects.equals(email, other.email)) {
+            return false;
+        }
+        if (!Objects.equals(firstName, other.firstName)) {
+            return false;
+        }
+        if (!Objects.equals(lastName, other.lastName)) {
+            return false;
+        }
+        if (!Objects.equals(facultyID, other.facultyID)) {
+            return false;
+        }
 
         return true;
     }

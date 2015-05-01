@@ -11,7 +11,7 @@ import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 /**
  * Repository to execute CRUD operations on {@code ScriptDocument}s.
  */
-public interface ScriptDocumentsRepository extends PagingAndSortingRepository<ScriptDocument, Long> {
+public interface ScriptDocumentRepository extends PagingAndSortingRepository<ScriptDocument, Long> {
 
     /**
      * Finds all {@code ScriptDocument}s.

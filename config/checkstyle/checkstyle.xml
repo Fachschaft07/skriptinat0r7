@@ -18,6 +18,7 @@
         <module name="EqualsAvoidNull" />
         <module name="GenericWhitespace" />
         <module name="FileContentsHolder" />
+		<!--
         <module name="JavadocType" />
         <module name="JavadocMethod">
             <property name="scope" value="protected" />
@@ -33,6 +34,7 @@
         <module name="JavadocStyle">
             <property name="checkEmptyJavadoc" value="true" />
         </module>
+		-->
         <module name="ConstantName" />
         <module name="LocalFinalVariableName" />
         <module name="LocalVariableName" />
@@ -123,7 +125,11 @@
         <module name="ThrowsCount">
             <property name="max" value="3" />
         </module>
-        <module name="VisibilityModifier" />
+        <module name="VisibilityModifier">
+            <!-- TODO: upgrade checkstyle to support this one
+            <property name="ignoreAnnotationCanonicalNames" value="Rule" />
+            -->
+        </module>
         <module name="BooleanExpressionComplexity" />
         <module name="ClassDataAbstractionCoupling">
             <property name="max" value="10" />

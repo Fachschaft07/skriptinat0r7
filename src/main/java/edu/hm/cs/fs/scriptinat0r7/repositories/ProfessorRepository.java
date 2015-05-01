@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
 import edu.hm.cs.fs.scriptinat0r7.model.Professor;
 
 /**
@@ -23,8 +24,8 @@ public interface ProfessorRepository extends PagingAndSortingRepository<Professo
      *            the name of the {@code Professor} to search.
      * @return a {@code List} of all professors matching the given query.
      */
-    @Query("select u from #{#entityName} u where u.firstName like %:name% or u.lastName like %:name%")
-    List<Professor> findByFirstNameContainingOrLastNameContaining(@Param("name") String name);
+    @Query("select u from #{#entityName} u where UPPER(u.firstName) like %:name% or UPPER(u.lastName) like %:name%")
+    List<Professor> findByFirstNameOrLastName(@Param("name") String name);
 
     @Override
     List<Professor> findAll(Sort sort);
@@ -36,5 +37,7 @@ public interface ProfessorRepository extends PagingAndSortingRepository<Professo
      */
     @Override
     Collection<Professor> findAll();
+
+    Professor findByLecturesIn(Lecture lecture);
 
 }

@@ -19,10 +19,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${professors}" var="professor">
-                            <tr data-href="${pageContext.request.contextPath}/professors/edit/${professor.id}">
-                                <td>${professor.fullName}</td>
-                                <td>Todo</td>
+                        <c:forEach items="${professorsAndLectures}" var="professorAndLecture">
+                            <tr data-href="${pageContext.request.contextPath}/professors/edit/${professorAndLecture['professor'].id}">
+                                <td>${professorAndLecture['professor'].fullName}</td>
+                                <td>${professorAndLecture['lectures']}</td>
                             </tr>
                         </c:forEach>
                     </tbody>

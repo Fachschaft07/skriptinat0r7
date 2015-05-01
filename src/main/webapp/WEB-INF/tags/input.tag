@@ -14,10 +14,10 @@
 <spring:bind path="${path}">
     <div class="form-group ${status.error ? 'error' : '' }">
         <label for="${path}" class="col-sm-2 control-label">${label} <c:if test="${required}"><span class="required">*</span></c:if></label>
-        <div class="col-sm-3">
+        <div class="col-sm-5">
             <form:input id="${path}" path="${path}" cssClass="form-control" />
         </div>
-        <div class="col-sm-7">
+        <div class="col-sm-5">
             <p class="form-control-static text-danger"><form:errors path="${path}" /></p>
         </div>
     </div>

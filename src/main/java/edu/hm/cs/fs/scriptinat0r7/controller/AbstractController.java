@@ -2,6 +2,7 @@ package edu.hm.cs.fs.scriptinat0r7.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.hm.cs.fs.scriptinat0r7.model.User;
@@ -10,6 +11,9 @@ import edu.hm.cs.fs.scriptinat0r7.model.User;
  * Base class for controller instances.
  */
 public class AbstractController {
+
+    private static final String ERROR_MESSAGE_KEY = "errorMessage";
+    private static final String SUCCESS_MESSAGE_KEY = "successMessage";
 
     /**
      * Produces a valid logical view name which will be used as redirect by spring.
@@ -21,12 +25,21 @@ public class AbstractController {
     }
 
     /**
-     * Adds a new flash message, which provides the user with success feedback.
+     * Adds a new flash message, which provides the user with success feedback after a redirect.
      * @param message The message to display.
      * @param redirectAttributes A RedirectAttributes instance, usually injected in to the controller.
      */
     protected void addSuccessFlash(final String message, final RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("successMessage", message);
+        redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE_KEY, message);
+    }
+
+    /**
+     * Adds a new flash message, which provides the user with success feedback.
+     * @param message The message to display.
+     * @param model A ModelMap instance, usually injected in to the controller.
+     */
+    protected void addSuccessFlash(final String message, final ModelMap model) {
+        model.addAttribute(SUCCESS_MESSAGE_KEY, message);
     }
 
     /**
@@ -35,7 +48,16 @@ public class AbstractController {
      * @param redirectAttributes A RedirectAttributes instance, usually injected in to the controller.
      */
     protected void addErrorFlash(final String message, final RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("errorMessage", message);
+        redirectAttributes.addFlashAttribute(ERROR_MESSAGE_KEY, message);
+    }
+
+    /**
+     * Adds a new flash message, which provides the user with error feedback after a redirect.
+     * @param message The message to display.
+     * @param model A ModelMap instance, usually injected in to the controller.
+     */
+    protected void addErrorFlash(final String message, final ModelMap model) {
+        model.addAttribute(ERROR_MESSAGE_KEY, message);
     }
 
     protected Authentication getAuthentication() {
