@@ -67,6 +67,9 @@ public class ScriptDocument implements Serializable {
     @JoinTable
     private Collection<Script> scripts;
 
+    @ManyToMany(mappedBy = "scriptDocuments")
+    private Collection<StudentOrder> orders;
+
     @Column(nullable = false)
     private Integer fileSize;
 
@@ -241,5 +244,13 @@ public class ScriptDocument implements Serializable {
 
     public boolean isOnePasswordMatching(final Collection<String> passwords) {
         return StringUtils.isEmpty(getPassword()) || passwords.contains(getPassword());
+    }
+
+    public Collection<StudentOrder> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(final Collection<StudentOrder> orders) {
+        this.orders = orders;
     }
 }

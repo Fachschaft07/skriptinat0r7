@@ -7,11 +7,12 @@ import org.junit.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ModelMap;
 
+import edu.hm.cs.fs.scriptinat0r7.controller.admin.ProfessorsController;
 import edu.hm.cs.fs.scriptinat0r7.model.Professor;
 import edu.hm.cs.fs.scriptinat0r7.service.LectureService;
 
 /**
- * Test class for {@link edu.hm.cs.fs.scriptinat0r7.controller.ProfessorsController}.
+ * Test class for {@link edu.hm.cs.fs.scriptinat0r7.controller.admin.ProfessorsController}.
  */
 public class ProfessorsControllerTest {
 

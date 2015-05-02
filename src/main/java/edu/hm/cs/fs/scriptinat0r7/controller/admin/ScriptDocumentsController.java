@@ -1,4 +1,4 @@
-package edu.hm.cs.fs.scriptinat0r7.controller;
+package edu.hm.cs.fs.scriptinat0r7.controller.admin;
 
 import java.io.IOException;
 
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.hm.cs.fs.scriptinat0r7.controller.AbstractController;
 import edu.hm.cs.fs.scriptinat0r7.exception.UnauthorizedException;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;

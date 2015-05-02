@@ -84,4 +84,8 @@ public class StudentOrderService extends AbstractService {
         return studentOrderRepository.findByOrderer(user);
     }
 
+    public Collection<StudentOrder> findOrdersNotTransmittedToCopyshop() {
+        return studentOrderRepository.findByCopyShopOrderIsNull();
+    }
+
 }

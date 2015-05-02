@@ -1,4 +1,4 @@
-package edu.hm.cs.fs.scriptinat0r7.controller;
+package edu.hm.cs.fs.scriptinat0r7.controller.admin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.common.collect.ImmutableMap;
 
+import edu.hm.cs.fs.scriptinat0r7.controller.AbstractController;
 import edu.hm.cs.fs.scriptinat0r7.model.Professor;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.Role;
 import edu.hm.cs.fs.scriptinat0r7.service.LectureService;

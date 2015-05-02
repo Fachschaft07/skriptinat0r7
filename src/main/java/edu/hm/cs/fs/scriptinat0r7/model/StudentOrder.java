@@ -18,6 +18,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -44,8 +45,10 @@ public class StudentOrder implements Serializable {
     private CopyShopOrder copyShopOrder;
 
     @ManyToMany
+    @JoinTable
     private Set<ScriptDocument> scriptDocuments;
 
+    // TODO: datetime?
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date orderDate;
 
