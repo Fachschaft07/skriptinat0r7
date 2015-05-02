@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
+import edu.hm.cs.fs.scriptinat0r7.model.StudentOrder;
 import edu.hm.cs.fs.scriptinat0r7.model.User;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 import edu.hm.cs.fs.scriptinat0r7.pdf.PdfHelper;
@@ -139,6 +141,10 @@ public class ScriptDocumentService extends AbstractService {
                 .flatMap(f -> f.getScriptDocuments().stream())
                 .distinct()
                 .collect(Collectors.toSet());
+    }
+
+    public Set<ScriptDocument> findByOrder(final StudentOrder order) {
+        return scriptDocuments.findByOrdersIn(order);
     }
 
 }

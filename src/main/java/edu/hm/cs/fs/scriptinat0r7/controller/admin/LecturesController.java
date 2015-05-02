@@ -1,4 +1,4 @@
-package edu.hm.cs.fs.scriptinat0r7.controller;
+package edu.hm.cs.fs.scriptinat0r7.controller.admin;
 
 import javax.validation.Valid;
 
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.hm.cs.fs.scriptinat0r7.controller.AbstractController;
 import edu.hm.cs.fs.scriptinat0r7.model.Lecture;
 import edu.hm.cs.fs.scriptinat0r7.service.LectureService;
 import edu.hm.cs.fs.scriptinat0r7.service.ProfessorService;

@@ -36,7 +36,7 @@ public class ExceptionController extends AbstractController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({MissingServletRequestParameterException.class, ServletRequestBindingException.class, TypeMismatchException.class, HttpMessageNotReadableException.class, MethodArgumentNotValidException.class, IllegalArgumentException.class})
     public ModelAndView handle400(final Exception e) {
-        LOGGER.error(e);
+        log(e);
         return buildModelAndView("errors/400");
     }
 
@@ -48,7 +48,7 @@ public class ExceptionController extends AbstractController {
     @ExceptionHandler({UnauthorizedException.class, AccessDeniedException.class})
     @RequestMapping("403")
     public ModelAndView handleUnauthorized(final Exception e) {
-        LOGGER.error(e);
+        log(e);
         return buildModelAndView("errors/403");
     }
 
@@ -60,7 +60,7 @@ public class ExceptionController extends AbstractController {
     @ExceptionHandler(NoSuchRequestHandlingMethodException.class)
     @RequestMapping("404")
     public ModelAndView handleNoSuchRequestHandlingMethodException(final Exception e) {
-        LOGGER.error(e);
+        log(e);
         return buildModelAndView("errors/404");
     }
 
@@ -68,8 +68,12 @@ public class ExceptionController extends AbstractController {
     @ExceptionHandler(Exception.class)
     @RequestMapping("500")
     public ModelAndView handleNoInternalServerError(final Exception e) {
-        LOGGER.error(e);
+        log(e);
         return buildModelAndView("errors/500");
+    }
+
+    private void log(final Exception e) {
+        LOGGER.error(e);
     }
 
     private ModelAndView buildModelAndView(final String errorPage) {

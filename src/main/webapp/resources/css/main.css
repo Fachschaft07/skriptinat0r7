@@ -67,10 +67,15 @@ body {
     border-color: #ddd;
 }
 
-.sidebar .active > a,
-.sidebar .active > a:hover {
+.sidebar .nav-sidebar .active > a,
+.sidebar .nav-sidebar .active > a:hover {
     background-color: #428bca;
     color: #fff;
+}
+
+.sidebar .active .badge {
+    background-color: #fff;
+    color: #337ab7;
 }
 
 .clickable {

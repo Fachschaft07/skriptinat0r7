@@ -14,4 +14,6 @@ public interface StudentOrderRepository extends PagingAndSortingRepository<Stude
     @EntityGraph(value = "StudentOrder.scriptDocuments", type = EntityGraphType.LOAD)
     Collection<StudentOrder> findByOrderer(User user);
 
+    Collection<StudentOrder> findByCopyShopOrderIsNull();
+
 }

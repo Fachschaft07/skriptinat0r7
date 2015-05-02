@@ -3,6 +3,7 @@ package edu.hm.cs.fs.scriptinat0r7.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.ModelMap;
@@ -10,10 +11,15 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import edu.hm.cs.fs.scriptinat0r7.service.StudentOrderService;
+
 /**
  * Enriches the model with the controller name.
  */
 public class RequestInterceptor extends HandlerInterceptorAdapter {
+
+    @Autowired
+    StudentOrderService studentOrderService;
 
     /**
      * Get controller class name and enrich the model with it.
@@ -28,7 +34,13 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         if ((handler instanceof HandlerMethod) && (modelAndView != null) && !isRedirect(modelAndView)) {
             enrichModelWithUser(modelAndView.getModelMap());
             enrichModelWithHandler(handler, modelAndView.getModelMap());
+            enrichModelWithOrderCount(modelAndView.getModelMap());
         }
+    }
+
+    private void enrichModelWithOrderCount(final ModelMap modelMap) {
+        final int count = studentOrderService.findOrdersNotTransmittedToCopyshop().size();
+        modelMap.addAttribute("GLOBAL_ordersNotTransmittedToCopyShopCount", count);
     }
 
     private void enrichModelWithHandler(final Object handler, final ModelMap model) {
