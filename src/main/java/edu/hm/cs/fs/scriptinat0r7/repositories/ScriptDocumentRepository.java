@@ -1,14 +1,14 @@
 package edu.hm.cs.fs.scriptinat0r7.repositories;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.data.repository.PagingAndSortingRepository;
-
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 import edu.hm.cs.fs.scriptinat0r7.model.StudentOrder;
+import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Repository to execute CRUD operations on {@code ScriptDocument}s.
@@ -38,5 +38,7 @@ public interface ScriptDocumentRepository extends PagingAndSortingRepository<Scr
     List<ScriptDocument> findByScriptsInAndIsPasswordMissingTrue(Script script);
 
     Set<ScriptDocument> findByOrdersIn(StudentOrder order);
+
+    Set<ScriptDocument> findByReviewState(ReviewState reviewState);
 
 }

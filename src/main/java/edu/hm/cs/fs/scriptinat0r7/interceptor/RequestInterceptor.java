@@ -1,41 +1,54 @@
 package edu.hm.cs.fs.scriptinat0r7.interceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
+import edu.hm.cs.fs.scriptinat0r7.service.ScriptDocumentService;
+import edu.hm.cs.fs.scriptinat0r7.service.StudentOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import edu.hm.cs.fs.scriptinat0r7.service.StudentOrderService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Enriches the model with the controller name.
  */
+@Component
 public class RequestInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
     StudentOrderService studentOrderService;
 
+    @Autowired
+    ScriptDocumentService scriptDocumentService;
+
     /**
      * Get controller class name and enrich the model with it.
-     * @param request The request object.
-     * @param response The response to send.
-     * @param handler The handler, e.g. the controller.
+     *
+     * @param request      The request object.
+     * @param response     The response to send.
+     * @param handler      The handler, e.g. the controller.
      * @param modelAndView the model and view object.
      */
     @Override
     public void postHandle(final HttpServletRequest request, final HttpServletResponse response,
-            final Object handler, final ModelAndView modelAndView) {
+                           final Object handler, final ModelAndView modelAndView) {
         if ((handler instanceof HandlerMethod) && (modelAndView != null) && !isRedirect(modelAndView)) {
             enrichModelWithUser(modelAndView.getModelMap());
             enrichModelWithHandler(handler, modelAndView.getModelMap());
             enrichModelWithOrderCount(modelAndView.getModelMap());
+            enrichModelWithUnreviewedScriptCount(modelAndView.getModelMap());
         }
+    }
+
+    private void enrichModelWithUnreviewedScriptCount(final ModelMap modelMap) {
+        final int count = scriptDocumentService.findByReviewState(ReviewState.LOCKED).size();
+        modelMap.addAttribute("GLOBAL_ordersNotTransmittedToCopyShopCount", count);
     }
 
     private void enrichModelWithOrderCount(final ModelMap modelMap) {
@@ -53,12 +66,13 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * Adds the current user to the model map.
+     *
      * @param model the model map.
      */
     public static void enrichModelWithUser(final ModelMap model) {
         final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-            final UserDetails user = (UserDetails)principal;
+            final UserDetails user = (UserDetails) principal;
             model.addAttribute("userName", user.getUsername());
         }
     }

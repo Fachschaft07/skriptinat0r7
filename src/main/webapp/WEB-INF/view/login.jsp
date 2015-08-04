@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -9,7 +10,7 @@
                 <h1 class="no-margin-top">Skriptenbestellsystem</h1>
                 <c:if test="${param.error != null}">
                     <div class="alert alert-danger">
-                        Ungültige Benutzerdaten. Haben Sie sich vertippt?
+                        UngÃ¼ltige Benutzerdaten. Haben Sie sich vertippt?
                     </div>
                 </c:if>
                 <c:if test="${param.logout != null}">
@@ -20,15 +21,15 @@
             
                 <form action="<c:url value="/login.do"/>" method="post" class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-4 control-label">Benutzername</label>
+                        <label for="username" class="col-sm-4 control-label">Benutzername</label>
                         <div class="col-sm-8">
                             <input class="form-control" name="username" id="username" value="ifw20000" placeholder="Benutzername">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-4 control-label">Passwort</label>
+                        <label for="password" class="col-sm-4 control-label">Passwort</label>
                         <div class="col-sm-8">
-                            <input type="password" class="form-control" name="password" value="ifw20000" id="passwort" placeholder="Passwort">
+                            <input type="password" class="form-control" name="password" value="ifw20000" id="password" placeholder="Passwort">
                         </div>
                     </div>
                     <div class="form-group">

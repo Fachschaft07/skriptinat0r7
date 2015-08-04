@@ -1,8 +1,7 @@
 package edu.hm.cs.fs.scriptinat0r7.authentication;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import edu.hm.cs.fs.scriptinat0r7.model.User;
+import edu.hm.cs.fs.scriptinat0r7.service.UserService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -10,23 +9,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import edu.hm.cs.fs.scriptinat0r7.model.User;
-import edu.hm.cs.fs.scriptinat0r7.service.UserService;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * This class is responsible for authenticating users via an ifw jdbc connection.
  */
-public class IfwAuthenticationProvider implements UserDetailsService {
+public class IfwUserDetailsService implements UserDetailsService {
 
     private final JdbcTemplate ifwJdbc;
     private final UserService userService;
 
-    /**
-     * The constructor.
-     * @param ifwJdbc A jdbc connection to the ifw source.
-     * @param userService The user service to register users in our application.
-     */
-    public IfwAuthenticationProvider(final JdbcTemplate ifwJdbc, final UserService userService) {
+    public IfwUserDetailsService(final JdbcTemplate ifwJdbc, final UserService userService) {
         this.ifwJdbc = ifwJdbc;
         this.userService = userService;
     }

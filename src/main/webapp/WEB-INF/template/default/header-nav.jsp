@@ -7,7 +7,7 @@
                     class="icon-bar"></span> <span class="icon-bar"></span> <span
                     class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="${pageContext.request.contextPath}">Scriptinat<span class="cool-number">0</span>r<span class="cool-number">7</span></a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/">Scriptinat<span class="cool-number">0</span>r<span class="cool-number">7</span></a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">

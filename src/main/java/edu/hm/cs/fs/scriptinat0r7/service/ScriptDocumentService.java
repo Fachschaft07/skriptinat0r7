@@ -1,18 +1,5 @@
 package edu.hm.cs.fs.scriptinat0r7.service;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
 import edu.hm.cs.fs.scriptinat0r7.model.Script;
 import edu.hm.cs.fs.scriptinat0r7.model.ScriptDocument;
 import edu.hm.cs.fs.scriptinat0r7.model.StudentOrder;
@@ -20,6 +7,14 @@ import edu.hm.cs.fs.scriptinat0r7.model.User;
 import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 import edu.hm.cs.fs.scriptinat0r7.pdf.PdfHelper;
 import edu.hm.cs.fs.scriptinat0r7.repositories.ScriptDocumentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A service for business operations on script documents.
@@ -35,14 +30,15 @@ public class ScriptDocumentService extends AbstractService {
 
     /**
      * Persists a given script document.
-     * @param script the script which shall contain this document.
+     *
+     * @param script     the script which shall contain this document.
      * @param sortNumber the sort number of the new document.
-     * @param file the script document.
+     * @param file       the script document.
      * @return the persisted script document.
      * @throws IOException if io errors happen while reading the file contents.
      */
     public ScriptDocument create(final Collection<Script> script, final int sortNumber,
-            final MultipartFile file) throws IOException {
+                                 final MultipartFile file) throws IOException {
         if (!PdfHelper.isValidPdf(file.getBytes())) {
             throw new IllegalArgumentException(file.getName() + " is not a valid pdf");
         }
@@ -59,6 +55,7 @@ public class ScriptDocumentService extends AbstractService {
 
     /**
      * Finds the script documents of a given script.
+     *
      * @param script the script whose documents shall be retrieved.
      * @return a collection of ordered ScriptDocuments.
      */
@@ -69,7 +66,8 @@ public class ScriptDocumentService extends AbstractService {
 
     /**
      * Tries given passwords on all script documents who are not yet decrypted.
-     * @param script the script, whose documents shall be tested.
+     *
+     * @param script         the script, whose documents shall be tested.
      * @param passwordsToTry the passwords that shall be tried.
      * @return documents, where passwords are still missing. if all can be decrypted this is an empty list.
      */
@@ -92,6 +90,7 @@ public class ScriptDocumentService extends AbstractService {
 
     /**
      * Saves a given script document.
+     *
      * @param document the document to persist.
      * @return the saved document, which could e.g. have a changed id.
      */
@@ -101,12 +100,13 @@ public class ScriptDocumentService extends AbstractService {
 
     /**
      * Updates the order of the given documents to match the order given in orderedDocumentHashes.
+     *
      * @param orderedDocumentHashes the ordered document hashes.
-     * @param documents the documents whose order shall be updated.
+     * @param documents             the documents whose order shall be updated.
      */
     @Transactional
     public void updateDocumentOrder(final List<Long> orderedDocumentHashes,
-            final List<ScriptDocument> documents) {
+                                    final List<ScriptDocument> documents) {
         for (final ScriptDocument document : documents) {
             boolean hasChanged = false;
             for (int i = 0; i < orderedDocumentHashes.size(); i++) {
@@ -145,6 +145,10 @@ public class ScriptDocumentService extends AbstractService {
 
     public Set<ScriptDocument> findByOrder(final StudentOrder order) {
         return scriptDocuments.findByOrdersIn(order);
+    }
+
+    public Set<ScriptDocument> findByReviewState(final ReviewState reviewState) {
+        return scriptDocuments.findByReviewState(reviewState);
     }
 
 }
