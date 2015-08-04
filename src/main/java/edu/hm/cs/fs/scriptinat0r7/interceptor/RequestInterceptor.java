@@ -49,7 +49,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
 
     private void enrichModelWithUnreviewedScriptCount(final ModelMap modelMap) {
         final int count = scriptDocumentService.findByReviewState(ReviewState.LOCKED).size();
-        modelMap.addAttribute("GLOBAL_ordersNotTransmittedToCopyShopCount", count);
+        modelMap.addAttribute("GLOBAL_scriptsToReviewCount", count);
     }
 
     private void enrichModelWithOrderCount(final ModelMap modelMap) {

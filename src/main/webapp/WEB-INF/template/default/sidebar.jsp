@@ -13,8 +13,16 @@
         <ul class="nav nav-sidebar">
             <li class="${controller == 'LecturesController' ? 'active' : ''}"><a href="${pageContext.request.contextPath}/lectures">Vorlesungen verwalten</a></li>
             <li class="${controller == 'ProfessorsController' ? 'active' : ''}"><a href="${pageContext.request.contextPath}/professors">Lehrende verwalten</a></li>
-            <li class="${controller == 'ScriptsController' && method == 'showScriptSubmissions' ? 'active' : ''}"><a href="${pageContext.request.contextPath}/scripts/show-submissions">Skripteinsendungen verwalten</a></li>
-            <li class="${controller == 'ScriptDocumentsController' ? 'active' : ''}"><a href="${pageContext.request.contextPath}/script-documents">Skriptdokumente verwalten</a></li>
+            <li class="${controller == 'ScriptsController' && method == 'showScriptSubmissions' ? 'active' : ''}">
+                <a href="${pageContext.request.contextPath}/scripts/show-submissions">
+                    Skripteinsendungen verwalten
+                </a>
+            </li>
+            <li class="${controller == 'ScriptDocumentsController' ? 'active' : ''}">
+                <a href="${pageContext.request.contextPath}/script-documents">
+                    Skriptdokumente verwalten <span class="badge">${GLOBAL_scriptsToReviewCount}</span>
+                </a>
+            </li>
             <li class="${controller == 'OrdersManagementController' ? 'active' : ''}">
                 <a href="${pageContext.request.contextPath}/manage-orders">
                     Bestellungen verwalten <span class="badge">${GLOBAL_ordersNotTransmittedToCopyShopCount}</span>
