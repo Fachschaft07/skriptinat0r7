@@ -18,12 +18,12 @@
                         Sie wurden erfolgreich ausgeloggt.
                     </div>
                 </c:if>
-            
+
                 <form action="<c:url value="/login.do"/>" method="post" class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="username" class="col-sm-4 control-label">Benutzername</label>
                         <div class="col-sm-8">
-                            <input class="form-control" name="username" id="username" value="ifw20000" placeholder="Benutzername">
+                            <input autofocus class="form-control" name="username" id="username" value="ifw20000" placeholder="Benutzername">
                         </div>
                     </div>
                     <div class="form-group">
