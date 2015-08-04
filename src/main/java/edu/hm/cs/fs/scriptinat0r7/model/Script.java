@@ -5,31 +5,19 @@
  */
 package edu.hm.cs.fs.scriptinat0r7.model;
 
+import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
+import edu.hm.cs.fs.scriptinat0r7.model.enums.ScriptCategory;
+import edu.hm.cs.fs.scriptinat0r7.model.enums.SemesterType;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.Min;
-
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
-import edu.hm.cs.fs.scriptinat0r7.model.enums.ScriptCategory;
-import edu.hm.cs.fs.scriptinat0r7.model.enums.SemesterType;
 
 /**
  * Represents a script.
@@ -115,7 +103,9 @@ public class Script implements Serializable {
     }
 
     public void setLectures(final Collection<Lecture> lectures) {
-        this.lectures = new HashSet<>(lectures);
+        if (lectures != null) {
+            this.lectures = new HashSet<>(lectures);
+        }
     }
 
     /**
