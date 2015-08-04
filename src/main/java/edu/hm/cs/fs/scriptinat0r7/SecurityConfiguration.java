@@ -22,7 +22,7 @@ import org.springframework.security.web.access.expression.DefaultWebSecurityExpr
 import java.util.Arrays;
 
 @Configuration
-@EnableGlobalMethodSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
