@@ -4,6 +4,7 @@ import edu.hm.cs.fs.scriptinat0r7.model.enums.ReviewState;
 import edu.hm.cs.fs.scriptinat0r7.service.ScriptDocumentService;
 import edu.hm.cs.fs.scriptinat0r7.service.StudentOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -70,10 +71,15 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
      * @param model the model map.
      */
     public static void enrichModelWithUser(final ModelMap model) {
-        final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            final UserDetails user = (UserDetails) principal;
-            model.addAttribute("userName", user.getUsername());
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context != null
+                && context.getAuthentication() != null
+                && context.getAuthentication().getPrincipal() != null) {
+            final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal instanceof UserDetails) {
+                final UserDetails user = (UserDetails) principal;
+                model.addAttribute("userName", user.getUsername());
+            }
         }
     }
 
