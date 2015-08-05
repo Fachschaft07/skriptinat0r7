@@ -43,6 +43,7 @@
         <exclude name="BooleanInversion" />
         <exclude name="DefaultPackage" />
         <exclude name="AvoidFinalLocalVariable" />
+        <exclude name="CallSuperInConstructor" />
     </rule>
     <rule ref="rulesets/java/coupling.xml">
         <exclude name="LoosePackageCoupling" />
@@ -88,6 +89,7 @@
     </rule>
     <rule ref="rulesets/java/strictexception.xml">
         <exclude name="AvoidCatchingGenericException" />
+        <exclude name="SignatureDeclareThrowsException" />
     </rule>
     <rule ref="rulesets/java/strings.xml">
         <exclude name="AvoidDuplicateLiterals" />

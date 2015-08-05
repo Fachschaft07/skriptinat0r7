@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 
 @SpringBootApplication
 public class Scriptinat0r7Application {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         SpringApplication.run(Scriptinat0r7Application.class, args);
     }
 
@@ -35,7 +35,7 @@ public class Scriptinat0r7Application {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplateIfw(@Qualifier("ifwDataSource") DataSource ifwDataSource) {
+    public JdbcTemplate jdbcTemplateIfw(@Qualifier("ifwDataSource") final DataSource ifwDataSource) {
         return new JdbcTemplate(ifwDataSource);
     }
 
@@ -46,7 +46,7 @@ public class Scriptinat0r7Application {
 
     public class ServletCustomizer implements EmbeddedServletContainerCustomizer {
         @Override
-        public void customize(ConfigurableEmbeddedServletContainer container) {
+        public void customize(final ConfigurableEmbeddedServletContainer container) {
             container.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, "/errors/403"),
                                     new ErrorPage(HttpStatus.NOT_FOUND, "/errors/404"),
                                     new ErrorPage(HttpStatus.BAD_REQUEST, "/errors/400"),

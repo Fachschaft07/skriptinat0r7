@@ -30,7 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private IfwUserDetailsService ifwUserDetailsService;
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
         // @formatter:off
         http
                 .authorizeRequests()
@@ -58,7 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public RoleHierarchy roleHierarchy() {
-        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        final RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
         roleHierarchy.setHierarchy("ROLE_FACHSCHAFTLER > ROLE_USER");
         return roleHierarchy;
     }
@@ -69,19 +69,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AffirmativeBased accessDecisionManager(RoleHierarchy roleHierarchy, AuthenticatedVoter authenticatedVoter) {
-        RoleHierarchyVoter roleHierarchyVoter = new RoleHierarchyVoter(roleHierarchy);
+    public AffirmativeBased accessDecisionManager(
+            final RoleHierarchy roleHierarchy,
+            final AuthenticatedVoter authenticatedVoter) {
+        final RoleHierarchyVoter roleHierarchyVoter = new RoleHierarchyVoter(roleHierarchy);
         return new AffirmativeBased(Arrays.asList(roleHierarchyVoter, authenticatedVoter));
     }
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth, IfwUserDetailsService ifwUserDetailsService) throws Exception {
+    public void configureGlobal(
+            final AuthenticationManagerBuilder auth,
+            final IfwUserDetailsService ifwUserDetailsService) throws Exception {
         auth.userDetailsService(ifwUserDetailsService);
     }
 
     @Bean
-    public DefaultWebSecurityExpressionHandler webexpressionHandler(RoleHierarchy roleHierarchy) {
-        DefaultWebSecurityExpressionHandler expressionHandler = new DefaultWebSecurityExpressionHandler();
+    public DefaultWebSecurityExpressionHandler webexpressionHandler(final RoleHierarchy roleHierarchy) {
+        final DefaultWebSecurityExpressionHandler expressionHandler = new DefaultWebSecurityExpressionHandler();
         expressionHandler.setRoleHierarchy(roleHierarchy);
         return expressionHandler;
     }

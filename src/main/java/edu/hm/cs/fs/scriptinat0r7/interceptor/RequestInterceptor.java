@@ -23,10 +23,10 @@ import javax.servlet.http.HttpServletResponse;
 public class RequestInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
-    StudentOrderService studentOrderService;
+    private StudentOrderService studentOrderService;
 
     @Autowired
-    ScriptDocumentService scriptDocumentService;
+    private ScriptDocumentService scriptDocumentService;
 
     /**
      * Get controller class name and enrich the model with it.

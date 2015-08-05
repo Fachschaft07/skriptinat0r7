@@ -17,7 +17,7 @@ import java.util.EnumSet;
 public class SpringMvcConfiguration {
 
     @Bean
-    public FilterRegistrationBean registerSecurityFilter(@Qualifier(AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME) Filter securityFilter) {
+    public FilterRegistrationBean registerSecurityFilter(@Qualifier(AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME) final Filter securityFilter) {
         FilterRegistrationBean securityFilterChainRegistration = new FilterRegistrationBean(securityFilter);
         securityFilterChainRegistration.setName(AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME);
         securityFilterChainRegistration.setDispatcherTypes(EnumSet.allOf(DispatcherType.class));
@@ -25,7 +25,7 @@ public class SpringMvcConfiguration {
     }
 
     @Bean
-    public WebMvcConfigurerAdapter webMvcConfigurerAdapter(RequestInterceptor requestInterceptor) {
+    public WebMvcConfigurerAdapter webMvcConfigurerAdapter(final RequestInterceptor requestInterceptor) {
         return new WebMvcConfigurer(requestInterceptor);
     }
 
@@ -33,12 +33,12 @@ public class SpringMvcConfiguration {
 
         private final RequestInterceptor requestInterceptor;
 
-        public WebMvcConfigurer(RequestInterceptor requestInterceptor) {
+        public WebMvcConfigurer(final RequestInterceptor requestInterceptor) {
             this.requestInterceptor = requestInterceptor;
         }
 
         @Override
-        public void addInterceptors(InterceptorRegistry registry) {
+        public void addInterceptors(final InterceptorRegistry registry) {
             registry.addInterceptor(requestInterceptor);
         }
     }

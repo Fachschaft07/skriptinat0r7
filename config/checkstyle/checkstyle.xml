@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Checkstyle-Configuration: Ullrich Hafner Description: Ullrich Hafner's 
+<!-- Checkstyle-Configuration: Ullrich Hafner Description: Ullrich Hafner's
     Checkstyle Rules. -->
 <!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 <module name="Checker">
@@ -92,11 +92,6 @@
         <module name="EqualsHashCode" />
         <module name="ExplicitInitialization" />
         <module name="FallThrough" />
-        <module name="HiddenField">
-            <property name="ignoreConstructorParameter" value="true" />
-            <property name="ignoreSetter" value="true" />
-            <property name="ignoreAbstractMethods" value="true" />
-        </module>
         <module name="IllegalThrows" />
         <module name="InnerAssignment" />
         <module name="JUnitTestCase" />
